@@ -3,15 +3,15 @@ Package.describe({
   internal: true
 });
 
-var fs = require('fs');
-var path = require('path');
+var fs = Npm.require('fs');
+var path = Npm.require('path');
 
 Package.on_use(function (api) {
   // XXX would like to do the following only when the first html file
   // is encountered.. shouldn't be very hard, we just need a way to
   // get at 'api' from a register_extension handler
 
-  api.use(['underscore', 'liveui'], 'client');
+  api.use(['underscore', 'spark'], 'client');
 
   // provides the runtime logic to instantiate our templates
   api.add_files('deftemplate.js', 'client');
@@ -40,9 +40,7 @@ Package.register_extension(
     // religion on that
     var contents = fs.readFileSync(source_path);
 
-    // XXX super lame! we actually have to give paths relative to
-    // app/inner/app.js, since that's who's evaling us.
-    var html_scanner = require('../../packages/templating/html_scanner.js');
+    var html_scanner = Package._require('html_scanner.js');
     var results = html_scanner.scan(contents.toString('utf8'), source_path);
 
     if (results.head)
@@ -63,8 +61,8 @@ Package.register_extension(
       var path_part = path.dirname(serve_path);
       if (path_part === '.')
         path_part = '';
-      if (path_part.length && path_part !== '/')
-        path_part = path_part + "/";
+      if (path_part.length && path_part !== path.sep)
+        path_part = path_part + path.sep;
       var ext = path.extname(source_path);
       var basename = path.basename(serve_path, ext);
       serve_path = path_part + "template." + basename + ".js";
@@ -83,13 +81,13 @@ Package.register_extension(
 Package.on_test(function (api) {
   api.use('tinytest');
   api.use('htmljs');
-  api.use('test-helpers', 'client');
+  api.use(['test-helpers', 'domutils', 'session'], 'client');
+  api.use('handlebars', 'server');
   api.add_files([
     'templating_tests.js',
     'templating_tests.html'
   ], 'client');
   api.add_files([
-    '../handlebars/parse.js', // XXX hacky
     'html_scanner.js',
     'scanner_tests.js'
   ], 'server');
