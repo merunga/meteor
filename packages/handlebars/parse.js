@@ -26,6 +26,7 @@ Handlebars = {};
  * partial.)
  */
 
+
 Handlebars.to_json_ast = function (code) {
   // We need handlebars and underscore, but this is bundle time, so
   // we load them using 'require'.
@@ -33,12 +34,14 @@ Handlebars.to_json_ast = function (code) {
   // run-time environment; we have '_' but not 'require'.
   // This is all very hacky.
   var req = (typeof require === 'undefined' ?
-             __meteor_bootstrap__.require : require);
-  var _ = global._;
-  if (! _)
-    _ = req('../../packages/underscore/underscore.js'); // XXX super lame
-
+             Npm.require : require);
+  var path = req('path');
+  var _ = req("underscore");
   var ast = req("handlebars").parse(code);
+
+  // Recreate Handlebars.Exception to properly report error messages
+  // and stack traces. (https://github.com/wycats/handlebars.js/issues/226)
+  makeHandlebarsExceptionsVisible(req);
 
   var identifier = function (node) {
     if (node.type !== "ID")
@@ -58,11 +61,20 @@ Handlebars.to_json_ast = function (code) {
   };
 
   var value = function (node) {
+    // Work around handlebars.js Issue #422 - Negative integers for
+    // helpers get trapped as ID. handlebars doesn't support floating
+    // point, just integers.
+    if (node.type === 'ID' && /^-\d+$/.test(node.string)) {
+      // Reconstruct node
+      node.type = 'INTEGER';
+      node.integer = node.string;
+    }
+
     var choices = {
       ID: function (node) {return identifier(node);},
       STRING: function (node) {return node.string;},
-      INTEGER: function (node) {return node.integer;},
-      BOOLEAN: function (node) {return node.bool;},
+      INTEGER: function (node) {return +node.integer;},
+      BOOLEAN: function (node) {return (node.bool === 'true');}
     };
     if (!(node.type in choices))
       throw new Error("got ast node " + node.type + " for value");
@@ -140,4 +152,15 @@ Handlebars.to_json_ast = function (code) {
   if (ast.type !== "program")
     throw new Error("got ast node " + node.type + " at toplevel");
   return template(ast.statements);
+};
+
+var makeHandlebarsExceptionsVisible = function (req) {
+  req("handlebars").Exception = function(message) {
+    this.message = message;
+    // In Node, if we don't do this we don't see the message displayed
+    // nor the right stack trace.
+    Error.captureStackTrace(this, arguments.callee);
+  };
+  req("handlebars").Exception.prototype = new Error();
+  req("handlebars").Exception.prototype.name = 'Handlebars.Exception';
 };
