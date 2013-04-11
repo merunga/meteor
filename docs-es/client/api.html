@@ -1,12 +1,14 @@
 <template name="api">
 {{#better_markdown}}
 
-<h1 id="api">The Meteor API</h1>
+<h1 id="api">La API de Meteor</h1>
 
-Your JavaScript code can run in two environments: the *client* (browser), and
-the *server* (a [Node.js](http://nodejs.org/) container on a server).  For each
-function in this API reference, we'll indicate if the function is available just
-on the client, just on the server, or *Anywhere*.
+Traducción <b>no-oficial</b> al Español 
+
+Su código JavaScript se puede ejecutar en dos entornos: el *client* (browser), y
+el *server* (un contenedor [Node.js](http://nodejs.org/) en un server).  Para cada 
+función de esta referencia de la API , indicaremos si la función está disponible sólo
+en el cliente, sólo en en el servidor, o en cualquier lugar *Anywhere*.
 
 <h2 id="core"><span>Meteor Core</span></h2>
 
@@ -14,18 +16,20 @@ on the client, just on the server, or *Anywhere*.
 {{> api_box isServer}}
 {{> api_box startup}}
 
-On a server, the function will run as soon as the server process is
-finished starting. On a client, the function will run as soon as the DOM
-is ready.
+En un servidor, la función se ejecutará tan pronto como el proceso del servidor 
+ha terminado de iniciarse. En un cliente, la función se ejecutará tan pronto como 
+el DOM esté listo.
 
-The `startup` callbacks are called in the same order as the calls to
-`Meteor.startup` were made.
+Los callbacks de `inicio` son llamados en el mismo orden que se hicieron 
+las llamadas a `Meteor.startup`.
 
-On a client, `startup` callbacks from smart packages will be called
-first, followed by `<body>` templates from your `.html` files,
-followed by your application code.
+En un cliente, los callbacks de `startup` desde paquetes inteligentes será llamado 
+primero, seguido de las `<body>` templates de sus archivos `.html`,
+seguido por el código de su aplicación. 
 
     // On server startup, if the database is empty, create some initial data.
+    // En el arranque del servidor, si la base de datos está vacía,  
+    // se crean algunos datos iniciales.
     if (Meteor.isServer) {
       Meteor.startup(function () {
         if (Rooms.find().count() === 0) {
@@ -40,26 +44,26 @@ followed by your application code.
 
 {{> api_box release}}
 
-<h2 id="publishandsubscribe"><span>Publish and subscribe</span></h2>
+<h2 id="publishandsubscribe"><span>Publicar y suscribirse</span></h2>
 
-These functions control how Meteor servers publish sets of records and
-how clients can subscribe to those sets.
+Estas funciones controlan cómo los servidores Meteor publican conjuntos de registros y
+cómo los clientes pueden suscribirse a estos conjuntos.
 
 {{> api_box publish}}
 
-To publish records to clients, call `Meteor.publish` on the server with
-two parameters: the name of the record set, and a *publish function*
-that Meteor will call each time a client subscribes to the name.
+Para publicar registros de los clientes, llame a `Meteor.publish` en el servidor con dos
+parámetros: el nombre del conjunto de registros, y  la <i>función de publicación</i> *publish function*
+que Meteor llamará cada vez que un cliente se suscriba al nombre.
 
-Publish functions can return a
-[`Collection.Cursor`](#meteor_collection_cursor), in which case Meteor
-will publish that cursor's documents. You can also return an array of
-`Collection.Cursor`s, in which case Meteor will publish all of the
-cursors.
+Las funciones de publicación pueden devolver un 
+[`Collection.Cursor`](#meteor_collection_cursor), en tal caso, Meteor 
+publicará los documentos de cursor. Usted también puede devolver un <i>array</i> de
+`Collection.Cursor`s, en tal caso Meteor publicará todos los cursores.
 
 {{#warning}}
-If you return multiple cursors in an array, they currently must all be from
-different collections. We hope to lift this restriction in a future release.
+Si usted devuelve múltiples cursores en un array, 
+en la actualidad todos deben ser de diferentes colecciones.
+Esperamos levantar esta restricción en una versión futura.
 {{/warning}}
 
     // server: publish the rooms collection, minus secret info.
@@ -82,14 +86,14 @@ different collections. We hope to lift this restriction in a future release.
       ];
     });
 
-Otherwise, the publish function should call the functions
-[`added`](#publish_added) (when a new document is added to the published record
-set), [`changed`](#publish_changed) (when some fields on a document in the
-record set are changed or cleared), and [`removed`](#publish_removed) (when
-documents are removed from the published record set) to inform subscribers about
-documents.  These methods are provided by `this` in your publish function.
-
-
+En caso contrario, la función de publicación debe llamar a las funciones 
+[`added`](#publish_added) (cuando un nuevo documento se añade al conjunto de 
+registros publicados), [`changed`](#publish_changed) 
+(Cuando algunos campos en un documento en el conjunto de registros se cambian o
+borran), y [`removed`](#publish_removed) 
+(cuando los documentos se eliminan del conjunto de registros publicados) 
+para informar a los suscriptores sobre los documentos.
+Estos métodos son proporcionados por `this` en la función de publicación.
 
 <!-- TODO discuss ready -->
 
@@ -142,15 +146,14 @@ Example:
                 " messages.");
 
 {{#warning}}
-Meteor will emit a warning message if you call `Meteor.publish` in a
-project that includes the `autopublish` package.  Your publish function
-will still work.
+Meteor emitirá un mensaje de advertencia si usted llama a `Meteor.publish` en un
+proyecto que incluye el paquete `autopublish`. Su función de publicación 
+seguirá funcionando.
 {{/warning}}
 
 {{> api_box subscription_userId}}
-
-This is constant. However, if the logged-in user changes, the publish
-function is rerun with the new value.
+Esto es constante. Sin embargo, si el usuario que ha iniciado sesión, cambia,
+la función de publicación se vuelve a ejecutar con el nuevo valor.
 
 {{> api_box subscription_added}}
 {{> api_box subscription_changed}}
@@ -159,344 +162,355 @@ function is rerun with the new value.
 
 {{> api_box subscription_onStop}}
 
-If you call [`observe`](#observe) or [`observeChanges`](#observe_changes) in your
-publish handler, this is the place to stop the observes.
+Si se llama [`observe`](#observe) o [`observeChanges`](#observe_changes) en su
+manejador de publicación, esto es el lugar para detener <i>observes</i>.
 
 {{> api_box subscription_error}}
 {{> api_box subscription_stop}}
 
 {{> api_box subscribe}}
+ 
+Cuando se suscribe a un conjunto de registros, le dice al servidor que envie 
+información al cliente. El cliente almacena estos archivos en local [Minimongo
+collections](#meteor_collection), con el mismo nombre que el argumento `collection`
+utilizado con el controlador de publicación los callbacks `added`, `changed`, and `removed`.  
+Meteor encolará atributos entrantes hasta que usted declare la
+[`Meteor.Collection`](#meteor_collection) en el cliente con el
+correspondiente nombre de la colección.
 
-When you subscribe to a record set, it tells the server to send records to the
-client.  The client stores these records in local [Minimongo
-collections](#meteor_collection), with the same name as the `collection`
-argument used in the publish handler's `added`, `changed`, and `removed`
-callbacks.  Meteor will queue incoming attributes until you declare the
-[`Meteor.Collection`](#meteor_collection) on the client with the matching
-collection name.
-
-    // okay to subscribe (and possibly receive data) before declaring
-    // the client collection that will hold it.  assume "allplayers"
-    // publishes data from server's "players" collection.
+    // Bien para suscribirse (y posiblemente recibir datos) antes de declarar
+    // La colección cliente que lo sostendrá.  Asume "allplayers"
+    // publica los datos del servidor de la colección "players"
     Meteor.subscribe("allplayers");
     ...
-    // client queues incoming players records until ...
+    // colas de cliente registran los <i>players</i> entrantes hasta que ...
     ...
     Players = new Meteor.Collection("players");
 
-The client will see a document if the document is currently in the published
-record set of any of its subscriptions.
+El cliente verá un documento si el documento se encuentra actualmente 
+en el conjunto de registros publicados de cualquiera de sus suscripciones.
 
-The `onReady` callback is called with no arguments when the server
-[marks the subscription as ready](#publish_ready). The `onError` callback is
-called with a [`Meteor.Error`](#meteor_error) if the subscription fails or is
-terminated by the server.
+El callback `onReady`  es llamado sin argumentos cuando
+el servidor [marca la suscripción como <i>onReady</i>](#publish_ready). 
+El callback `onError`  es llamado con un [`Meteor.Error`](#meteor_error) 
+si la suscripción falla o es terminada por el servidor.
 
-`Meteor.subscribe` returns a subscription handle, which is an object with the
-following methods:
+`Meteor.subscribe` devuelve un identificador de suscripción, que es un objeto
+con los siguientes métodos:
 
 <dl class="callbacks">
 {{#dtdd "stop()"}}
-Cancel the subscription. This will typically result in the server directing the
-client to remove the subscription's data from the client's cache.
+Cancelar la suscripción. Esto normalmente se traducirá
+en el servidor dirigiendose al cliente para eliminar los datos de la suscripción
+de la memoria caché del cliente.
+
 {{/dtdd}}
 
 {{#dtdd "ready()"}}
-True if the server has [marked the subscription as ready](#publish_ready). A
-reactive data source.
+True si el servidor ha [marcó la suscripción como ready](#publish_ready). 
+Una fuente de datos reactiva.
 {{/dtdd}}
 </dl>
 
-If you call `Meteor.subscribe` within a [reactive computation](#reactivity),
-for example using
-[`Deps.autorun`](#deps_autorun), the subscription will automatically be
-cancelled when the computation is invalidated or stopped; it's not necessary
-to call `stop` on
-subscriptions made from inside `autorun`. However, if the next iteration
-of your run function subscribes to the same record set (same name and
-parameters), Meteor is smart enough to skip a wasteful
-unsubscribe/resubscribe. For example:
+Si usted llama `Meteor.subscribe` dentro de una [computación reactiva](#reactivity),
+por ejemplo utilizando [`Deps.autorun`](#deps_autorun), 
+la suscripción será automáticamente cancelada cuando el cálculo se invalida 
+o se detiene, no es necesario llamar `stop` en suscripciones efectuadas 
+desde el interior de `autorun`. 
+Sin embargo, si en la próxima iteración de la ejecución de su función subscribe el
+mismo conjunto de registros  (mismo nombre y parámetros),
+Meteor es lo suficientemente inteligente como para evitar el
+derroche de un desinscribirse/reinscribirse. 
+
+Por ejemplo:
 
     Deps.autorun(function () {
       Meteor.subscribe("chat", {room: Session.get("current-room")});
       Meteor.subscribe("privateMessages");
     });
+ 
+Esto le suscribe a los mensajes de chat en la sala actual y a tus
+mensajes privados. Cuando cambie de habitación llamando 
+`Session.set("current-room", "new-room")`, 
+Meteor se suscribirá a los mensajes de la nueva sala de chat, 
+se dará de baja de los mensajes de la sala original
+y se mantendrá suscrito a sus mensajes privados. 
 
-This subscribes you to the chat messages in the current room and to your private
-messages. When you change rooms by calling `Session.set("current-room",
-"new-room")`, Meteor will subscribe to the new room's chat messages,
-unsubscribe from the original room's chat messages, and continue to
-stay subscribed to your private messages.
-
-If more than one subscription sends conflicting values for a field (same
-collection name, document ID, and field name), then the value on the client will
-be one of the published values, chosen arbitrarily.
+Si más de una suscripción envía valores en conflicto para un campo (el mismo
+nombre de la colección, ID de documento, y el nombre de campo), entonces el valor en el
+cliente será uno de los valores publicados, elegido arbitrariamente.
 
 <h2 id="methods_header"><span>Methods</span></h2>
 
-Methods are remote functions that Meteor clients can invoke.
+Los métodos son funciones remotas que los clientes Meteor pueden invocar.
 
 {{> api_box methods}}
 
-Example:
+Ejemplo:
 
     Meteor.methods({
       foo: function (arg1, arg2) {
-        // .. do stuff ..
-        if (you want to throw an error)
-          throw new Meteor.Error(404, "Can't find my pants");
-        return "some return value";
+        // .. hacer algo..
+        if (quiere lanzar un error)
+          throw new Meteor.Error(404, "No puedo encontrar mi pantalones");
+        return "se devuelve algún valor";
       },
-
+      
       bar: function () {
-        // .. do other stuff ..
+        // ..  hacer otra cosa..
         return "baz";
       }
     });
 
-Calling `methods` on the server defines functions that can be called remotely by
-clients.  They should return an [EJSON](#ejson)-able value or throw an
-exception.  Inside your method invocation, `this` is bound to a method
-invocation object, which provides the following:
+Llamando `methods` en las funciones definidas en el
+servidor que pueden ser llamados de forma remota por los clientes.
 
-* `isSimulation`: a boolean value, true if this invocation is a stub.
-* `unblock`: when called, allows the next method from this client to
-begin running.
-* `userId`: the id of the current user.
-* `setUserId`: a function that associates the current client with a user.
+  Deben devolver un [EJSON](#ejson)-able valor o lanzar una
+excepción. Dentro del método de invocación, `this` se une a un objeto 
+del método de invocación, el cual presenta lo siguiente:
 
-Calling `methods` on the client defines *stub* functions associated with
-server methods of the same name.  You don't have to define a stub for
-your method if you don't want to.  In that case, method calls are just
-like remote procedure calls in other systems, and you'll have to wait
-for the results from the server.
+* `isSimulation`: un valor  booleano, true si esta invocación es un <i>stub</i>.
+* `unblock`: cuando se le llama, permite que el método siguiente de este cliente 
+empiece a ejecutarse.
+* `userId`: el id del usuario actual.
+* `setUserId`: una función que asocia el cliente actual con un usuario.
 
-If you do define a stub, when a client invokes a server method it will
-also run its stub in parallel.  On the client, the return value of a
-stub is ignored.  Stubs are run for their side-effects: they are
-intended to *simulate* the result of what the server's method will do,
-but without waiting for the round trip delay.  If a stub throws an
-exception it will be logged to the console.
+Llamar a `methods` en el cliente define funciones *stub* asociadas con 
+los métodos de servidor del mismo nombre. Usted no tiene que definir un stub 
+para su método si no desea hacerlo. En ese caso, las llamadas a métodos son 
+como las llamadas a procedimientos remotos en otros sistemas,
+y usted tendrá que esperar los resultados del servidor. 
 
-You use methods all the time, because the database mutators
-([`insert`](#insert), [`update`](#update), [`remove`](#remove)) are implemented
-as methods. When you call any of these functions on the client, you're invoking
-their stub version that update the local cache, and sending the same write
-request to the server. When the server responds, the client updates the local
-cache with the writes that actually occurred on the server.
+Si usted define un <i>stub</i>, cuando un cliente invoca un método del servidor
+también lo hará su <i>stub</i> en paralelo. En el cliente, el valor de retorno de
+un <i>stub</i> es ignorado. <i>Stubs</i> se ejecutan por sus efectos secundarios:
+
+están destinados a *simular* el resultado de lo que el método del servidor va a hacer
+pero sin esperar el retardo de ida y vuelta.Si un <i>stub</i> lanza una 
+excepción que será registrada en la consola.
+
+Se utilizan métodos todo el tiempo, porque los mutadores de bases de datos
+([`insert`](#insert), [`update`](#update), [`remove`](#remove)) están implementdos
+como métodos. Cuando se llama cualquiera de estas funciones en el cliente, 
+se está invocando su versión de <i>stub</i> que actualiza la memoria caché local, 
+y envía la misma petición de escritura al servidor. Cuando el servidor responde, 
+el cliente actualiza la caché local con lo que se ha escrito realmente en el servidor.
 
 {{> api_box method_invocation_userId}}
 
-The user id is an arbitrary string &mdash; typically the id of the user record
-in the database. You can set it with the `setUserId` function. If you're using
-the [Meteor accounts system](#accounts_api) then this is handled for you.
+El ID de usuario es una cadena arbitraria &mdash; típicamente el id de registro 
+del usuario en la base de datos. Usted puede establecerlo con la función`setUserId` 
+Si está utilizando las cuentas [Meteor accounts system](#accounts_api) 
+entonces esto es manejado por usted.
 
 {{> api_box method_invocation_setUserId}}
 
-Call this function to change the currently logged in user on the
-connection that made this method call. This simply sets the value of
-`userId` for future method calls received on this connection. Pass
-`null` to log out the connection.
+Llame esta función para modificar el actual usuario conectado 
+en la conexión que hizo esta llamada al método.
+Esto simplemente establece el valor de `userId` para futuras llamada al método
+recibidas en esta conexión. Pase `null` para salir <i>log out</i> de la conexión.
 
-If you are using the [built-in Meteor accounts system](#accounts_api) then this
-should correspond to the `_id` field of a document in the
-[`Meteor.users`](#meteor_users) collection.
+Si usted está utilizando el [built-in Meteor accounts system](#accounts_api) 
+entonces este debe corresponder al campo `_id` del documento en la colección
+[`Meteor.users`](#meteor_users).
 
-`setUserId` is not retroactive. It affects the current method call and
-any future method calls on the connection. Any previous method calls on
-this connection will still see the value of `userId` that was in effect
-when they started.
+`setUserId` no es retroactivo. Afecta a la llamada al método actual 
+y cualquier futura llamada al método en la conexión.
+Cualquier anterior llamada al método en esta conexión seguirá viendo el valor de
+`userId` que estaba vigente cuando comenzaron.
 
 {{> api_box method_invocation_isSimulation}}
 
 {{> api_box method_invocation_unblock}}
 
-On the server, methods from a given client run one at a time. The N+1th
-invocation from a client won't start until the Nth invocation
-returns. However, you can change this by calling `this.unblock`. This
-will allow the N+1th invocation to start running in a new fiber.
+En el servidor, métodos de un cliente dado se ejecutan uno a la vez. 
+La invocación Nº 1 de un cliente, no se iniciará hasta que la invocación enésima
+retorne.
+Sin embargo, usted puede cambiar esto llamando `this.unblock`. 
+Esto permitirá que la invocación N+1th  empiece a ejecutarse  en
+una nueva fibra.
 
 {{> api_box error}}
 
-If you want to return an error from a method, throw an exception.
-Methods can throw any kind of exception.  But `Meteor.Error` is the only
-kind of error that a server will send to the client.  If a method
-function throws a different exception, then it will be mapped to
-`Meteor.Error(500, "Internal server error")` on the wire.
+Si desea devolver un error desde un método, lanze una excepción. 
+Los métodos pueden arrojar cualquier tipo de excepción.
+Pero `Meteor.Error` es la única clase de excepción que el servidor enviará al
+cliente. Si una función método lanza una excepción diferente, entonces será
+asignada a `Meteor.Error(500, "Internal server error")` <i>on the wire.</i> al momento.
 
 {{> api_box meteor_call}}
 
-This is how to invoke a method.  It will run the method on the server.  If a
-stub is available, it will also run the stub on the client.  (See also
-[`Meteor.apply`](#meteor_apply), which is identical to `Meteor.call` except that
-you specify the parameters as an array instead of as separate arguments and you
-can specify a few options controlling how the method is executed.)
+Esta es la forma de invocar un método  Se ejecutará el método en el servidor.  Si un 
+<i>stub</i> está disponible, tambien ejecutará el <i>stub</i> en el cliente.  (Ver 
+también [`Meteor.apply`](#meteor_apply), que es idéntico a `Meteor.call` excepto que
+usted specifique los parametros como un <i>array</i> en lugar de como argumentos 
+separados y puede especificar varias opciones controlando cómo se ejecuta el método.)
 
-If you include a callback function as the last argument (which can't be
-an argument to the method, since functions aren't serializable), the
-method will run asynchronously: it will return nothing in particular and
-will not throw an exception.  When the method is complete (which may or
-may not happen before `Meteor.call` returns), the callback will be
-called with two arguments: `error` and `result`. If an error was thrown,
-then `error` will be the exception object.  Otherwise, `error` will be
-undefined and the return value (possibly undefined) will be in `result`.
+Si usted incluye una función callback como último argumento (que no puede ser un 
+argumento para el método, ya que las funciones no son serializables),
+el método se ejecutará de forma asíncrona: no retornará nada en particular 
+y no lanzará una excepción. Cuando el método se haya completado (que puede 
+o no puede suceder antes de que `Meteor.call` retorne), el callback se invocará
+con dos argumentos: `error` and `result`. Si un error fue lanzado, entonces
+`error` será el objeto excepción. De lo contrario, `error` será indefinido y
+el valor de retorno (posiblemente indefinido, <i>undefined</i>) estará en `result`.
 
     // async call
     Meteor.call('foo', 1, 2, function (error, result) { ... } );
 
-If you do not pass a callback on the server, the method invocation will
-block until the method is complete.  It will eventually return the
-return value of the method, or it will throw an exception if the method
-threw an exception. (Possibly mapped to 500 Server Error if the
-exception happened remotely and it was not a `Meteor.Error` exception.)
+Si usted no pasa un "<i>callback</i>" al servidor, la invocación del método se 
+bloqueará hasta la conclusión del método. Eventualmente se devolverá el valor 
+de retorno del método, o será una excepción si el método arrojó una <i>exception</i> 
+
+or it will throw an exception if the method
+threw an exception. (Posiblemente asignada a 500 Server Error si la
+excepción ocurrió remotamente y no fuera una excepción `Meteor.Error`.)
 
     // sync call
     var result = Meteor.call('foo', 1, 2);
 
-On the client, if you do not pass a callback and you are not inside a
-stub, `call` will return `undefined`, and you will have no way to get
-the return value of the method. That is because the client doesn't have
-fibers, so there is not actually any way it can block on the remote
-execution of a method.
+En el cliente, si usted no pasa un <i>callback</i> y no esta en el interior de un stub,
+`call` retornará `undefined`, y usted no tendrá manera de obtener el valor de retorno 
+del método. Esto es porque el cliente no tiene fibras, así que no hay realmente ninguna
+manera que se pueda bloquear la ejecución remota de un método 
 
-Finally, if you are inside a stub on the client and call another
-method, the other method is not executed (no RPC is generated, nothing
-"real" happens).  If that other method has a stub, that stub stands in
-for the method and is executed. The method call's return value is the
-return value of the stub function.  The client has no problem executing
-a stub synchronously, and that is why it's okay for the client to use
-the synchronous `Meteor.call` form from inside a method body, as
-described earlier.
+Por último, si usted está dentro de un <i>stub</i> en el cliente y llama otro
+método, el otro método no es ejecutado (RPC no se genera, nada
+"real" sucede). Si ese otro método tiene un <i>stub</i>, ese <i>stub</i> sustituye al 
+del método y se ejecuta. El valor de retorno de la llamada al método es el valor de retorno 
+de la función stub.  El cliente no tiene nungún problema en la ejecución de un <i>stub</i> 
+sincrónicamente, y es por eso que está bien que el cliente utilize la forma sincrona 
+`Meteor.call` dentro de un cuerpo de método, como se describió anteriormente.
 
-Meteor tracks the database writes performed by methods, both on the client and
-the server, and does not invoke `asyncCallback` until all of the server's writes
-replace the stub's writes in the local cache. In some cases, there can be a lag
-between the method's return value being available and the writes being visible:
-for example, if another method still outstanding wrote to the same document, the
-local cache may not be up to date until the other method finishes as well. If
-you want to process the method's result as soon as it arrives from the server,
-even if the method's writes are not available yet, you can specify an
-`onResultReceived` callback to [`Meteor.apply`](#meteor_apply).
+Meteor hace un seguimiento en la base de datos de las escrituras realizadas por métodos,
+tanto en el cliente como en el servidor, y no invoca `asyncCallback` 
+hasta que todas las escrituras en el servidor reemplazan las escrituras del stub's
+en la <i>caché</i> local. En algunos casos, puede haber un retraso entre el valor devuelto 
+por el método que está disponible y las escrituras que son visibles: por ejemplo, si otro 
+método aún pendiente escribieró en el mismo documento la memoria caché local puede 
+no estar actualizada hasta que el otro método finaliza también. Si quieres procesar el 
+resultado del método tan pronto como llegue del servidor,  incluso si la escritura del 
+método no está disponibles todavía, usted puede especificar un 
+`onResultReceived` <i>callback</i> a [`Meteor.apply`](#meteor_apply).
 
 {{> api_box meteor_apply}}
 
-`Meteor.apply` is just like `Meteor.call`, except that the method arguments are
-passed as an array rather than directly as arguments, and you can specify
-options about how the client executes the method.
+`Meteor.apply` es lo mismo que `Meteor.call`, excepto que los argumentos del método son 
+pasados como un <i>array</i> en vez de hacerlo directamente como argumentos, y puede especificar
+las opciones acerca de como el cliente ejecuta el método.
 
 <h2 id="connections"><span>Server connections</span></h2>
 
-These functions manage and inspect the network connection between the
-Meteor client and server.
+Estas funciones gestionan y controlan la conexión de red entre el cliente Meteor y el servidor. 
+
 
 {{> api_box status}}
 
-This method returns the status of the connection between the client and
-the server. The return value is an object with the following fields:
+Este método devuelve el estado de la conexión entre el cliente y el servidor. 
+El valor de retorno es un objeto con los siguientes campos:
 
 <dl class="objdesc">
 {{#dtdd name="connected" type="Boolean"}}
-  True if currently connected to the server. If false, changes and
-  method invocations will be queued up until the connection is
-  reestablished.
+  <i>True</i> si está conectado actualmente al servidor. Si <i>false</i>, cambia 
+  y las invocaciones de método se pondrán en cola hasta que la conexión se restablezca. 
 {{/dtdd}}
 
 {{#dtdd name="status" type="String"}}
-  Describes the current reconnection status. The possible
-  values are `connected` (the connection is up and
-  running), `connecting` (disconnected and trying to open a
-  new connection), `failed` (permanently failed to connect; e.g., the client
-  and server support different versions of DDP) and `waiting` (failed
-  to connect and waiting to try to reconnect).
+  Describe el estado actual de la reconexión. Los valores posibles
+  son `connected` (la conexión está en funcionamiento),
+  `connecting` (desconectado e intentando abrir una nueva conexión), 
+  `failed` (el intento de conectar falla permanentemente; e.g., el cliente
+  y el servidor soportan diferentes versiones de <i>DDP</i>) 
+  y `waiting` (intento de conexión fracasado y esperando para intentar reconectarse).
 {{/dtdd}}
 
 {{#dtdd name="retryCount" type="Number"}}
-  The number of times the client has tried to reconnect since the
-  connection was lost. 0 when connected.
+  El número de veces que el cliente ha inentado reconectarse desde que la 
+  conexiónn se perdió. 0 cuando está conectado.
 {{/dtdd}}
 
 {{#dtdd name="retryTime" type="Number or undefined"}}
-  The estimated time of the next reconnection attempt. To turn this
-  into an interval until the next reconnection, use
-  `retryTime - (new Date()).getTime()`. This key will
-  be set only when `status` is `waiting`.
+  El tiempo estimado del siguiente intento de reconexión. Para convertir esto
+  en un intervalo hasta la próxima reconexión, utilice 
+  `retryTime - (new Date()).getTime()`. Esta clave se 
+  establece sólo cuando `status` es `waiting`.
 {{/dtdd}}
 
 {{#dtdd name="reason" type="String or undefined"}}
-  If `status` is `failed`, a description of why the connection failed.
+  Si `status` es `failed`, una descripción de ¿Por qué falló la conexión?. 
 {{/dtdd}}
 </dl>
 
-Instead of using callbacks to notify you on changes, this is
-a [reactive](#reactivity) data source. You can use it in a
-[template](#templates) or [computation](#deps_autorun)
-to get realtime updates.
+En vez de utilizar callbacks para notificarle los cambios, esto es
+una fuente de datos [reactive](#reactivity). Se puede utilizar en un
+[template](#templates) o [computation](#deps_autorun)
+para obtener actualizaciones en tiempo real.
 
 {{> api_box reconnect}}
 
 {{> api_box connect}}
 
-To call methods on another Meteor application or subscribe to its data
-sets, call `Meteor.connect` with the URL of the application.
-`Meteor.connect` returns an object which provides:
+Para llamar a métodos en otra aplicación Meteor o suscribirse a sus
+conjuntos de sus datos, llame `Meteor.connect` con la dirección URL de la aplicación.
+`Meteor.connect` devuelve un objeto que proporciona:
 
 * `subscribe` -
-  Subscribe to a record set. See
+  Suscribirse a un conjunto de registros. Ver
   [Meteor.subscribe](#meteor_subscribe).
 * `call` -
-  Invoke a method. See [Meteor.call](#meteor_call).
+  Invocar un método. Ver [Meteor.call](#meteor_call).
 * `apply` -
-  Invoke a method with an argument array. See
+  Invocar un método con un array de argumentos. Ver
   [Meteor.apply](#meteor_apply).
 * `methods` -
-  Define client-only stubs for methods defined on the remote server. See
+  Definir sólo-cliente stubs par métodos definidos en el servidor remotoe. Ver
   [Meteor.methods](#meteor_methods).
 * `status` -
-  Get the current connection status. See
+  Obtener el estado actual de la conexión. Ver
   [Meteor.status](#meteor_status).
 * `reconnect` -
-  See [Meteor.reconnect](#meteor_reconnect).
-* `onReconnect` - Set this to a function to be called as the first step of
-  reconnecting. This function can call methods which will be executed before
-  any other outstanding methods. For example, this can be used to re-establish
-  the appropriate authentication context on the new connection.
+  Ver [Meteor.reconnect](#meteor_reconnect).
+* `onReconnect` - Ponga esto en la función que se llame como primer paso para reconectar.
+  Esta función puede llamar a los métodos, que se ejecutarán antes de cualquier 
+  otro método pendiente. Por ejemplo,esto se puede utilizar para volver a reestablecer
+  el contexto de autenticación adecuado en la nueva conexión.
 
-By default, clients open a connection to the server from which they're loaded.
-When you call `Meteor.subscribe`, `Meteor.status`, `Meteor.call`, and
-`Meteor.apply`, you are using a connection back to that default
-server.
+Por defecto, los clientes abren una conexión con el servidor desde el que están cargados.
+When you call `Meteor.subscribe`, `Meteor.status`, `Meteor.call`, y
+`Meteor.apply`, usted está utilizando una conexión, de nuevo, con el servidor por defecto.
 
 {{#warning}}
-In this release, `Meteor.connect` can only be called on the client.
-Servers can not yet connect to other servers.
+En esta versión, `Meteor.connect` sólo puede ser llamado en el cliente.
+Los Servidores no pueden todavía conectarse a otros servidores.
 {{/warning}}
 
 <h2 id="collections"><span>Collections</span></h2>
 
-Meteor stores data in *collections*.  To get started, declare a
-collection with `new Meteor.Collection`.
+Meteor almacena los datos en *collections*. Para empezar, declare una
+colección con `new Meteor.Collection`.
 
 {{> api_box meteor_collection}}
 
-Calling this function is analogous to declaring a model in a traditional ORM
-(Object-Relation Mapper)-centric framework. It sets up a *collection* (a storage
-space for records, or "documents") that can be used to store a particular type
-of information, like users, posts, scores, todo items, or whatever matters to
-your application.  Each document is a EJSON object.  It includes an `_id`
-property whose value is unique in the collection, which Meteor will set when you
-first create the document.
+Llamar esta función es análoga a la declaración de un modelo en un tradicional framework ORM
+(Object-Relation Mapper)-céntrica . Se establece una *collection* (un espacio de almacenamiento 
+de registros, o "documentos") que pueden ser utilizados para almacenar un tipo particular 
+de información, como usuarios, <i>posts</i>, puntuaciones, tareas pendientes,
+o cualquier cosa importante para su aplicación.  
+Cada documento es un objeto EJSON. Incluye un `_id` con la
+propiedad de ser un valor único en la colección,
+que Meteor especificó al crear el documento.
 
-    // common code on client and server declares livedata-managed mongo
-    // collection.
+    // código común en el cliente y el servidor <i>livedata-managed</i>
+    // coleción mongo.
     Chatrooms = new Meteor.Collection("chatrooms");
     Messages = new Meteor.Collection("messages");
 
-The function returns an object with methods to [`insert`](#insert)
-documents in the collection, [`update`](#update) their properties, and
-[`remove`](#remove) them, and to [`find`](#find) the documents in the
-collection that match arbitrary criteria. The way these methods work is
-compatible with the popular Mongo database API.  The same database API
-works on both the client and the server (see below).
+La función devuelve un objeto con métodos para [`insert`](#insert)
+los documentos de la colección, [`update`](#update) sus propiedades, y
+[`remove`](#remove), y a [`find`](#find) los documentos de la
+colección que coincidan con criterios arbitrarios. la forma en que estos métodos trabajan es
+compatible con el popular <i>Mongo database API</i>. La misma <i>database API</i>
+ funciona tanto en el cliente como en el servidor (ver abajo).
 
     // return array of my messages
     var myMessages = Messages.find({userId: Session.get('myUserId')}).fetch();
@@ -507,77 +521,78 @@ works on both the client and the server (see below).
     // mark my first message as "important"
     Messages.update(myMessages[0]._id, {$set: {important: true}});
 
-If you pass a `name` when you create the collection, then you are
-declaring a persistent collection &mdash; one that is stored on the
-server and seen by all users. Client code and server code can both
-access the same collection using the same API.
+Si usted pasa un `name` cuando crea la colección, entonces está 
+declarando una colección persistente &mdash; que se almacena en 
+el servidor y es visto por todos los usuarios. Ambos el código de cliente 
+y el de servidor pueden acceder a la misma colección utilizando la misma <i>API</i>.
 
-Specifically, when you pass a `name`, here's what happens:
+Especificamente, cuando usted pasa un `name`, esto es lo que sucede:
 
-* On the server, a collection with that name is created on a backend
-Mongo server. When you call methods on that collection on the server,
-they translate directly into normal Mongo operations (after checking that
-they match your [access control rules](#allow)).
+* En el servidor, una colección con este nombre se crea en un servidor <i>back-end</i> Mongo. 
+Cuando llame métodos en esta colección en el servidor,
+ When you call methods on that collection on the server,
+se traducen directamente en las operaciones normales de Mongo (después de comprobar 
+que coinciden con sus [reglas de control de acceso](#allow)).
 
-* On the client, a Minimongo instance is
-created. Minimongo is essentially an in-memory, non-persistent
-implementation of Mongo in pure JavaScript. It serves as a local cache
-that stores just the subset of the database that this client is working
-with. Queries on the client ([`find`](#find)) are served directly out of
-this cache, without talking to the server.
+* En el cliente, una instancia Minimongo es
+creada. Minimongo es esencialmente una implementación no persistente, 
+en memoria, de Mongo en JavaScript puro. 
+ Sirve una caché local que almacena sólo el subconjunto de la base de datos
+de la que este cliente está trabajando.
+Las consultas sobre el cliente ([`find`](#find))se sirven directamente de
+esta caché, sin hablar con el servidor.
 
-* When you write to the database on the client ([`insert`](#insert),
-[`update`](#update), [`remove`](#remove)), the command is executed
-immediately on the client, and, simultaneously, it's shipped up to the
-server and executed there too.  The `livedata` package is
-responsible for this.
+* Cuando usted escriba en la base de datos del cliente ([`insert`](#insert),
+[`update`](#update), [`remove`](#remove)), el comando se ejecuta
+inmediatamente en el cliente, y, simultaneamente, se envían al
+al servidor y se ejecutan tambien allí. El paquete `livedata` es el
+responsable de esto.
 
-If you pass `null` as the `name`, then you're creating a local
-collection. It's not synchronized anywhere; it's just a local scratchpad
-that supports Mongo-style [`find`](#find), [`insert`](#insert),
-[`update`](#update), and [`remove`](#remove) operations.  (On both the
-client and the server, this scratchpad is implemented using Minimongo.)
+Si pasa `null` como el `name`, entonces usted va a crear una colección local.
+collection. Que no es sincronizada en ningún lugar; es sólo una memoria local,
+que soporta las operaciones <i>Mongo-style</i> [`find`](#find), [`insert`](#insert),
+[`update`](#update), y [`remove`](#remove). (En ambos el
+cliente y el servidor, Esta memoria local se implementa mediante Minimongo.
 
-By default, Meteor automatically publishes every document in your
-collection to each connected client.  To turn this behavior off, remove
-the `autopublish` package:
+De forma predeterminada, Meteor publica automáticamente todos los documentos de su colección 
+para cada cliente conectado.  Para desactivar este comportamiento, quite el
+el paquete `autopublish`:
 
     $ meteor remove autopublish
 
-and instead call [`Meteor.publish`](#meteor_publish) to specify which parts of
-your collection should be published to which users.
+y llame en su lugar [`Meteor.publish`](#meteor_publish) para especificar qué partes de su
+colección deben ser publicados y para que usuarios.
 
-    // Create a collection called Posts and put a document in it. The
-    // document will be immediately visible in the local copy of the
-    // collection. It will be written to the server-side database
-    // a fraction of a second later, and a fraction of a second
-    // after that, it will be synchronized down to any other clients
-    // that are subscribed to a query that includes it (see
+    // Crear una colección llamada <i>Posts</i> y poner un documento en él. El
+    // documento será immediatamente visible en la copia local de la
+    // colección. Se escribirá en la base de datos <i>server-side</i>
+    // una fracción de segundo más tarde, y una fracción de segundo
+    // después de eso, se sincronizará con los otros clientes
+    // que se esten suscritos a una consulta que los incluya (Ver
     // Meteor.subscribe and autopublish)
     Posts = new Meteor.Collection("posts");
     Posts.insert({title: "Hello world", body: "First post"});
 
-    // Changes are visible immediately -- no waiting for a round trip to
-    // the server.
+    // Los cambios son visibles de inmediato -- sin esperara a un ida y vuelta <i>round trip</i>
+    // al servidor
     assert(Posts.find().count() === 1);
 
-    // Create a temporary, local collection. It works just like any other
-    // collection, but it doesn't send changes to the server, and it
-    // can't receive any data from subscriptions.
+    // Crea una colección local, temporal. Funciona como cualquier otra
+    // colección, pero no envía los cambios al servidor, y no    
+    // puede recibir ningún dato de los suscriptores.
     Scratchpad = new Meteor.Collection;
     for (var i = 0; i < 10; i++)
       Scratchpad.insert({number: i * 2});
     assert(Scratchpad.find({number: {$lt: 9}}).count() === 5);
 
+Si especifica una opción `transform` a la `Collection` o cualquiera de sus retrieval
+métodos de recuperación, los documentos se pasan a través de la función `transform` 
+antes de ser retornada o pasada a los <i>callbacks</i>. Esto le permite añadir métodos 
+o por otra parte modificar el contenido de su colección desde la representación su 
+base de datos. También puede especificar `transform` en una determinada llamada a `find`, 
+`findOne`, `allow`, o `deny`.
 
-If you specify a `transform` option to the `Collection` or any of its retrieval
-methods, documents are passed through the `transform` function before being
-returned or passed to callbacks.  This allows you to add methods or otherwise
-modify the contents of your collection from their database representation.  You
-can also specify `transform` on a particular `find`, `findOne`, `allow`, or
-`deny` call.
-
-    // An Animal class that takes a document in its constructor
+    // Una clase de animal que obtiene un documento en su constructor
     Animal = function (doc) {
       _.extend(this, doc);
     };
@@ -587,96 +602,93 @@ can also specify `transform` on a particular `find`, `findOne`, `allow`, or
       }
     });
 
-    // Define a Collection that uses Animal as its document
+    //Define una colección que utiliza Animal como documento
     Animals = new Meteor.Collection("Animals", {
       transform: function (doc) { return new Animal(doc); }
     });
 
-    // Create an Animal and call its makeNoise method
+    // Crear un Animal y llamar a su método <i>makeNoise</i>
     Animals.insert({name: "raptor", sound: "roar"});
     Animals.findOne({name: "raptor"}).makeNoise(); // prints "roar"
 
-`transform` functions are not called reactively.  If you want to add a
-dynamically changing attribute to an object, do it with a function that computes
-the value at the time it's called, not by computing the attribute at `transform`
-time.
+Las funciones `transform` no son llamadas reactivamente. Si quiere añadir un atributo 
+que cambie dinámicamente a un objeto, hágalo con una función que calcule el valor en 
+el momento que se llama, no computando el atributo `transform` al momento.
 
 {{#warning}}
-In this release, Minimongo has some limitations:
+En esta versión, Minimongo tiene algunas limitaciones:
 
-* `$pull` in modifiers can only accept certain kinds
-of selectors.
-* `$` to denote the matched array position is not
-supported in modifier.
-* `findAndModify`, upsert, aggregate functions, and
-map/reduce aren't supported.
+* `$pull` en modificadores sólo puede aceptar ciertos
+tipos de selectores.
+* `$` referirse a la posición de array que coincide no está soportado en modifier.
+* `findAndModify`, funciones upsert, aggregate, y
+map/reduce no estan suportadas.
 
-All of these will be addressed in a future release. For full
-Minimongo release notes, see packages/minimongo/NOTES
-in the repository.
+Todo esto se abordará en una próxima versión. 
+Para notas completas de la versión Minimongo, consulte
+Ver packages/minimongo/NOTES en el repositorio.
 {{/warning}}
 
 {{#warning}}
-Minimongo doesn't currently have indexes. It's rare for this to be an
-issue, since it's unusual for a client to have enough data that an
-index is worthwhile.
+Minimongo actualmente no tienen índices. Es raro que esto sea un problema,
+ya que es inusual que un cliente tenga datos suficientes para que un índice 
+valga la pena.
 {{/warning}}
 
 {{> api_box find}}
 
-`find` returns a cursor.  It does not immediately access the database or return
-documents.  Cursors provide `fetch` to return all matching documents, `map` and
-`forEach` to iterate over all matching documents, and `observe` and
-`observeChanges` to register callbacks when the set of matching documents
-changes.
+`find` devuelve un cursor.  No tiene acceso inmediato a la base de datos 
+o devuelve documentos.  Los cursores proporcionan `fetch` para retornar 
+todos los documentos coincidentes, `map` y `forEach` para iterar sobre 
+todos los documentos coincidentes, y `observe` y `observeChanges` 
+para registrar callbacks cuando el conjunto de documentos coincidente cambia.
 
 {{#warning}}
-Collection cursors are not query snapshots.  If the database changes
-between calling `Collection.find` and fetching the
-results of the cursor, or while fetching results from the cursor,
-those changes may or may not appear in the result set.
+La colección de cursores no son instantáneas de la consulta.  Si la base de 
+datos cambia entre llamadas `Collection.find` y extraer los resultados de
+del cursor, o mientras obtiene resultados desde el cursor,
+estos cambios pueden o no puede aparecer en el conjunto de resultados.
 {{/warning}}
 
-Cursors are a reactive data source.  The first time you retrieve a
-cursor's documents with `fetch`, `map`, or `forEach` inside a
-reactive computation (eg, a template or
-[`autorun`](#deps_autorun)), Meteor will register a
-dependency on the underlying data.  Any change to the collection that
-changes the documents in a cursor will trigger a recomputation.  To
-disable this behavior, pass `{reactive: false}` as an option to
-`find`.
+Cursor es una fuente de datos reactivo. La primera vez que recupera n
+documentos de cursor con `fetch`, `map`, o `forEach` dentro de una 
+computación reactiva (ej, una plantilla o 
+[`autorun`](#deps_autorun)),  Meteor registrará una 
+dependencia de los datos subyacentes.
+Cualquier cambio en la colección que cambia los documentos en un cursor 
+disparará un recálculo. Para desactivar este comportamiento, pase
+`{reactive: false}` como una opción para `find`.
 
 {{> api_box findone}}
 
-Equivalent to `find(selector, options).fetch()[0]`.
+Equivalente a `find(selector, options).fetch()[0]`.
 
 {{> api_box insert}}
 
-Add a document to the collection. A document is just an object, and
-its fields can contain any combination of EJSON-compatible datatypes
-(arrays, objects, numbers, strings, `null`, true, and false).
+Añade un documento a la coleccion. Un documento es sólo un objeto, y
+y sus campos pueden contener cualquier combinación de tipos de datos
+ EJSON-compatible (arrays, objects, numbers, strings, `null`, true, and false).
 
-`insert` will generate a unique ID for the object you pass, insert it
-in the database, and return the ID. When `insert` is called from
-untrusted client code, it will be allowed only if passes any
-applicable [`allow`](#allow) and [`deny`](#deny) rules.
+`insert` generará un ID único para el objeto que usted pase, lo inserta
+en la base de datos, y retorna el ID. Cuando `insert` se llama desde
+código de cliente no confiable, se le permitirá sólo si pasa cualquier
+regla aplicable [`allow`](#allow) y [`deny`](#deny).
 
-On the server, if you don't provide a callback, then `insert` blocks
-until the database acknowledges the write, or throws an exception if
-something went wrong.  If you do provide a callback, `insert` still
-returns the ID immediately.  Once the insert completes (or fails), the
-callback is called with error and result arguments.  In an error case,
-`result` is undefined.  If the insert is successful, `error` is
-undefined and `result` is the new document ID.
+En el servidor, si no proporciona un <i>callback</i>, entonces  `insert` bloques
+que la base de datos reconozca la escritura, o se produzca una excepción si
+algo salió mal.  Si  proporciona un callback, `insert` sigue devolviendo 
+el ID de inmediato. Una vez que la inserción se completa (o falla),
+el callback es llamado con argumentos de error y resultado.  En caso de error,
+`result` es indefinido.  Si la insercion tiene éxito, `error` es
+indefinido y `result` es el nuevo ID de documento.
 
-On the client, `insert` never blocks.  If you do not provide a callback
-and the insert fails on the server, then Meteor will log a warning to
-the console.  If you provide a callback, Meteor will call that function
-with `error` and `result` arguments.  In an error case, `result` is
-undefined.  If the insert is successful, `error` is undefined and
-`result` is the new document ID.
+En el cliente, `insert` nunca bloquea.  Si usted no provee un callback
+y la inserción falla en el servidor, entonces Meteor registrará un <i>warning</i> en
+la consola.  Si  provee un callback, Meteor llamará esa función con argumentos
+`error` y `result`. En caso de error, `result` es indefinido.  
+Si la inserción tiene éxito, `error` es indefinido y `result` es el nuevo ID de documento.
 
-Example:
+Ejemplo:
 
     var groceriesId = Lists.insert({name: "Groceries"});
     Items.insert({list: groceriesId, name: "Watercress"});
@@ -684,10 +696,10 @@ Example:
 
 {{> api_box update}}
 
-Modify documents that match `selector` according to `modifier` (see
+Modify documents that match `selector` according to `modifier` (Ver
 [modifier documentation](#modifiers)).
 
-The behavior of `update` differs depending on whether it is called by
+El comportamiento de `update` differs depending on whether it is called by
 trusted or untrusted code. Trusted code includes server code and
 method code. Untrusted code includes client-side code such as event
 handlers and a browser's JavaScript console.
@@ -994,7 +1006,7 @@ reset the cursor.
 Establishes a *live query* that invokes callbacks when the result of
 the query changes. The callbacks receive the entire contents of the
 document that was affected, as well as its old contents, if
-applicable. If you only need to receive the fields that changed, see
+applicable. If you only need to receive the fields that changed, Ver
 [`observeChanges`](#observe_changes).
 
 `callbacks` may have the following functions as properties:
@@ -1173,7 +1185,7 @@ But they can also contain more complicated tests:
     // Matches documents where fruit is one of three possibilities
     {fruit: {$in: ["peach", "plum", "pear"]}}
 
-See the [complete
+Ver the [complete
 documentation](http://www.mongodb.org/display/DOCS/Advanced+Queries).
 
 {{/api_box_inline}}
@@ -1198,7 +1210,7 @@ supported by [validated updates](#allow).)
     // Find the document with id "123", and completely replace it.
     Users.update({_id: "123"}, {name: "Alice", friends: ["Bob"]});
 
-See the [full list of
+Ver the [full list of
 modifiers](http://www.mongodb.org/display/DOCS/Updating#Updating-ModifierOperations).
 
 {{/api_box_inline}}
@@ -1364,7 +1376,7 @@ the [`Meteor.users`](#meteor_users) collection.
 On the client, this will be the subset of the fields in the document that
 are published from the server (other fields won't be available on the
 client). By default the server publishes `username`, `emails`, and
-`profile`. See [`Meteor.users`](#meteor_users) for more on
+`profile`. Ver [`Meteor.users`](#meteor_users) for more on
 the fields used in user documents.
 
 {{> api_box userId}}
@@ -1458,7 +1470,7 @@ animation while the login request is being processed.
 
 {{> api_box loginWithPassword}}
 
-This function is provided by the `accounts-password` package. See the
+This function is provided by the `accounts-password` package. Ver the
 [Passwords](#accounts_passwords) section below.
 
 
@@ -1607,7 +1619,7 @@ address verification and password recovery emails.
 Unlike most web applications, the Meteor client does not send the user's
 password directly to the server. It uses the [Secure Remote Password
 protocol](http://en.wikipedia.org/wiki/Secure_Remote_Password_protocol)
-to ensure the server never sees the user's plain-text password. This
+to ensure the server never Vers the user's plain-text password. This
 helps protect against embarrassing password leaks if the server's
 database is compromised.
 
@@ -1676,7 +1688,7 @@ sets the `emails.verified` field in the user record.
 The token in this email should be passed
 to [`Accounts.resetPassword`](#accounts_resetpassword).
 
-To customize the contents of the email, see
+To customize the contents of the email, Ver
 [`Accounts.emailTemplates`](#accounts_emailtemplates).
 
 {{> api_box accounts_sendEnrollmentEmail}}
@@ -1684,7 +1696,7 @@ To customize the contents of the email, see
 The token in this email should be passed
 to [`Accounts.resetPassword`](#accounts_resetpassword).
 
-To customize the contents of the email, see
+To customize the contents of the email, Ver
 [`Accounts.emailTemplates`](#accounts_emailtemplates).
 
 {{> api_box accounts_sendVerificationEmail}}
@@ -1692,7 +1704,7 @@ To customize the contents of the email, see
 The token in this email should be passed
 to [`Accounts.verifyEmail`](#accounts_verifyemail).
 
-To customize the contents of the email, see
+To customize the contents of the email, Ver
 [`Accounts.emailTemplates`](#accounts_emailtemplates).
 
 {{> api_box accounts_emailTemplates}}
@@ -1810,7 +1822,7 @@ effects of `created`.  It fires once and is the last callback to fire.
 Declare event handers for instances of this template. Multiple calls add
 new event handlers in addition to the existing ones.
 
-See [Event Maps](#eventmaps) for a detailed description of the event
+Ver [Event Maps](#eventmaps) for a detailed description of the event
 map format and how event handling works in Meteor.
 
 {{> api_box template_helpers}}
@@ -1980,13 +1992,13 @@ place.
 You may insert the returned `DocumentFragment` directly into the DOM
 wherever you would like it to appear. The inserted nodes will continue
 to update until they are taken off the screen. Then they will be
-automatically cleaned up. For more details about clean-up, see
+automatically cleaned up. For more details about clean-up, Ver
 [`Deps.flush`](#deps_flush).
 
 `Meteor.render` tracks the data dependencies of `htmlFunc` by running
 it in a reactive computation, so it can respond to changes in any reactive
 data sources used by that function. For more information, or to learn
-how to make your own reactive data sources, see
+how to make your own reactive data sources, Ver
 [Reactivity](#reactivity).
 
 Example:
@@ -2192,7 +2204,7 @@ A checkbox or radio button changes state.  For text fields, use
 `blur` or key events to respond to changes.
 {{/dtdd}}
 
-{{#dtdd "<code>mouseenter, mouseleave</code>"}} The pointer enters or
+{{#dtdd "<code>mouVernter, mouseleave</code>"}} The pointer enters or
 leaves the bounds of an element.  These events do not bubble.
 {{/dtdd}}
 
@@ -2353,7 +2365,7 @@ all pending reruns.
 If you nest calls to `Deps.autorun`, then when the outer call stops or
 reruns, the inner call will stop automatically.  Subscriptions and
 observers are also automatically stopped when used as part of a
-computation that is rerun, allowing new ones to be established.  See
+computation that is rerun, allowing new ones to be established.  Ver
 [`Meteor.subscribe`](#meteor_subscribe) for more information about
 subscriptions and reactivity.
 
@@ -2415,7 +2427,7 @@ registers a callback with it).
 
 {{> api_box deps_oninvalidate }}
 
-See [*`computation`*`.onInvalidate`](#computation_oninvalidate) for more
+Ver [*`computation`*`.onInvalidate`](#computation_oninvalidate) for more
 details.
 
 {{> api_box deps_afterflush }}
@@ -2601,7 +2613,7 @@ types, as well as:
  - **Date** (JavaScript `Date`)
  - **Binary** (JavaScript `Uint8Array` or the
    result of [`EJSON.newBinary`](#ejson_new_binary))
- - **User-defined types** (see [`EJSON.addType`](#ejson_add_type).  For example,
+ - **User-defined types** (Ver [`EJSON.addType`](#ejson_add_type).  For example,
  [`Meteor.Collection.ObjectID`](#collection_object_id) is implemented this way.)
 
 All EJSON serializations are also valid JSON.  For example an object with a date
@@ -2792,7 +2804,7 @@ environment variable should be of the form
 per day; you may override this default by assigning to `process.env.MAIL_URL`
 before your first call to `Email.send`.
 
-If `MAIL_URL` is not set (eg, when running your application locally),
+If `MAIL_URL` is not set (ej, when running your application locally),
 `Email.send` outputs the message to standard output instead.
 
 {{> api_box email_send }}
