@@ -18,7 +18,7 @@ en el cliente, sólo en en el servidor, o en cualquier lugar *Anywhere*.
 
 En un servidor, la función se ejecutará tan pronto como el proceso del servidor 
 ha terminado de iniciarse. En un cliente, la función se ejecutará tan pronto como 
-el DOM está listo.
+el DOM esté listo.
 
 Los callbacks de `inicio` son llamados en el mismo orden que se hicieron 
 las llamadas a `Meteor.startup`.
@@ -28,7 +28,8 @@ primero, seguido de las `<body>` templates de sus archivos `.html`,
 seguido por el código de su aplicación. 
 
     // On server startup, if the database is empty, create some initial data.
-    // En el arranque del servidor, si la base de datos está vacía, se crean algunos datos iniciales.
+    // En el arranque del servidor, si la base de datos está vacía,  
+    // se crean algunos datos iniciales.
     if (Meteor.isServer) {
       Meteor.startup(function () {
         if (Rooms.find().count() === 0) {
@@ -50,9 +51,9 @@ cómo los clientes pueden suscribirse a estos conjuntos.
 
 {{> api_box publish}}
 
-Para publicar registros de los clientes, llame a `Meteor.publish`en el servidor con dos
-parámetros: el nombre del conjunto de registros, y  la *funcción de publicación* *publish function*
-que Meteor llamará cada vez que un cliente se suscribe al nombre.
+Para publicar registros de los clientes, llame a `Meteor.publish` en el servidor con dos
+parámetros: el nombre del conjunto de registros, y  la <i>función de publicación</i> *publish function*
+que Meteor llamará cada vez que un cliente se suscriba al nombre.
 
 Las funciones de publicación pueden devolver un 
 [`Collection.Cursor`](#meteor_collection_cursor), en tal caso, Meteor 
@@ -429,87 +430,87 @@ El valor de retorno es un objeto con los siguientes campos:
 {{/dtdd}}
 
 {{#dtdd name="retryTime" type="Number or undefined"}}
-  The estimated time of the next reconnection attempt. To turn this
-  into an interval until the next reconnection, use
-  `retryTime - (new Date()).getTime()`. This key will
-  be set only when `status` is `waiting`.
+  El tiempo estimado del siguiente intento de reconexión. Para convertir esto
+  en un intervalo hasta la próxima reconexión, utilice 
+  `retryTime - (new Date()).getTime()`. Esta clave se 
+  establece sólo cuando `status` es `waiting`.
 {{/dtdd}}
 
 {{#dtdd name="reason" type="String or undefined"}}
-  If `status` is `failed`, a description of why the connection failed.
+  Si `status` es `failed`, una descripción de ¿Por qué falló la conexión?. 
 {{/dtdd}}
 </dl>
 
-Instead of using callbacks to notify you on changes, this is
-a [reactive](#reactivity) data source. You can use it in a
-[template](#templates) or [computation](#deps_autorun)
-to get realtime updates.
+En vez de utilizar callbacks para notificarle los cambios, esto es
+una fuente de datos [reactive](#reactivity). Se puede utilizar en un
+[template](#templates) o [computation](#deps_autorun)
+para obtener actualizaciones en tiempo real.
 
 {{> api_box reconnect}}
 
 {{> api_box connect}}
 
-To call methods on another Meteor application or subscribe to its data
-sets, call `Meteor.connect` with the URL of the application.
-`Meteor.connect` returns an object which provides:
+Para llamar a métodos en otra aplicación Meteor o suscribirse a sus
+conjuntos de sus datos, llame `Meteor.connect` con la dirección URL de la aplicación.
+`Meteor.connect` devuelve un objeto que proporciona:
 
 * `subscribe` -
-  Subscribe to a record set. See
+  Suscribirse a un conjunto de registros. Ver
   [Meteor.subscribe](#meteor_subscribe).
 * `call` -
-  Invoke a method. See [Meteor.call](#meteor_call).
+  Invocar un método. Ver [Meteor.call](#meteor_call).
 * `apply` -
-  Invoke a method with an argument array. See
+  Invocar un método con un array de argumentos. Ver
   [Meteor.apply](#meteor_apply).
 * `methods` -
-  Define client-only stubs for methods defined on the remote server. See
+  Definir sólo-cliente stubs par métodos definidos en el servidor remotoe. Ver
   [Meteor.methods](#meteor_methods).
 * `status` -
-  Get the current connection status. See
+  Obtener el estado actual de la conexión. Ver
   [Meteor.status](#meteor_status).
 * `reconnect` -
-  See [Meteor.reconnect](#meteor_reconnect).
-* `onReconnect` - Set this to a function to be called as the first step of
-  reconnecting. This function can call methods which will be executed before
-  any other outstanding methods. For example, this can be used to re-establish
-  the appropriate authentication context on the new connection.
+  Ver [Meteor.reconnect](#meteor_reconnect).
+* `onReconnect` - Ponga esto en la función que se llame como primer paso para reconectar.
+  Esta función puede llamar a los métodos, que se ejecutarán antes de cualquier 
+  otro método pendiente. Por ejemplo,esto se puede utilizar para volver a reestablecer
+  el contexto de autenticación adecuado en la nueva conexión.
 
-By default, clients open a connection to the server from which they're loaded.
-When you call `Meteor.subscribe`, `Meteor.status`, `Meteor.call`, and
-`Meteor.apply`, you are using a connection back to that default
-server.
+Por defecto, los clientes abren una conexión con el servidor desde el que están cargados.
+When you call `Meteor.subscribe`, `Meteor.status`, `Meteor.call`, y
+`Meteor.apply`, usted está utilizando una conexión, de nuevo, con el servidor por defecto.
 
 {{#warning}}
-In this release, `Meteor.connect` can only be called on the client.
-Servers can not yet connect to other servers.
+En esta versión, `Meteor.connect` sólo puede ser llamado en el cliente.
+Los Servidores no pueden todavía conectarse a otros servidores.
 {{/warning}}
 
 <h2 id="collections"><span>Collections</span></h2>
 
-Meteor stores data in *collections*.  To get started, declare a
-collection with `new Meteor.Collection`.
+Meteor almacena los datos en *collections*. Para empezar, declare una
+colección con `new Meteor.Collection`.
 
 {{> api_box meteor_collection}}
 
-Calling this function is analogous to declaring a model in a traditional ORM
-(Object-Relation Mapper)-centric framework. It sets up a *collection* (a storage
-space for records, or "documents") that can be used to store a particular type
-of information, like users, posts, scores, todo items, or whatever matters to
-your application.  Each document is a EJSON object.  It includes an `_id`
-property whose value is unique in the collection, which Meteor will set when you
-first create the document.
+Llamar esta función es análoga a la declaración de un modelo en un tradicional framework ORM
+(Object-Relation Mapper)-céntrica . Se establece una *collection* (un espacio de almacenamiento 
+de registros, o "documentos") que pueden ser utilizados para almacenar un tipo particular 
+de información, como usuarios, <i>posts</i>, puntuaciones, tareas pendientes,
+o cualquier cosa importante para su aplicación.  
+Cada documento es un objeto EJSON. Incluye un `_id` con la
+propiedad de ser un valor único en la colección,
+que Meteor especificó al crear el documento.
 
-    // common code on client and server declares livedata-managed mongo
-    // collection.
+    // código común en el cliente y el servidor <i>livedata-managed</i>
+    // coleción mongo.
     Chatrooms = new Meteor.Collection("chatrooms");
     Messages = new Meteor.Collection("messages");
 
-The function returns an object with methods to [`insert`](#insert)
-documents in the collection, [`update`](#update) their properties, and
-[`remove`](#remove) them, and to [`find`](#find) the documents in the
-collection that match arbitrary criteria. The way these methods work is
-compatible with the popular Mongo database API.  The same database API
-works on both the client and the server (see below).
+La función devuelve un objeto con métodos para [`insert`](#insert)
+los documentos de la colección, [`update`](#update) sus propiedades, y
+[`remove`](#remove), y a [`find`](#find) los documentos de la
+colección que coincidan con criterios arbitrarios. la forma en que estos métodos trabajan es
+compatible con el popular <i>Mongo database API</i>. La misma <i>database API</i>
+ funciona tanto en el cliente como en el servidor (ver abajo).
 
     // return array of my messages
     var myMessages = Messages.find({userId: Session.get('myUserId')}).fetch();
@@ -520,58 +521,60 @@ works on both the client and the server (see below).
     // mark my first message as "important"
     Messages.update(myMessages[0]._id, {$set: {important: true}});
 
-If you pass a `name` when you create the collection, then you are
-declaring a persistent collection &mdash; one that is stored on the
-server and seen by all users. Client code and server code can both
-access the same collection using the same API.
+Si usted pasa un `name` cuando crea la colección, entonces está 
+declarando una colección persistente &mdash; que se almacena en 
+el servidor y es visto por todos los usuarios. Ambos el código de cliente 
+y el de servidor pueden acceder a la misma colección utilizando la misma <i>API</i>.
 
-Specifically, when you pass a `name`, here's what happens:
+Especificamente, cuando usted pasa un `name`, esto es lo que sucede:
 
-* On the server, a collection with that name is created on a backend
-Mongo server. When you call methods on that collection on the server,
-they translate directly into normal Mongo operations (after checking that
-they match your [access control rules](#allow)).
+* En el servidor, una colección con este nombre se crea en un servidor <i>back-end</i> Mongo. 
+Cuando llame métodos en esta colección en el servidor,
+ When you call methods on that collection on the server,
+se traducen directamente en las operaciones normales de Mongo (después de comprobar 
+que coinciden con sus [reglas de control de acceso](#allow)).
 
-* On the client, a Minimongo instance is
-created. Minimongo is essentially an in-memory, non-persistent
-implementation of Mongo in pure JavaScript. It serves as a local cache
-that stores just the subset of the database that this client is working
-with. Queries on the client ([`find`](#find)) are served directly out of
-this cache, without talking to the server.
+* En el cliente, una instancia Minimongo es
+creada. Minimongo es esencialmente una implementación no persistente, 
+en memoria, de Mongo en JavaScript puro. 
+ Sirve una caché local que almacena sólo el subconjunto de la base de datos
+de la que este cliente está trabajando.
+Las consultas sobre el cliente ([`find`](#find))se sirven directamente de
+esta caché, sin hablar con el servidor.
 
-* When you write to the database on the client ([`insert`](#insert),
-[`update`](#update), [`remove`](#remove)), the command is executed
-immediately on the client, and, simultaneously, it's shipped up to the
-server and executed there too.  The `livedata` package is
-responsible for this.
+* Cuando usted escriba en la base de datos del cliente ([`insert`](#insert),
+[`update`](#update), [`remove`](#remove)), el comando se ejecuta
+inmediatamente en el cliente, y, simultaneamente, se envían al
+al servidor y se ejecutan tambien allí. El paquete `livedata` es el
+responsable de esto.
 
-If you pass `null` as the `name`, then you're creating a local
-collection. It's not synchronized anywhere; it's just a local scratchpad
-that supports Mongo-style [`find`](#find), [`insert`](#insert),
-[`update`](#update), and [`remove`](#remove) operations.  (On both the
-client and the server, this scratchpad is implemented using Minimongo.)
+Si pasa `null` como el `name`, entonces usted va a crear una colección local.
+collection. Que no es sincronizada en ningún lugar; es sólo una memoria local,
+que soporta las operaciones <i>Mongo-style</i> [`find`](#find), [`insert`](#insert),
+[`update`](#update), y [`remove`](#remove). (En ambos el
+cliente y el servidor, Esta memoria local se implementa mediante Minimongo.
 
-By default, Meteor automatically publishes every document in your
-collection to each connected client.  To turn this behavior off, remove
-the `autopublish` package:
+De forma predeterminada, Meteor publica automáticamente todos los documentos de su colección 
+para cada cliente conectado.  Para desactivar este comportamiento, quite el
+el paquete `autopublish`:
 
     $ meteor remove autopublish
 
-and instead call [`Meteor.publish`](#meteor_publish) to specify which parts of
-your collection should be published to which users.
+y llame en su lugar [`Meteor.publish`](#meteor_publish) para especificar qué partes de su
+colección deben ser publicados y para que usuarios.
 
-    // Create a collection called Posts and put a document in it. The
-    // document will be immediately visible in the local copy of the
-    // collection. It will be written to the server-side database
-    // a fraction of a second later, and a fraction of a second
-    // after that, it will be synchronized down to any other clients
-    // that are subscribed to a query that includes it (see
+    // Crear una colección llamada <i>Posts</i> y poner un documento en él. El
+    // documento será immediatamente visible en la copia local de la
+    // colección. Se escribirá en la base de datos <i>server-side</i>
+    // una fracción de segundo más tarde, y una fracción de segundo
+    // después de eso, se sincronizará con los otros clientes
+    // que se esten suscritos a una consulta que los incluya (Ver
     // Meteor.subscribe and autopublish)
     Posts = new Meteor.Collection("posts");
     Posts.insert({title: "Hello world", body: "First post"});
 
-    // Changes are visible immediately -- no waiting for a round trip to
-    // the server.
+    // Los cambios son visibles de inmediato -- sin esperara a un ida y vuelta <i>round trip</i>
+    // al servidor
     assert(Posts.find().count() === 1);
 
     // Create a temporary, local collection. It works just like any other
@@ -625,7 +628,7 @@ supported in modifier.
 map/reduce aren't supported.
 
 All of these will be addressed in a future release. For full
-Minimongo release notes, see packages/minimongo/NOTES
+Minimongo release notes, Ver packages/minimongo/NOTES
 in the repository.
 {{/warning}}
 
@@ -697,7 +700,7 @@ Example:
 
 {{> api_box update}}
 
-Modify documents that match `selector` according to `modifier` (see
+Modify documents that match `selector` according to `modifier` (Ver
 [modifier documentation](#modifiers)).
 
 The behavior of `update` differs depending on whether it is called by
@@ -1007,7 +1010,7 @@ reset the cursor.
 Establishes a *live query* that invokes callbacks when the result of
 the query changes. The callbacks receive the entire contents of the
 document that was affected, as well as its old contents, if
-applicable. If you only need to receive the fields that changed, see
+applicable. If you only need to receive the fields that changed, Ver
 [`observeChanges`](#observe_changes).
 
 `callbacks` may have the following functions as properties:
@@ -1186,7 +1189,7 @@ But they can also contain more complicated tests:
     // Matches documents where fruit is one of three possibilities
     {fruit: {$in: ["peach", "plum", "pear"]}}
 
-See the [complete
+Ver the [complete
 documentation](http://www.mongodb.org/display/DOCS/Advanced+Queries).
 
 {{/api_box_inline}}
@@ -1211,7 +1214,7 @@ supported by [validated updates](#allow).)
     // Find the document with id "123", and completely replace it.
     Users.update({_id: "123"}, {name: "Alice", friends: ["Bob"]});
 
-See the [full list of
+Ver the [full list of
 modifiers](http://www.mongodb.org/display/DOCS/Updating#Updating-ModifierOperations).
 
 {{/api_box_inline}}
@@ -1377,7 +1380,7 @@ the [`Meteor.users`](#meteor_users) collection.
 On the client, this will be the subset of the fields in the document that
 are published from the server (other fields won't be available on the
 client). By default the server publishes `username`, `emails`, and
-`profile`. See [`Meteor.users`](#meteor_users) for more on
+`profile`. Ver [`Meteor.users`](#meteor_users) for more on
 the fields used in user documents.
 
 {{> api_box userId}}
@@ -1471,7 +1474,7 @@ animation while the login request is being processed.
 
 {{> api_box loginWithPassword}}
 
-This function is provided by the `accounts-password` package. See the
+This function is provided by the `accounts-password` package. Ver the
 [Passwords](#accounts_passwords) section below.
 
 
@@ -1620,7 +1623,7 @@ address verification and password recovery emails.
 Unlike most web applications, the Meteor client does not send the user's
 password directly to the server. It uses the [Secure Remote Password
 protocol](http://en.wikipedia.org/wiki/Secure_Remote_Password_protocol)
-to ensure the server never sees the user's plain-text password. This
+to ensure the server never Vers the user's plain-text password. This
 helps protect against embarrassing password leaks if the server's
 database is compromised.
 
@@ -1689,7 +1692,7 @@ sets the `emails.verified` field in the user record.
 The token in this email should be passed
 to [`Accounts.resetPassword`](#accounts_resetpassword).
 
-To customize the contents of the email, see
+To customize the contents of the email, Ver
 [`Accounts.emailTemplates`](#accounts_emailtemplates).
 
 {{> api_box accounts_sendEnrollmentEmail}}
@@ -1697,7 +1700,7 @@ To customize the contents of the email, see
 The token in this email should be passed
 to [`Accounts.resetPassword`](#accounts_resetpassword).
 
-To customize the contents of the email, see
+To customize the contents of the email, Ver
 [`Accounts.emailTemplates`](#accounts_emailtemplates).
 
 {{> api_box accounts_sendVerificationEmail}}
@@ -1705,7 +1708,7 @@ To customize the contents of the email, see
 The token in this email should be passed
 to [`Accounts.verifyEmail`](#accounts_verifyemail).
 
-To customize the contents of the email, see
+To customize the contents of the email, Ver
 [`Accounts.emailTemplates`](#accounts_emailtemplates).
 
 {{> api_box accounts_emailTemplates}}
@@ -1823,7 +1826,7 @@ effects of `created`.  It fires once and is the last callback to fire.
 Declare event handers for instances of this template. Multiple calls add
 new event handlers in addition to the existing ones.
 
-See [Event Maps](#eventmaps) for a detailed description of the event
+Ver [Event Maps](#eventmaps) for a detailed description of the event
 map format and how event handling works in Meteor.
 
 {{> api_box template_helpers}}
@@ -1993,13 +1996,13 @@ place.
 You may insert the returned `DocumentFragment` directly into the DOM
 wherever you would like it to appear. The inserted nodes will continue
 to update until they are taken off the screen. Then they will be
-automatically cleaned up. For more details about clean-up, see
+automatically cleaned up. For more details about clean-up, Ver
 [`Deps.flush`](#deps_flush).
 
 `Meteor.render` tracks the data dependencies of `htmlFunc` by running
 it in a reactive computation, so it can respond to changes in any reactive
 data sources used by that function. For more information, or to learn
-how to make your own reactive data sources, see
+how to make your own reactive data sources, Ver
 [Reactivity](#reactivity).
 
 Example:
@@ -2205,7 +2208,7 @@ A checkbox or radio button changes state.  For text fields, use
 `blur` or key events to respond to changes.
 {{/dtdd}}
 
-{{#dtdd "<code>mouseenter, mouseleave</code>"}} The pointer enters or
+{{#dtdd "<code>mouVernter, mouseleave</code>"}} The pointer enters or
 leaves the bounds of an element.  These events do not bubble.
 {{/dtdd}}
 
@@ -2366,7 +2369,7 @@ all pending reruns.
 If you nest calls to `Deps.autorun`, then when the outer call stops or
 reruns, the inner call will stop automatically.  Subscriptions and
 observers are also automatically stopped when used as part of a
-computation that is rerun, allowing new ones to be established.  See
+computation that is rerun, allowing new ones to be established.  Ver
 [`Meteor.subscribe`](#meteor_subscribe) for more information about
 subscriptions and reactivity.
 
@@ -2428,7 +2431,7 @@ registers a callback with it).
 
 {{> api_box deps_oninvalidate }}
 
-See [*`computation`*`.onInvalidate`](#computation_oninvalidate) for more
+Ver [*`computation`*`.onInvalidate`](#computation_oninvalidate) for more
 details.
 
 {{> api_box deps_afterflush }}
@@ -2614,7 +2617,7 @@ types, as well as:
  - **Date** (JavaScript `Date`)
  - **Binary** (JavaScript `Uint8Array` or the
    result of [`EJSON.newBinary`](#ejson_new_binary))
- - **User-defined types** (see [`EJSON.addType`](#ejson_add_type).  For example,
+ - **User-defined types** (Ver [`EJSON.addType`](#ejson_add_type).  For example,
  [`Meteor.Collection.ObjectID`](#collection_object_id) is implemented this way.)
 
 All EJSON serializations are also valid JSON.  For example an object with a date
