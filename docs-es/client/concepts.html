@@ -1,11 +1,10 @@
 <template name="concepts">
 
-<h1 id="concepts">Concepts</h1>
+<h1 id="concepts">Conceptos</h1>
 
-We've written our fair share of single-page JavaScript applications by hand.
-Writing an entire application in one language (JavaScript) with one
-data format (JSON) is a real joy.  Meteor is everything we wanted
-when writing those apps.
+Todos hemos escrito a mano nuestra buena cantidad de aplicaciones JavaScript de una sola página.
+Escribir una app entera en un mismo lenguage (JavaScript) con un solo formato de datos (JSON) es
+verdaderamente un disfrute. Meteor es todo lo que deseábamos mientras escribíamos esas apps.
 
 {{> structure }}
 {{> data }}
@@ -19,89 +18,87 @@ when writing those apps.
 <template name="structure">
 {{#better_markdown}}
 
-<h2 id="structuringyourapp">Structuring your application</h2>
+<h2 id="structuringyourapp">Estructurando tu aplicación</h2>
 
-A Meteor application is a mix of JavaScript that runs inside a client web
-browser, JavaScript that runs on the Meteor server inside a
-[Node.js](http://nodejs.org/) container, and all the supporting HTML fragments,
-CSS rules, and static assets.  Meteor automates the packaging and transmission
-of these different components.  And, it is quite flexible about how you choose
-to structure those components in your file tree.
+Una apliación de Meteor es una mezcla de JavaScript corriendo en un navegador web,
+y JavaScript corriendo el servidor Meteor dentro de un contenedor de
+[Node.js](http://nodejs.org/), y todos los fragmentos HTML, reglas CSS y recursos estáticos
+de soporte. Meteor automatiza el empaquetado y la transmisión
+de estos diferentes componentes. Y es bastante flexible en cuanto a cómo eliges
+estructurar esos componentes en tu árbol de archivos.
 
-The only server asset is JavaScript.  Meteor gathers all your JavaScript
-files, excluding anything under the `client`
-and `public` subdirectories, and loads them into a Node.js
-server instance inside a fiber.  In Meteor, your server code runs in
-a single thread per request, not in the asynchronous callback style
-typical of Node.  We find the linear execution model a better fit for
-the typical server code in a Meteor application.
+El único requisito del servidor es JavaScript. Meteor junta todos tus
+archivos JavaScript, excluyendo cualquier cosa dentro de los subdirectorios
+`client` y `public`, y los carga en una instancia de Node.js
+dentro de un fiber. En Meteor, el código de tu servidor corre en un
+hilo independiente por petición, en lugar de en un callback asincrónico clásico
+de Node. Consideramos que el modelo de ejecución lineal, funciona mejor para
+el código típico de una aplicación Meteor.
 
-There are more assets to consider on the client side.  Meteor
-gathers all JavaScript files in your tree with the exception of
-the `server` and `public` subdirectories for the
-client.  It minifies this bundle and serves it to each new client.
-You're free to use a single JavaScript file for your entire application, or
-create a nested tree of separate files, or anything in between.
+Hay más recursos que considerar del lado del cliente. Meteor junta todos los
+archivos JavaScript en tu directorio raiz, con la excepción de los subdirectorios
+`server` y `public` para el cliente. Minifica el paquete y lo sirve a cada cliente.
+Eres libre de usar un sólo archivo JavaScript para toda tu aplicación, crear
+directorios anidados con archivos separados, o cualquier punto en el medio.
 
-Files outside the `client`, `server` and `tests` subdirectories are loaded on
-both the client and the server!  That's the place for model definitions and
-other functions.  Meteor provides the variables [`isClient`](#meteor_isclient) and
-[`isServer`](#meteor_isserver) so that your code can alter its behavior depending
-on whether it's running on the client or the server. (Files in directories named
-`tests` are not loaded anywhere.)
+Los archivos fuera de los subdirectorios `client`, `server` y `tests` son cargados
+tanto en el cliente como en el servidor! Ese es el lugar para la definición de modelos
+y otras funciones. Meteor provee las variables [`isClient`](#meteor_isclient) e
+[`isServer`](#meteor_isserver) para que tu código pueda alterar su comportamiento, dependiendo de
+si corre en el cliente o en el servidor. (Los archivos en los directorios con el nombre
+`tests` no se cargan en ningún lado.)
 
-Any sensitive code that you don't want served to the client, such as code
-containing passwords or authentication mechanisms, should be
-kept in the `server` directory.
+Cualquier código sensible que no quieres que se sirva al cliente, tales como password
+o mecanismos de autenticación, deben mantenerse el directorio `server`.
 
-CSS files are gathered together as well: the client will get a bundle with all
-the CSS in your tree (excluding the `server`
-and `public` subdirectories).
+Los archivos CSS son recolectados también: el cliente obtendrá un paquete
+con todos los CSS en tu raíz (exceptuando los de los subdirectorios `server`
+y `public`).
 
-In development mode, JavaScript and CSS files are sent individually to make
-debugging easier.
+En modo de desarrollo, los archivos JavaScript y CSS son enviados individualmente
+para facilitar el debugging.
 
-HTML files in a Meteor application are treated quite a bit differently
-from a server-side framework.  Meteor scans all the HTML files in your
-directory for three top-level elements: `<head>`, `<body>`, and
-`<template>`.  The head and body sections are separately concatenated
-into a single head and body, which are transmitted to the client on
-initial page load.
+Los archivos HTML son tratados de una manera un tanto diferente comparado
+con un framework clásico. Meteor rastrea todos los archivos HTML en tu raíz, en
+busca de tres elementos: `<head>`, `<body>`, y
+`<template>`.  Las secciones head y body se concatenan por separado
+en un sólo head y body, el cual se transmite al cliente en la carga inicial
+de la página.
 
-Template sections, on the other hand, are converted into JavaScript
-functions, available under the `Template` namespace.  It's
-a really convenient way to ship HTML templates to the client.
-See the [templates](#templates) section for more.
+Las secciones template, en cambio, se convierten en funciones JavaScript,
+disponibles a través del namespace `Template`.  Es una manera verdaderamente
+conveniente de enviar templates HTML al cliente.
+Echa un vistazo a la sección [templates](#templates) para más información.
 
-Lastly, the Meteor server will serve any files under the `public`
-directory, just like in a Rails or Django project.  This is the place
-for images, `favicon.ico`, `robots.txt`, and anything else.
+Por último, el servidor Meteor servirá cualquier archivo dentro del directorio
+`public`, de la misma manera que cualquier proyecto en Rails o Django.  
+Este es el lugar para imágenes, `favicon.ico`, `robots.txt`, y todo lo demás.
 
-It is best to write your application in such a way that it is
-insensitive to the order in which files are loaded, for example by
-using [Meteor.startup](#meteor_startup), or by moving load order
-sensitive code into [Smart Packages](#smartpackages), which can explicitly control both
-the load order of their contents and their load order with respect to
-other packages. However sometimes load order dependencies in your
-application are unavoidable. The JavaScript and CSS files in an
-application are loaded according to these rules:
+Es recomendado escribir tu aplicación de tal manera que no dependa del
+orden en el que se cargan los archivos, por ejemplo usando
+[Meteor.startup](#meteor_startup), o moviendo el código que requiera de
+un orden de carga específico dentro de un [Smart Packages](#smartpackages), 
+el cual puede controlar de manera explícita tanto el orden de carga de su contenido,
+como su propio orden de carga en relación a otros paquetes. 
+Pero a veces en tu aplicación las dependencias en un orden específico
+de carga no se puede evitar. Los archivos JavaScript y CSS en una aplicación
+se cargan siguiendo las siguientes reglas:
 
-* Files in the `lib` directory at the root of your application are
-  loaded first.
+* Los archivos en el directorio `lib` del raíz se cargan primero.
 
-* Files that match `main.*` are loaded after everything else.
+* Los archivos del tipo `main.*` se cargan después de todo el resto.
 
-* Files in subdirectories are loaded before files in parent
-  directories, so that files in the deepest subdirectory are loaded
-  first (after `lib`), and files in the root directory are loaded last
-  (other than `main.*`).
+* Los archivos en subdirectorios se cargan antes que los archivos en los directorios
+  padre, haciendo que los archivos en los subdirectorios mas profundos
+  se carguen primero (después de `lib`), y los archivos en el raíz se cargan al final
+  (antes que los `main.*`).
 
-* Within a directory, files are loaded in alphabetical order by
-  filename.
+* Dentro de un directorio, los archivos se cargan en orden alfabético según su nombre.
 
-These rules stack, so that within `lib`, for example, files are still
-loaded in alphabetical order; and if there are multiple files named
-`main.js`, the ones in subdirectories are loaded earlier.
+Estas reglas son acumulativas, siendo que dentro de `lib`, por ejemplo,
+los archivos son cargados en orden alfabético; y si hay múltiples archivos
+llamados `main.js`, aquellos situados en subdirectorios
+se cargan antes.
 
 {{/better_markdown}}
 </template>
