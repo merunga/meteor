@@ -577,23 +577,22 @@ colección deben ser publicados y para que usuarios.
     // al servidor
     assert(Posts.find().count() === 1);
 
-    // Create a temporary, local collection. It works just like any other
-    // collection, but it doesn't send changes to the server, and it
-    // can't receive any data from subscriptions.
+    // Crea una colección local, temporal. Funciona como cualquier otra
+    // colección, pero no envía los cambios al servidor, y no    
+    // puede recibir ningún dato de los suscriptores.
     Scratchpad = new Meteor.Collection;
     for (var i = 0; i < 10; i++)
       Scratchpad.insert({number: i * 2});
     assert(Scratchpad.find({number: {$lt: 9}}).count() === 5);
 
+Si especifica una opción `transform` a la `Collection` o cualquiera de sus retrieval
+métodos de recuperación, los documentos se pasan a través de la función `transform` 
+antes de ser retornada o pasada a los <i>callbacks</i>. Esto le permite añadir métodos 
+o por otra parte modificar el contenido de su colección desde la representación su 
+base de datos. También puede especificar `transform` en una determinada llamada a `find`, 
+`findOne`, `allow`, o `deny`.
 
-If you specify a `transform` option to the `Collection` or any of its retrieval
-methods, documents are passed through the `transform` function before being
-returned or passed to callbacks.  This allows you to add methods or otherwise
-modify the contents of your collection from their database representation.  You
-can also specify `transform` on a particular `find`, `findOne`, `allow`, or
-`deny` call.
-
-    // An Animal class that takes a document in its constructor
+    // Una clase de animal que obtiene un documento en su constructor
     Animal = function (doc) {
       _.extend(this, doc);
     };
@@ -603,21 +602,33 @@ can also specify `transform` on a particular `find`, `findOne`, `allow`, or
       }
     });
 
-    // Define a Collection that uses Animal as its document
+    //Define una colección que utiliza Animal como documento
     Animals = new Meteor.Collection("Animals", {
       transform: function (doc) { return new Animal(doc); }
     });
 
-    // Create an Animal and call its makeNoise method
+    // Crear un Animal y llamar a su método <i>makeNoise</i>
     Animals.insert({name: "raptor", sound: "roar"});
     Animals.findOne({name: "raptor"}).makeNoise(); // prints "roar"
 
-`transform` functions are not called reactively.  If you want to add a
-dynamically changing attribute to an object, do it with a function that computes
-the value at the time it's called, not by computing the attribute at `transform`
-time.
+Las funciones `transform` no son llamadas reactivamente. Si quiere añadir un atributo 
+que cambie dinámicamente a un objeto, hágalo con una función que calcule el valor en 
+el momento que se llama, no computando el atributo `transform` al momento.
 
 {{#warning}}
+<<<<<<< HEAD
+En esta versión, Minimongo tiene algunas limitaciones:
+
+* `$pull` en modificadores sólo puede aceptar ciertos
+tipos de selectores.
+* `$` referirse a la posición de array que coincide no está soportado en modifier.
+* `findAndModify`, funciones upsert, aggregate, y
+map/reduce no estan suportadas.
+
+Todo esto se abordará en una próxima versión. 
+Para notas completas de la versión Minimongo, consulte
+Ver packages/minimongo/NOTES en el repositorio.
+=======
 In this release, Minimongo has some limitations:
 
 * `$pull` in modifiers can only accept certain kinds
@@ -630,69 +641,69 @@ map/reduce aren't supported.
 All of these will be addressed in a future release. For full
 Minimongo release notes, Ver packages/minimongo/NOTES
 in the repository.
+>>>>>>> 57274449dfc943064d4a299dbe3011578f2b1758
 {{/warning}}
 
 {{#warning}}
-Minimongo doesn't currently have indexes. It's rare for this to be an
-issue, since it's unusual for a client to have enough data that an
-index is worthwhile.
+Minimongo actualmente no tienen índices. Es raro que esto sea un problema,
+ya que es inusual que un cliente tenga datos suficientes para que un índice 
+valga la pena.
 {{/warning}}
 
 {{> api_box find}}
 
-`find` returns a cursor.  It does not immediately access the database or return
-documents.  Cursors provide `fetch` to return all matching documents, `map` and
-`forEach` to iterate over all matching documents, and `observe` and
-`observeChanges` to register callbacks when the set of matching documents
-changes.
+`find` devuelve un cursor.  No tiene acceso inmediato a la base de datos 
+o devuelve documentos.  Los cursores proporcionan `fetch` para retornar 
+todos los documentos coincidentes, `map` y `forEach` para iterar sobre 
+todos los documentos coincidentes, y `observe` y `observeChanges` 
+para registrar callbacks cuando el conjunto de documentos coincidente cambia.
 
 {{#warning}}
-Collection cursors are not query snapshots.  If the database changes
-between calling `Collection.find` and fetching the
-results of the cursor, or while fetching results from the cursor,
-those changes may or may not appear in the result set.
+La colección de cursores no son instantáneas de la consulta.  Si la base de 
+datos cambia entre llamadas `Collection.find` y extraer los resultados de
+del cursor, o mientras obtiene resultados desde el cursor,
+estos cambios pueden o no puede aparecer en el conjunto de resultados.
 {{/warning}}
 
-Cursors are a reactive data source.  The first time you retrieve a
-cursor's documents with `fetch`, `map`, or `forEach` inside a
-reactive computation (eg, a template or
-[`autorun`](#deps_autorun)), Meteor will register a
-dependency on the underlying data.  Any change to the collection that
-changes the documents in a cursor will trigger a recomputation.  To
-disable this behavior, pass `{reactive: false}` as an option to
-`find`.
+Cursor es una fuente de datos reactivo. La primera vez que recupera n
+documentos de cursor con `fetch`, `map`, o `forEach` dentro de una 
+computación reactiva (ej, una plantilla o 
+[`autorun`](#deps_autorun)),  Meteor registrará una 
+dependencia de los datos subyacentes.
+Cualquier cambio en la colección que cambia los documentos en un cursor 
+disparará un recálculo. Para desactivar este comportamiento, pase
+`{reactive: false}` como una opción para `find`.
 
 {{> api_box findone}}
 
-Equivalent to `find(selector, options).fetch()[0]`.
+Equivalente a `find(selector, options).fetch()[0]`.
 
 {{> api_box insert}}
 
-Add a document to the collection. A document is just an object, and
-its fields can contain any combination of EJSON-compatible datatypes
-(arrays, objects, numbers, strings, `null`, true, and false).
+Añade un documento a la coleccion. Un documento es sólo un objeto, y
+y sus campos pueden contener cualquier combinación de tipos de datos
+ EJSON-compatible (arrays, objects, numbers, strings, `null`, true, and false).
 
-`insert` will generate a unique ID for the object you pass, insert it
-in the database, and return the ID. When `insert` is called from
-untrusted client code, it will be allowed only if passes any
-applicable [`allow`](#allow) and [`deny`](#deny) rules.
+`insert` generará un ID único para el objeto que usted pase, lo inserta
+en la base de datos, y retorna el ID. Cuando `insert` se llama desde
+código de cliente no confiable, se le permitirá sólo si pasa cualquier
+regla aplicable [`allow`](#allow) y [`deny`](#deny).
 
-On the server, if you don't provide a callback, then `insert` blocks
-until the database acknowledges the write, or throws an exception if
-something went wrong.  If you do provide a callback, `insert` still
-returns the ID immediately.  Once the insert completes (or fails), the
-callback is called with error and result arguments.  In an error case,
-`result` is undefined.  If the insert is successful, `error` is
-undefined and `result` is the new document ID.
+En el servidor, si no proporciona un <i>callback</i>, entonces  `insert` bloques
+que la base de datos reconozca la escritura, o se produzca una excepción si
+algo salió mal.  Si  proporciona un callback, `insert` sigue devolviendo 
+el ID de inmediato. Una vez que la inserción se completa (o falla),
+el callback es llamado con argumentos de error y resultado.  En caso de error,
+`result` es indefinido.  Si la insercion tiene éxito, `error` es
+indefinido y `result` es el nuevo ID de documento.
 
-On the client, `insert` never blocks.  If you do not provide a callback
-and the insert fails on the server, then Meteor will log a warning to
-the console.  If you provide a callback, Meteor will call that function
-with `error` and `result` arguments.  In an error case, `result` is
-undefined.  If the insert is successful, `error` is undefined and
-`result` is the new document ID.
+En el cliente, `insert` nunca bloquea.  Si usted no provee un callback
+y la inserción falla en el servidor, entonces Meteor registrará un <i>warning</i> en
+la consola.  Si  provee un callback, Meteor llamará esa función con argumentos
+`error` y `result`. En caso de error, `result` es indefinido.  
+Si la inserción tiene éxito, `error` es indefinido y `result` es el nuevo ID de documento.
 
-Example:
+Ejemplo:
 
     var groceriesId = Lists.insert({name: "Groceries"});
     Items.insert({list: groceriesId, name: "Watercress"});
@@ -703,7 +714,7 @@ Example:
 Modify documents that match `selector` according to `modifier` (Ver
 [modifier documentation](#modifiers)).
 
-The behavior of `update` differs depending on whether it is called by
+El comportamiento de `update` differs depending on whether it is called by
 trusted or untrusted code. Trusted code includes server code and
 method code. Untrusted code includes client-side code such as event
 handlers and a browser's JavaScript console.
@@ -2808,7 +2819,7 @@ environment variable should be of the form
 per day; you may override this default by assigning to `process.env.MAIL_URL`
 before your first call to `Email.send`.
 
-If `MAIL_URL` is not set (eg, when running your application locally),
+If `MAIL_URL` is not set (ej, when running your application locally),
 `Email.send` outputs the message to standard output instead.
 
 {{> api_box email_send }}
