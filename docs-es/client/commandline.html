@@ -2,191 +2,165 @@
 <div>
 {{#better_markdown}}
 
-{{#api_section "commandline"}}Command line{{/api_section}}
+{{#api_section "commandline"}}Línea de comandos{{/api_section}}
 
 <!-- XXX some intro text? -->
 
 <h3 id="meteorhelp">meteor help</h3>
 
-Get help on meteor command line usage. Running `meteor help` by
-itself will list the common meteor
-commands. Running <code>meteor help <i>command</i></code> will print
-detailed help about the command.
+Obtenga ayuda en el uso del comando meteor. Ejecutando `meteor help` 
+se listarán los comandos más comunes de Meteor. Ejecutando <code>meteor help <i>commando</i></code>
+se imprimirá ayuda detallada sobre el comando especificado.
 
 
 <h3 id="meteorrun">meteor run</h3>
 
-Run a meteor development server in the current project. Searches
-upward from the current directory for the root directory of a Meteor
-project. Whenever you change any of the application's source files, the
-changes are automatically detected and applied to the running
-application.
+Ejecuta un servidor de desarrollo en el proyecto actual. Busca
+en los niveles superiores desde el directorio actual por el directorio raíz
+del proyecto de Meteor. Cuando se realice un cambio en los archivos de codigo del aplicativo, los
+cambios serán automáticamente detectados y aplicados a la aplicación en
+ejecución.
 
-You can use the application by pointing your web browser at
-<a href="http://localhost:3000">localhost:3000</a>. No internet connection is
-required.
+Se puede usar la aplicación dirigiendo el navegador a <a href="http://localhost:3000">localhost:3000</a>.
+No se requiere de conexión a internet.
 
-This is the default command. Simply running `meteor` is the
-same as `meteor run`.
+Este es el comando por defecto. Simplemente ejecutando `meteor` es 
+el equivalente de `meteor run`.
 
-To pass additional options to Node.js use the `NODE_OPTIONS` environment variable.
-For example: `NODE_OPTIONS='--debug'` or `NODE_OPTIONS='--debug-brk'`
+Para pasar argumentos adicionales a Node.js use la variable de entorno `NODE_OPTIONS`.
+Por ejemplo `NODE_OPTIONS='--debug'` ó `NODE_OPTIONS='--debug-brk'`
 
-Run `meteor help run` to see the full list of options.
-
-
-<h3 id="meteorcreate">meteor create <i>name</i></h3>
-
-Create a new Meteor project. Makes a subdirectory named *name*
-and copies in the template app. You can pass an absolute or relative
-path.
+Ejecute `meteor help run` para ver el listado completo de las opciones disponibles.
 
 
-<h3 id="meteordeploy">meteor deploy <i>site</i></h3>
+<h3 id="meteorcreate">meteor create <i>nombre</i></h3>
 
-Deploy the project in your current directory to Meteor's servers.
+Crea un nuevo proyecto de Meteor. Crea un subdirectorio llamado *nombre*
+y copia dentro la plantilla del aplicativo inicial. Se puede especificar una
+ruta relativa o absoluta.
 
+<h3 id="meteordeploy">meteor deploy <i>sitio</i></h3>
 
-You can deploy to any available name
-under `meteor.com` without any additional
-configuration, for example, `myapp.meteor.com`.  If
-you deploy to a custom domain, such as `myapp.mydomain.com`,
-then you'll need to make sure the DNS for that domain is configured to
-point at `origin.meteor.com`.
+Despliega el proyecto del directorio actual a uno de los servidores de Meteor.
 
+Puede desplegar a cualquier nombre disponible
+bajo `meteor.com` sin ninguna configuración adicional,
+por ejemplo `miapp.meteor.com`. Sí se despliega a un
+dominio diferente, como `miapp.midominio.com`, entonces debe estar seguro
+de que el DNS de dicho dominio esta configurado para apuntar a `origin.meteor.com`. 
 
+Puede desplegar en modo de depuración pasando la opción `--debug`.
+Esto dejará el código legible para su herramienta favorita de depuración en el navegador,
+exactamente como se realiza en el modo de desarrollo local.
 
-You can deploy in debug mode by passing `--debug`. This
-will leave your source code readable by your favorite in-browser
-debugger, just like it is in local development mode.
+Para eliminar un aplicativo que usted ha desplegado, especifique
+la opción `--delete` seguido del sitio.
 
-
-
-To delete an application you've deployed, specify
-the `--delete` option along with the site.
-
-
-
-To add an administrative password to your deployment, include
-the `--password` option.  Meteor will prompt
-for a password.  Once set, any future `meteor deploy` to
-the same domain will require that you provide the password.  The same
-password protects access to `meteor mongo`
-and `meteor logs`.  You can change the password by
-running `meteor deploy --password` again,
-which will first prompt for the current password, then for a new
-password.
-
+Para agregar una contraseña administrativa al despliegue, incluya
+la opción `--password`. Meteor preguntará por una contraseña.
+una vez suministrada, cualquier despliegue futuro con `meteor deploy`
+al mismo dominio requerirá que se ingrese dicha contraseña. La misma
+contraseña proteje el acceso a `meteor mongo` y a `meteor logs`. Es posible
+cambiar la contraseña ejecutando `meteor deploy --password` nuevamente, para
+esto se preguntará por la contraseña actual y luego por la nueva contraseña.
 
 {{#warning}}
-Password protection only applies to administrative actions with the
-Meteor command.  It does not prevent access to your deployed
-website.  Also, this all is a temporary hack until we have
-full-featured Meteor accounts.
+La protección por contraseña solo aplica a acciones administrativas con
+el comando Meteor. no previene acceso al sitio web desplegado. También es un hack
+temporal mientras se implementa una característica más completa de cuentas de Meteor
 {{/warning}}
 
 {{#warning}}
-If you use a domain name other than `meteor.com`
-you must ensure that the name resolves
-to `origin.meteor.com`.  If you want a top-level
-domain like myapp.com, you'll need a DNS A record, matching the IP
-address of origin.meteor.com.
+Sí usted usa un dominio diferente a `meteor.com`
+Usted debe asegurarse de que el dominio resuelve a `origin.meteor.com`.
+Sí usted desea un dominio de primer nivel como miapp.com, usted necesitará 
+un registro A de DNS que concuerde con la dirección IP de origin.meteor.com.
 {{/warning}}
 
+Se puede adicionar información específica a un despliegue particular de una aplicación
+usando la opción `--settings`. el argumento para `--settings` es un archivo que contenga una 
+cadena de JSON. El objeto en el archivo de configuración aparecerá en el ambiente del servidor
+de la aplicación en [`Meteor.settings`](#meteor_settings).
 
+Las configuraciones son persistentes. cuando se despliega de nuevo la aplicación, el valor
+antiguo será preservado a no ser que usted explicitamente pase nuevas configuraciones usando
+la opción `--settings`. para eliminar `Meteor.settings`, pase un archivo de configuración vacío.
 
-You can add information specific to a particular deployment of your application
-by using the `--settings` option.  The argument to `--settings` is a file
-containing any JSON string.  The object in your settings file will appear on the
-server side of your application in [`Meteor.settings`](#meteor_settings).
+<h3 id="meteorlogs">meteor logs <i>sitio</i></h3>
 
-Settings are persistent.  When you redeploy your app, the old value will be
-preserved unless you explicitly pass new settings using the `--settings` option.
-To unset `Meteor.settings`, pass an empty settings file.
+Recupera los registros del servidor de la aplicación de Meteor en el sitio especificado.
 
-<h3 id="meteorlogs">meteor logs <i>site</i></h3>
-
-Retrieves the server logs for the named Meteor application.
-
-
-Meteor redirects the output of `console.log()` in your
-server code into a logging server.  `meteor logs`
-displays those logs.  In client code, the output
-of `console.log()` is available in your web browser's
-inspector, just like any other client-side JavaScript.
-
+Meteor redirecciona la salida de `console.log()` en el código del servidor
+a un servidor de registros. `meteor logs` viasualiza dichos registros.
+En el código del cliente, la salida de `console.log()` esta disponible en el inspector
+del navegador web, de la misma forma que cualquier otro Javascript ejecutado en el lado 
+del cliente.
 
 <h3 id="meteorupdate">meteor update</h3>
 
-Sets the version of Meteor to use with the current project. If a
-release is specified with `--release`, set the project to use that
-version. Otherwise download and use the latest release of Meteor.
+Configura la versión de Meteor que será usada en el proyecto actual. Sí una
+versión es especificada con `--release`, configurará el proyecto para que use
+dicha versión. De otra manera descarga y usa la última versión publicada de Meteor.
 
-Every project is pinned to a specific release of Meteor. You can temporarily try
-using your package with another release by passing the `--release` option to any
-command; `meteor update` simply changes the pinned release.
+Cada proyecto esta atado a una versión especifica de Meteor. Se puede temporalmente
+probar usando el paquete con una versión diferente pasando la opción `--release` a cualquier comando;
+`meteor update` simplemente cambia la versión fijada.
 
-<h3 id="meteoradd">meteor add <i>package</i></h3>
+<h3 id="meteoradd">meteor add <i>paquete</i></h3>
 
-Add packages to your Meteor project. You can add multiple packages
-with one command. For a list of the available packages, run `meteor
-list`.
+Agrega paquetes al proyecto de Meteor. Se puede agregar múltiples
+paquetes con un solo comando. Para obtener la lista de los paquetes disponibles,
+ejecute `meteor list`.
 
 
-<h3 id="meteorremove">meteor remove <i>package</i></h3>
+<h3 id="meteorremove">meteor remove <i>paquete</i></h3>
 
-Removes a package previously added to your Meteor project. For a
-list of the packages that your application is currently using, run
+Remueve un paquete previamente adicionado al proyecto de Meteor. Para obtener
+la lista de los paquetes que esta usando el aplicativo actualmente, ejecute
 `meteor list --using`.
-
 
 <h3 id="meteorlist">meteor list</h3>
 
-Without arguments, lists all available Meteor packages. To add one of
-these packages to your project, run <code>meteor add <i>package</i></code>.
+Sin argumentos, lista todos los paquetes de Meteor disponibles. Para agregar alguno
+de esos paquetes al proyecto, ejecute <code>meteor add <i>paquete</i></code>.
 
-With `--using`, list the packages that you have added to your project.
-
+Con `--using`, lista los paquetes que han sido agregados al proyecto.
 
 <h3 id="meteormongo">meteor mongo</h3>
 
-Open a MongoDB shell on your local development database, so that you
-can view or manipulate it directly.
+Abre una terminal de MongoDB en la base de datos del ambiente local de desarrollo,
+de esta manera se puede ver o manipular directamente la misma.
 
 {{#warning}}
-For now, you must already have your application running locally
-with `meteor run`. This will be easier in the future.
+Actualmente, se debe de tener corriendo localmente el aplicativo
+con `meteor run`. Esto será más fácil en el futuro
 {{/warning}}
-
 
 <h3 id="meteorreset">meteor reset</h3>
 
-Reset the current project to a fresh state. Removes the local
-mongo database.
+Reinicia el proyecto actual a su estado inicial. Elimina la base de datos local de mongo
 
 {{#warning}}
-This deletes your data! Make sure you do not have any information you
-care about in your local mongo database by running `meteor
-mongo`. From the mongo shell, use `show collections`
-and <code>db.<i>collection</i>.find()</code> to inspect your data.
+Esto elimina sus datos! Asegúrese que no tiene información importante en la
+base de datos local de mongo ejecutando `meteor mongo`. Desde la terminal de mongo
+use `show collections` y <code>db.<i>colección</i>.find()</code> para inspeccionar la información.
 {{/warning}}
 
 {{#warning}}
-For now, you can not run this while a development server is
-running. Quit all running meteor applications before running this.
+Actualmente, no se puede correr mientras el servidor de desarrollo este ejecutándose.
+Salga de todas las aplicaciones de meteor que se estén ejecutando antes de correr esto.
 {{/warning}}
-
 
 <h3 id="meteorbundle">meteor bundle</h3>
 
-Package the application up for deployment. The output is a tarball
-that includes everything necessary to run the
-application. See `README` in the tarball for details.
+Empaqueta el aplicativo para el despliegue. La salida es un archivo comprimido en formato tar
+que incluye todo lo necesario para ejecutar la aplicación. Consulte el archivo `README` dentro del comprimido
+para más detalles.
 
-You can use this to host a Meteor application on your own server,
-instead of deploying to Meteor's servers.  You will have to deal with
-logging, monitoring, backups, load-balancing, etc, all of which we
-handle for you if you use `meteor deploy`.
+Se puede usar esto para ejecutar una aplicación de Meteor en su propio servidor,
+en vez de desplegar a uno de los servidores de Meteor. Se deberá lidiar con las tareas de
+registro, monitoreo, respaldo, balanceo de cargas, etc, todo lo que Meteor se encarga por usted sí
+usa `meteor deploy`.
 
 {{/better_markdown}}
 </div>

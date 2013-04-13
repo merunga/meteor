@@ -585,10 +585,10 @@ colección deben ser publicados y para que usuarios.
       Scratchpad.insert({number: i * 2});
     assert(Scratchpad.find({number: {$lt: 9}}).count() === 5);
 
-Si especifica una opción `transform` a la `Collection` o cualquiera de sus retrieval
+Si especifica una opción `transform` a la `Collection` o cualquiera de sus
 métodos de recuperación, los documentos se pasan a través de la función `transform` 
-antes de ser retornada o pasada a los <i>callbacks</i>. Esto le permite añadir métodos 
-o por otra parte modificar el contenido de su colección desde la representación su 
+antes de ser retornados o pasados a los <i>callbacks</i>. Esto le permite añadir métodos 
+o por otra parte modificar el contenido de su colección desde la representación de su 
 base de datos. También puede especificar `transform` en una determinada llamada a `find`, 
 `findOne`, `allow`, o `deny`.
 
@@ -616,6 +616,7 @@ que cambie dinámicamente a un objeto, hágalo con una función que calcule el v
 el momento que se llama, no computando el atributo `transform` al momento.
 
 {{#warning}}
+<<<<<<< HEAD
 En esta versión, Minimongo tiene algunas limitaciones:
 
 * `$pull` en modificadores sólo puede aceptar ciertos
@@ -627,6 +628,20 @@ map/reduce no estan suportadas.
 Todo esto se abordará en una próxima versión. 
 Para notas completas de la versión Minimongo, consulte
 Ver packages/minimongo/NOTES en el repositorio.
+=======
+In this release, Minimongo has some limitations:
+
+* `$pull` in modifiers can only accept certain kinds
+of selectors.
+* `$` to denote the matched array position is not
+supported in modifier.
+* `findAndModify`, upsert, aggregate functions, and
+map/reduce aren't supported.
+
+All of these will be addressed in a future release. For full
+Minimongo release notes, Ver packages/minimongo/NOTES
+in the repository.
+>>>>>>> 57274449dfc943064d4a299dbe3011578f2b1758
 {{/warning}}
 
 {{#warning}}
@@ -682,9 +697,9 @@ el callback es llamado con argumentos de error y resultado.  En caso de error,
 `result` es indefinido.  Si la insercion tiene éxito, `error` es
 indefinido y `result` es el nuevo ID de documento.
 
-En el cliente, `insert` nunca bloquea.  Si usted no provee un callback
+En el cliente, `insert` nunca bloquea.  Si usted no provee un <i>callback</i>
 y la inserción falla en el servidor, entonces Meteor registrará un <i>warning</i> en
-la consola.  Si  provee un callback, Meteor llamará esa función con argumentos
+la consola.  Si  provee un <i>callback</i>, Meteor llamará esa función con argumentos
 `error` y `result`. En caso de error, `result` es indefinido.  
 Si la inserción tiene éxito, `error` es indefinido y `result` es el nuevo ID de documento.
 
@@ -696,53 +711,51 @@ Ejemplo:
 
 {{> api_box update}}
 
-Modify documents that match `selector` according to `modifier` (Ver
+Modificar documentos que coinciden con `selector` según `modifier` (Ver
 [modifier documentation](#modifiers)).
 
-El comportamiento de `update` differs depending on whether it is called by
-trusted or untrusted code. Trusted code includes server code and
-method code. Untrusted code includes client-side code such as event
-handlers and a browser's JavaScript console.
+El comportamiento de `update` difiere dependiendo de si se es llamado por 
+código confiable o código no confiable. Código confiable incluye código 
+del servidor y código de método. Código no confiable incluye código <i>client-side</i>
+tales como controladores de eventos y un navegador con consola JavaScript.
 
-- Trusted code can modify multiple documents at once by setting
-  `multi` to true, and can use an arbitrary [Mongo
-  selector](#selectors) to find the documents to modify. It bypasses
-  any access control rules set up by [`allow`](#allow) and
-  [`deny`](#deny).
+- El código confiable puede modificar varios documentos a la vez estableciendo
+  `multi` a <i>true</i>, y puede utilizar un arbitrario [Mongo
+  selector](#selectors) para encontrar los documentos que desea modificar. 
+  Se pasan por alto las reglas de control de acceso establecidos por
+  [`allow`](#allow) y [`deny`](#deny).
 
-- Untrusted code can only modify a single document at once, specified
-  by its `_id`. The modification is allowed only after checking any
-  applicable [`allow`](#allow) and [`deny`](#deny) rules.
+- El código no confiable sólo puede modificar un documento único a la vez, especificado 
+  por sus `_id`. La modificación se permite sólo después de comprobar cualquier
+  regla aplicable [`allow`](#allow) y [`deny`](#deny).
 
-On the server, if you don't provide a callback, then `update` blocks
-until the database acknowledges the write, or throws an exception if
-something went wrong.  If you do provide a callback, `update` returns
-immediately.  Once the update completes, the callback is called with a
-single error argument in the case of failure, or no arguments if the
-update was successful.
+En el servidor, si usted no proporciona un <i>callback</i>,, entonces `update` se bloquea
+hasta que la base de datos reconoce la escritura, o lanza una excepción si algo salió mal.
+Si usted proporciona un <i>callback</i>,, `update` retorna immediatamente.  
+Una vez finalizada la actualización, el callback se llama con un único argumento de error en
+el caso de fallo, o sin argumentos si la actualización se ha realizado correctamente.
 
-On the client, `update` never blocks.  If you do not provide a callback
-and the update fails on the server, then Meteor will log a warning to
-the console.  If you provide a callback, Meteor will call that function
-with an error argument if there was an error, or no arguments if the
-update was successful.
+En el cliente, `update` nunca bloquea.  Si usted no provee un <i>callback</i>
+y la actualización falla en el servidor, entonces Meteor registrará un <i>warning</i> en
+la consola.  Si  provee un <i>callback</i>,  Meteor llamará esa función con 
+un argumento error si hubiera un error, o sin argumentos si la actualización tuvo éxito.
 
-Client example:
+Ejemplo en cliente:
 
-    // When the givePoints button in the admin dashboard is pressed,
-    // give 5 points to the current player. The new score will be
-    // immediately visible on everyone's screens.
+    // Cuando el botón <i>givePoints</i> en el <i>dashboard</i> de administración es pulsado,
+    // aumenta 5 puntos al jugador actual. La nueva puntuación será
+    // inmediatamente visible en las pantallas de todo el mundo.
     Template.adminDashboard.events({
       'click .givePoints': function () {
         Players.update(Session.get("currentPlayer"), {$inc: {score: 5}});
       }
     });
 
-Server example:
+Ejemplo de servidor:
 
-    // Give the "Winner" badge to each user with a score greater than
-    // 10. If they are logged in and their badge list is visible on the
-    // screen, it will update automatically as they watch.
+    // Dar la tarjeta "Winner" a cada usuario con una puntuación superior a 
+    // 10. Si está conectado y su lista de tarjeras está visible en
+    // pantalla, se actualizará automáticamente mientras se está viendo.
     Meteor.methods({
       declareWinners: function () {
         Players.update({score: {$gt: 10}},
@@ -752,60 +765,63 @@ Server example:
     });
 
 {{#warning}}
-The Mongo `upsert` feature is not implemented.
+La característica Mongo `upsert` no está implementada.
 {{/warning}}
 
 {{> api_box remove}}
 
-Find all of the documents that match `selector` and delete them from
-the collection.
+Encuentra todos los documentos que coinciden con `selector` y los elimina de la colección.
 
-The behavior of `remove` differs depending on whether it is called by
-trusted or untrusted code. Trusted code includes server code and
-method code. Untrusted code includes client-side code such as event
-handlers and a browser's JavaScript console.
+El comportamiento de `remove` difiere dependiendo de si se es llamado po
+código confiable o no confiable. Código confiable incluye código 
+de servidor y código de método. Código no confiable incluye código <i>client-side</i>
+tales como controladores de eventos y un navegador con consola JavaScript.
 
-- Trusted code can use an arbitrary [Mongo selector](#selectors) to
-  find the documents to remove, and can remove more than one document
-  at once by passing a selector that matches multiple documents. It
-  bypasses any access control rules set up by [`allow`](#allow) and
-  [`deny`](#deny).
+- El código confiable puede un arbitrario [Mongo selector](#selectors)
+  para encontrar los documentos que desea eliminar, y puede eliminar más de un documento
+  a la vez passando un selector con el que coincidan multiples documentos.
+  Se pasan por alto las reglas de control de acceso establecidos por  
+  [`allow`](#allow) y [`deny`](#deny).
 
-  As a safety measure, if `selector` is omitted (or is `undefined`),
-  no documents will be removed. Set `selector` to `{}` if you really
-  want to remove all documents from your collection.
+  Como medida de seguridad, si se omite `selector` (o es `undefined`),
+  ningún documento será eliminado. Establezca `selector` a `{}` si realmente desea
+  eliminar todos los documentos de su colección.
 
-- Untrusted code can only remove a single document at a time,
-  specified by its `_id`. The document is removed only after checking
-  any applicable [`allow`](#allow) and [`deny`](#deny) rules.
+- El código no confiable sólo puede eliminar un documento único a la vez, especificado 
+  por sus `_id`. El documento es eliminado sólo después de comprobar cualquier
+  regla aplicable [`allow`](#allow) y [`deny`](#deny).
+  
+En el servidor, si usted no proporciona un callback, entonces `update` se bloquea
+hasta que la base de datos reconoce la escritura, o lanza una excepción si algo salió mal.
+Si usted proporciona un callback, `update` retorna immediatamente.  
+Una vez finalizada la actualización, el callback se llama con un único argumento de error en
+el caso de avería, o sin argumentos si la actualización se ha realizado correctamente.
 
-On the server, if you don't provide a callback, then `remove` blocks
-until the database acknowledges the write, or throws an exception if
-something went wrong.  If you do provide a callback, `remove` returns
-immediately.  Once the remove completes, the callback is called with a
-single error argument in the case of failure, or no arguments if the
-remove was successful.
+En el servidor, si usted no proporciona un <i>callback</i>, entonces `remove` se bloquea
+hasta que la base de datos reconoce la escritura, o lanza una excepción si algo salió mal.
+Si usted proporciona un <i>callback</i>, `remove` retorna immediatamente.  
+Una vez completado el borrado, the callback se llama con un único argumento de error en
+el caso de error, o sin argumentos si el borrado se ha realizado correctamente.
 
-On the client, `remove` never blocks.  If you do not provide a callback
-and the remove fails on the server, then Meteor will log a warning to
-the console.  If you provide a callback, Meteor will call that function
-with an error argument if there was an error, or no arguments if the
-remove was successful.
+En el cliente, `remove` nunca se bloquea.  Si usted no provee un callback
+y el borrado falla en el servidor, entonces Meteor registrará un <i>warning</i> en
+la consola.  Si  provee un <i>callback</i>,  Meteor llamará esa función con 
+un argumento error si hubiera un error, o sin argumentos si el borrado tuvo éxito.
 
-Client example:
+Ejemplo en cliente:
 
-    // When the remove button is clicked on a chat message, delete
-    // that message.
+    // Cuando el botón de borrado es clicado en un mensage de chat, elimina
+    // ese mensage.
     Template.chat.events({
       'click .remove': function () {
         Messages.remove(this._id);
       }
     });
 
-Server example:
+Ejemplo de servidor:
 
-    // When the server starts, clear the log, and delete all players
-    // with a karma of less than -2.
+    // Cuando el servidor comienza, limpia el <i>log</i>, y eliminar a todos los <i>players</i>
+    // con un karma menor que -2.
     Meteor.startup(function () {
       if (Meteor.isServer) {
         Logs.remove({});
@@ -815,90 +831,89 @@ Server example:
 
 {{> api_box allow}}
 
-When a client calls `insert`, `update`, or `remove` on a collection, the
-collection's `allow` and [`deny`](#deny) callbacks are called
-on the server to determine if the write should be allowed. If at least
-one `allow` callback allows the write, and no `deny` callbacks deny the
-write, then the write is allowed to proceed.
+Cuando un cliente llama `insert`, `update`, o `remove` en una colección, los
+callbacks de las colecciones `allow` y [`deny`](#deny) se invocan en el
+servidor para determinar si la escritura se debe permitir. Si al menos
+un <i>callback</i> `allow` permite la escritura, y ningún <i>callback</i> `deny` niega la
+escritura, entonces, se permite proceder con la escritura.
 
-These checks are run only when a client tries to write to the database
-directly, for example by calling `update` from inside an event
-handler. Server code is trusted and isn't subject to `allow` and `deny`
-restrictions. That includes methods that are called with `Meteor.call`
-&mdash; they are expected to do their own access checking rather than
-relying on `allow` and `deny`.
+Estos controles se realizan sólo cuando un cliente intenta escribir en 
+la base de datos directamente, por ejemplo llamando `update` desde el interior 
+de un controlador de eventos. El código de servidor es confiable y no está 
+sujeto a las restrictions `allow` y `deny`. Que incluye métodos que son llamados con
+`Meteor.call` &mdash; que se espera que hagan su propio control de acceso en lugar 
+de depender de `allow` y `deny`.
 
-You can call `allow` as many times as you like, and each call can
-include any combination of `insert`, `update`, and `remove`
-functions. The functions should return `true` if they think the
-operation should be allowed. Otherwise they should return `false`, or
-nothing at all (`undefined`). In that case Meteor will continue
-searching through any other `allow` rules on the collection.
+Usted puede llamar `allow` tantas veces como quiera,  y cada llamada
+puede incluir cualquier combinación de las funciones `insert`, `update`, y `remove`. 
+Las funciones deben devolver `true` si piensan que la operación se debe permitir. 
+De lo contrario, debe devolver `false`, o nada en absoluto (`undefined`). 
+En ese caso Meteor continuará buscando a través de cualquier otra regla de 
+la colección.
 
-The available callbacks are:
+Los <i>callbacks</i> disponibles son:
 
 <dl class="callbacks">
 {{#dtdd "insert(userId, doc)"}}
-The user `userId` wants to insert the document `doc` into the
-collection. Return `true` if this should be allowed.
+El usuario `userId` quiere insertar el documento `doc` en la
+colección. Retorna `true` si esto debe ser permitido.
 {{/dtdd}}
 
 {{#dtdd "update(userId, doc, fieldNames, modifier)"}}
 
-The user `userId` wants to update a document `doc`. (`doc` is the
-current version of the document from the database, without the
-proposed update.) Return `true` to permit the change.
+El usuario `userId` quiere actualizar un documento `doc`. (`doc` es la
+versión actual of del documento desde la base de datos, sin la actualización 
+propuesta.) Devuelve `true` para permitir el cambio.
 
-`fieldNames` is an array of the (top-level) fields in `doc` that the
-client wants to modify, for example
-`['name',`&nbsp;`'score']`. `modifier` is the raw Mongo modifier that
-the client wants to execute, for example `{$set: {'name.first':
+`fieldNames` es un array de los campos (top-level) en `doc` que el cliente 
+quiere modificar, por ejemplo
+`['name',`&nbsp;`'score']`. `modifier` es el modificador raw Mongo que
+el cliente quiere ejecutar, por ejemplo `{$set: {'name.first':
 "Alice"}, $inc: {score: 1}}`.
 
-Only Mongo modifiers are supported (operations like `$set` and `$push`).
-If the user tries to replace the entire document rather than use
-$-modifiers, the request will be denied without checking the `allow`
-functions.
+Sólo los modificadores Mongo están soportados (operaciones como `$set` y `$push`).
+Si el usuario intenta reemplazar el documento completo en lugar de usar
+$-modifiers, la solicitud será denegada sin comprobar las funciones `allow`.
 
 {{/dtdd}}
 
 {{#dtdd "remove(userId, doc)"}}
 
-The user `userId` wants to remove `doc` from the database. Return
-`true` to permit this.
+El usuario `userId` quiere borrar `doc` de la base de datos. Retorna
+`true` para permitir esto.
 
 {{/dtdd}}
 
 </dl>
 
-When calling `update` or `remove` Meteor will by default fetch the
-entire document `doc` from the database. If you have large documents
-you may wish to fetch only the fields that are actually used by your
-functions. Accomplish this by setting `fetch` to an array of field
-names to retrieve.
+Cuando se llama `update` o `remove` Meteor por defecto extraerá el
+documento completo  `doc` de la base de datos. Si tiene documentos de gran tamaño
+podría desear extraer sólo los campos que sean realmente utilizadas por sus
+funciones. Lograr esto mediante el establecimiento de `fetch` a un array de nombres
+de campos por recuperar.
 
-Example:
+Ejemplo:
 
-    // Create a collection where users can only modify documents that
-    // they own. Ownership is tracked by an 'owner' field on each
-    // document. All documents must be owned by the user that created
-    // them and ownership can't be changed. Only a document's owner
-    // is allowed to delete it, and the 'locked' attribute can be
-    // set on a document to prevent its accidental deletion.
+    // Crea una colección donde los usuarios sólo puedan modificar documentos que
+    // que poseen.  La propiedad es rastreada por un campo 'owner' en cada
+    // documento. Todos los documentos deben ser propiedad del usuario que los creó
+    // y la propiedad no se puede cambiar. Sólo el propietario de un documento
+    // tiene permiso para eliminarlo, y el atributo 'locked'  se puede
+    // establecer en un documento para evitar su borrado accidental.
 
     Posts = new Meteor.Collection("posts");
 
     Posts.allow({
       insert: function (userId, doc) {
-        // the user must be logged in, and the document must be owned by the user
+        // El usuario debe estar registrado, y el documento debe ser propiedad del usuario
         return (userId && doc.owner === userId);
       },
       update: function (userId, doc, fields, modifier) {
-        // can only change your own documents
+        // sólo puede cambiar sus propios documentos
         return doc.owner === userId;
       },
       remove: function (userId, doc) {
-        // can only remove your own documents
+        // sólo puede cambiar sus propios documentos
         return doc.owner === userId;
       },
       fetch: ['owner']
@@ -906,57 +921,58 @@ Example:
 
     Posts.deny({
       update: function (userId, docs, fields, modifier) {
-        // can't change owners
+        // no se puede cambiar de propietario
         return _.contains(fields, 'owner');
       },
       remove: function (userId, doc) {
-        // can't remove locked documents
+        // no se puede eliminar documentos bloqueados
         return doc.locked;
       },
-      fetch: ['locked'] // no need to fetch 'owner'
+      fetch: ['locked'] // no hay necesidad de buscar "propietario"
     });
 
-If you never set up any `allow` rules on a collection then all client
-writes to the collection will be denied, and it will only be possible to
-write to the collection from server-side code. In this case you will
-have to create a method for each possible write that clients are allowed
-to do. You'll then call these methods with `Meteor.call` rather than
-having the clients call `insert`, `update`, and `remove` directly on the
-collection.
+Si nunca establece ninguna regla `allow` en una colección entonces que 
+cualquier cliente escriba en la colección se puede denegar, y sólo será posible 
+escribir en la colección con código del lado del servidor <i>server-side</i>. 
+En este caso, usted tendrá que crear un método para cada escritura posible que 
+los clientes tengan permitido hacer. Por consiguiente, llame a estos métodos con 
+`Meteor.call` en lugar de que los clientes llamen a `insert`, `update`, 
+y `remove` directamente en la colección.
 
-Meteor also has a special "insecure mode" for quickly prototyping new
-applications. In insecure mode, if you haven't set up any `allow` or `deny`
-rules on a collection, then all users have full write access to the
-collection. This is the only effect of insecure mode. If you call `allow` or
-`deny` at all on a collection, even `Posts.allow({})`, then access is checked
-just like normal on that collection. __New Meteor projects start in insecure
-mode by default.__ To turn it off just run `$ meteor remove insecure`.
+Meteor también tiene un especial "insecure mode" para el rápido prototipado 
+de nuevas aplicaciones. En el modo no seguro, si no se ha establecido ninguna
+regla `allow` o `deny` en una colección entonces todos lo usuarios tienen pleno
+acceso de escritura en la colección.
+then all users have full write access to the
+collection. Este es el único efecto del modo no seguro. Si llama `allow` o
+`deny` en todos en una colección, incluso `Posts.allow({})`, entonces el acceso 
+se comprueba justo de manera normal en esa colección.
+__Los nuevos projectos Meteor se inician en modo inseguro
+ por defecto.__ Para desactivarlo basta con ejecutar `$ meteor remove insecure`.
 
 {{> api_box deny}}
 
-This works just like [`allow`](#allow), except it lets you
-make sure that certain writes are definitely denied, even if there is an
-`allow` rule that says that they should be permitted.
-
-When a client tries to write to a collection, the Meteor server first
-checks the collection's `deny` rules. If none of them return true then
-it checks the collection's `allow` rules. Meteor allows the write only
-if no `deny` rules return `true` and at least one `allow` rule returns
-`true`.
+Esto funciona igual que [`allow`](#allow), excepto que le permite asegurarse de
+que ciertas escriuras son definitivamente denegadas, incluso si hay una regla
+`allow`  que dice que se debe permitir. Cuando un cliente intenta
+escribir en una colección, el servidor comprueba primero las reglas `deny` 
+de la colección. Si ninguna de ellas retorna <i>true</i> entonces se comprueban
+reglas `allow` de la colección. Meteor permite la escritura sólo si no hay
+reglas `deny` retorna `true` y al menos una regla `allow` retorna `true`.
 
 <h2 id="meteor_collection_cursor"><span>Cursors</span></h2>
 
-To create a cursor, use [`find`](#find).  To access the documents in a
-cursor, use [`forEach`](#foreach), [`map`](#map), or [`fetch`](#fetch).
+Para crear un cursor, utilice [`find`](#find).  Para acceder a los documentos en un
+cursor, utilice [`forEach`](#foreach), [`map`](#map), o [`fetch`](#fetch).
 
 {{> api_box cursor_foreach}}
 
-When called from a reactive computation, `forEach` registers dependencies on
-the matching documents.
+Cuando se llama desde una computación reactiva, `forEach` registra las dependencias 
+de los documentos coincidentes.
 
-Examples:
+Ejemplos:
 
-    // Print the titles of the five top-scoring posts
+    // Imprime los títulos de las cinco mensajes de puntuación superior
     var topPosts = Posts.find({}, {sort: {score: -1}, limit: 5});
     var count = 0;
     topPosts.forEach(function (post) {
@@ -966,24 +982,24 @@ Examples:
 
 {{> api_box cursor_map}}
 
-When called from a reactive computation, `map` registers dependencies on
-the matching documents.
-
-<!-- The following is not yet implemented, but users shouldn't assume
-     sequential execution anyway because that will break. -->
-On the server, if `callback` yields, other calls to `callback` may occur while
-the first call is waiting. If strict sequential execution is necessary, use
-`forEach` instead.
+Cuando se llama desde una computación reactiva, `map` registra las dependencias 
+de los documentos coincidentes.
+n
+<!-- Lo siguiente no se ha implementado todavía, pero los usuarios no deben asumir
+ejecución secuencial de todos modos porque romperá. -->
+En el servidor, si, `callback` cede, otras llamadas `callback` pueden ocurrir mientras 
+la primera llamada está esperando. Si una estricta ejecución secuencial es necesaria, 
+use `foreach` en su lugar.
 
 {{> api_box cursor_fetch}}
 
-When called from a reactive computation, `fetch` registers dependencies on
-the matching documents.
+Cuando se llama desde una computación reactiva, `fetch` registra las dependencias 
+de los documentos coincidentes.
 
 {{> api_box cursor_count}}
 
-    // Display a count of posts matching certain criteria. Automatically
-    // keep it updated as the database changes.
+    // Muestra un recuento de los mensajes que coincidan con determinados criterios. 
+    //Automaticamente  lo mantiene actualizado con los cmbios de la base de datos.
     var frag = Meteor.render(function () {
       var highScoring = Posts.find({score: {$gt: 10}});
       return "<p>There are " + highScoring.count() + " posts with " +
@@ -991,9 +1007,10 @@ the matching documents.
     });
     document.body.appendChild(frag);
 
-Unlike the other functions, `count` registers a dependency only on the
-number of matching documents.  (Updates that just change or reorder the
-documents in the result set will not trigger a recomputation.)
+A diferencia de las otras funciones, `count` registra una dependencia sólo 
+del número de documentos que coinciden. Las actualizaciones que acaban de cambiar
+o reordenar los documentos en el conjunto de resultados no dará lugar a una 
+recomputación.)
 
 {{> api_box cursor_rewind}}
 
