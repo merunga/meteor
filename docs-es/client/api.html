@@ -1009,34 +1009,35 @@ de los documentos coincidentes.
 
 A diferencia de las otras funciones, `count` registra una dependencia sólo 
 del número de documentos que coinciden. Las actualizaciones que acaban de cambiar
-o reordenar los documentos en el conjunto de resultados no dará lugar a una 
-recomputación.)
+o reordenar los documentos en el conjunto de resultados no dará lugar a un 
+recálculo.)
 
 {{> api_box cursor_rewind}}
 
-The `forEach`, `map`, or `fetch` methods can only be called once on a
-cursor.  To access the data in a cursor more than once, use `rewind` to
-reset the cursor.
+Los métodos `forEach`, `map`, or `fetch`  sólo pueden ser llamados una vez en un
+cursor. Para acceder a los datos en un cursor más de una vez, utilice 
+ `rewind` para restablecer el cursor.
 
 {{> api_box cursor_observe}}
 
-Establishes a *live query* that invokes callbacks when the result of
-the query changes. The callbacks receive the entire contents of the
-document that was affected, as well as its old contents, if
-applicable. If you only need to receive the fields that changed, Ver
-[`observeChanges`](#observe_changes).
+Establecer un *live query* que invoca <i>callbacks</i> cuando el resultado de la 
+consulta cambia. Los <i>callbacks</i> reciben todo el contenido del documento que 
+fue afectado, así como su contenido anterior, si procede. Si sólo necesita recibir
+los campos que han cambiado, ver [`observeChanges`](#observe_changes).
 
-`callbacks` may have the following functions as properties:
+Los `callbacks` pueden tener las siguientes funciones como propiedades: 
+
 
 <dl class="callbacks">
 <dt><span class="name">added(document)</span> <span class="or">or</span></dt>
 <dt><span class="name">addedAt(document, atIndex, before)</span></dt>
 <dd>
 {{#better_markdown}}
-A new document `document` entered the result set. The new document
-appears at position `atIndex`. It is immediately before the document
-whose `_id` is `before`. `before` will be `null` if the new document
-is at the end of the results.
+Un nuevo documento `document` ha entrado en el conjunto de resultados. 
+El nuevo documento aparece en la posición `atIndex`. inmediatamente antes 
+del documento cuya `_id` es `before`. `before` será `null` si el nuevo documento 
+está al final de los resultados. 
+
 {{/better_markdown}}
 </dd>
 
@@ -1045,8 +1046,8 @@ is at the end of the results.
 <dt><span class="name">changedAt(newDocument, oldDocument, atIndex)</span></dt>
 <dd>
 {{#better_markdown}}
-The contents of a document were previously `oldDocument` and are now
-`newDocument`. The position of the changed document is `atIndex`.
+El contenido de un documento previamente era `oldDocument` y ahora es 
+`newDocument`.  La posición del documento cambiado es `atIndex`.
 {{/better_markdown}}
 </dd>
 
@@ -1055,42 +1056,49 @@ The contents of a document were previously `oldDocument` and are now
 <dt><span class="name">removedAt(oldDocument, atIndex)</span></dt>
 <dd>
 {{#better_markdown}}
-The document `oldDocument` is no longer in the result set. It used to be at position `atIndex`.
+El documento `oldDocument` deja de estar en el conjunto de resultados.
+Lo que antes era la posición `atIndex`.
 {{/better_markdown}}
 </dd>
 
 {{#dtdd "movedTo(document, fromIndex, toIndex, before)"}}
-A document changed its position in the result set, from `fromIndex` to `toIndex`
-(which is before the document with id `before`). Its current contents is
+Un documento se cambia de posición en el conjunto de resultados, de
+ `fromIndex` a `toIndex`
+(Que está antes del documento con id  `before`). Sus contenido actual es
 `document`.
 {{/dtdd}}
 </dl>
 
-Use `added`, `changed`, and `removed` when you don't care about the
-order of the documents in the result set. They are more efficient than
-`addedAt`, `changedAt`, and `removedAt`.
+Utilice `added`, `changed`, y `removed` cuando no le preocupe el orden de 
+los documentos en el conjunto de resultados.
+when you don't care about the
+order of the documents in the result set. Estos son más eficientes que 
+`addedAt`, `changedAt`, y `removedAt`.
 
-Before `observe` returns, `added` (or `addedAt`) will be called zero
-or more times to deliver the initial results of the query.
+Antes de `observe` retornos, `added` (o `addedAt`) será llamado cero
+o más veces para entregar los primeros resultados de la consulta.
 
-`observe` returns a live query handle, which is an object with a `stop` method.
-Call `stop` with no arguments to stop calling the callback functions and tear
-down the query. **The query will run forever until you call this.**  If
-`observe` is called from a `Deps.autorun` computation, it is automatically
-stopped when the computation is rerun or stopped.
-(If the cursor was created with the option `reactive` set to false, it will
-only deliver the initial results and will not call any further callbacks;
-it is not necessary to call `stop` on the handle.)
+`observe` retorna un manejador de consulta en vivo, que es un objeto con un 
+método `stop`.
+Llamar `stop` sin argumentos detiene la llamada a las funciones <i>callback</i>  
+y desmonta la consulta. **La consulta se ejecutará para siempre hasta que usted 
+llame esto.** Si `observe`  se llama desde un cómputo `Deps.autorun`, se detiene 
+automáticamente cuando el cómputo se vuelve a ejecutar o esestablecido e detenido.
+(Si el cursor se creó con la opción `reactive` establecido en <i>false</i>, 
+sólo proporcionará los resultados iniciales y no llama a ningún adicional <i>callbacks</i>;
+no es necesario llamar `stop` en el manejador.)
 
 
 {{> api_box cursor_observe_changes}}
 
-Establishes a *live query* that invokes callbacks when the result of
-the query changes. In contrast to [`observe`](#observe),
-`observeChanges` provides only the difference between the old and new
-result set, not the entire contents of the document that changed.
+Establece un *live query* que invoca <i>callbacks</i> cuando el resultado 
+de la consulta cambia.
+the query changes. En contraste con [`observe`](#observe),
+`observeChanges` que proporciona sólo la diferencia entre el conjunto de 
+resultadosthe antiguos y nuevos, no todo el contenido del documento que ha cambiado.
 
-`callbacks` may have the following functions as properties:
+`callbacks` pueden tener la las siguientes funciones como propiedades:
+
 
 <dl class="callbacks">
 <dt><span class="name">added(id, fields)</span>
@@ -1098,55 +1106,54 @@ result set, not the entire contents of the document that changed.
 <dt><span class="name">addedBefore(id, fields, before)</span></dt>
 <dd>
 {{#better_markdown}}
-A new document entered the result set. It has the `id` and `fields`
-specified. `fields` contains all fields of the document excluding the
-`_id` field. The new document is before the document identified by
-`before`, or at the end if `before` is `null`.
+Un nuevo documento entró en el conjunto de resultados. Tiene
+el `id` y `fields` especificados. Contiene todos los campos del
+documento excluyendo el campo `_id`. El nuevo documento es anterior al
+documento identificado por `before`, o el último si `before` es `null`.
 {{/better_markdown}}
 </dd>
 
 {{#dtdd "changed(id, fields)"}}
-The document identified by `id` has changed. `fields` contains the
-changed fields with their new values. If a field was removed from the
-document then it will be present in `fields` with a value of
-`undefined`.
+El documento identificado por `id` ha cambiado. `fields` contiene los campos 
+modificados con sus nuevos valores. Si un campo se eliminó del documento entonces,
+éste estará presente en `fields` con un valor de `undefined`.
 {{/dtdd}}
 
 {{#dtdd "movedBefore(id, before)"}}
-The document identified by `id` changed its position in the ordered result set,
-and now appears before the document identified by `before`.
+El documento identificado por `id` ha cambiado su posición en el orden del conjunto 
+de resultados, y ahora aparece antes del documento identificado por `before`.
 {{/dtdd}}
 
 {{#dtdd "removed(id)"}}
-The document identified by `id` was removed from the result set.
+El documento identificado por `id` se eliminó del conjunto de resultados.
 {{/dtdd}}
 </dl>
 
-`observeChanges` is significantly more efficient if you do not use
-`addedBefore` or `movedBefore`.
+`observeChanges` es mucho más eficiente si no se utiliza
+`addedBefore` o `movedBefore`.
 
-Before `observeChanges` returns, `added` (or `addedBefore`) will be called
-zero or more times to deliver the initial results of the query.
+Antes de que `observeChanges` devuelva, `added` (o `addedBefore`) se llamará
+cero o más veces para proporcionar los resultados iniciales de la consulta.
 
-`observeChanges` returns a live query handle, which is an object with a `stop`
-method.  Call `stop` with no arguments to stop calling the callback functions
-and tear down the query. **The query will run forever until you call this.**
-If
-`observeChanges` is called from a `Deps.autorun` computation, it is automatically
-stopped when the computation is rerun or stopped.
-(If the cursor was created with the option `reactive` set to false, it will
-only deliver the initial results and will not call any further callbacks;
-it is not necessary to call `stop` on the handle.)
+`observeChanges` devuelve un manejador de consulta en vivo, que es un objeto con un
+método `stop`.
+Llamar `stop` sin argumentos detiene las llamadas de las funciones callback 
+y desmonta la consulta. **La consulta se ejecutará para siempre hasta que se llama esto.**
+Si `observeChanges` es llamado desde un cómputo `Deps.autorun`,  se detiene 
+automáticamente cuando el cómputo se vuelve a ejecutar o es detenido.
+(Si el cursor fué creado con la opción `reactive` establecida en <i>false</i>, 
+sólo proporcionará los resultados iniciales y no llama a ningún adicional <i>callbacks</i>;
+no es necesario llamar `stop` en el manejador.)
 
 {{#note}}
-Unlike `observe`, `observeChanges` does not provide absolute position
-information (that is, `atIndex` positions rather than `before`
-positions.) This is for efficiency.
+A diferencia de `observe`, `observeChanges` no proporciona información de la posición 
+absoluta. (eso es, la posición `atIndex` en vez de la posición `before`.) Esto es por 
+eficiencia.
 {{/note}}
 
-Example:
+Ejemplo:
 
-    // Keep track of how many administrators are online.
+    //Mantener un seguimiento de cuántos administradores hay online.
     var count = 0;
     var query = Users.find({admin: true, onlineNow: true});
     var handle = query.observeChanges({
@@ -1160,75 +1167,76 @@ Example:
       }
     });
 
-    // After five seconds, stop keeping the count.
+    // Después de cinco segundos, deja de mantener el recuento.
     setTimeout(function () {handle.stop();}, 5000);
 
 {{> api_box collection_object_id}}
 
-`Meteor.Collection.ObjectID` follows the same API as the [Node MongoDB driver
+`Meteor.Collection.ObjectID` sigue la misma API que el [Node MongoDB driver
 `ObjectID`](http://mongodb.github.com/node-mongodb-native/api-bson-generated/objectid.html)
-class. Note that you must use the `equals` method (or [`EJSON.equals`](#ejson_equals)) to
-compare them; the `===` operator will not work. If you are writing generic code
-that needs to deal with `_id` fields that may be either strings or `ObjectID`s, use
-[`EJSON.equals`](#ejson_equals) instead of `===` to compare them.
+class. Tenga en cuenta que debe utilizar el método `equals`  (o [`EJSON.equals`](#ejson_equals)) para
+compararlos; the `===` operator no funcionará. Si va a escribir código genérico que tiene que lidiar 
+con campos `_id` que pueden ser cualquier cadena o `ObjectID`s, utilize
+[`EJSON.equals`](#ejson_equals) en vez de  `===` para compararlos.
 
 {{#note}}
-  `ObjectID` values created by Meteor will not have meaningful answers to their `getTimestamp`
-  method, since Meteor currently constructs them fully randomly.
+  Los valores `ObjectID` creados por Meteor no tienen respuestas significativas a su método `getTimestamp`
+  ya que actualmente Meteor los construye completamente al azar.
 {{/note}}
 
 {{#api_box_inline selectors}}
 
-In its simplest form, a selector is just a set of keys that must
-match in a document:
+En su forma más simple, un selector es sólo un conjunto de claves que deben coincidir
+en un documento:
 
-    // Matches all documents where deleted is false
+    // Coincide con todos los documentos donde eliminado es <i>false</i>
     {deleted: false}
 
-    // Matches all documents where the name and cognomen are as given
+    // Coincide con todos los documentos donde el nombre y apellido son dados.
     {name: "Rhialto", cognomen: "the Marvelous"}
 
-    // Matches every document
+    // Coincide con todos los documentos.
     {}
 
-But they can also contain more complicated tests:
+Pero también puede contener pruebas más complicadas: 
 
-    // Matches documents where age is greater than 18
+    // Coincide con documentos donde la edad es mayor de 18
     {age: {$gt: 18}}
 
-    // Also matches documents where tags is an array containing "popular"
+    // También coincide con documentos donde <i>tags</i> es un <i>array</i> que contiene "popular"
     {tags: "popular"}
 
-    // Matches documents where fruit is one of three possibilities
+    // Coincide con documentos donde fruta es una de tres posibilidades
     {fruit: {$in: ["peach", "plum", "pear"]}}
 
-Ver the [complete
-documentation](http://www.mongodb.org/display/DOCS/Advanced+Queries).
+Ver la [documentación 
+ completa](http://www.mongodb.org/display/DOCS/Advanced+Queries).
 
 {{/api_box_inline}}
 
 {{#api_box_inline modifiers}}
 
-A modifier is an object that describes how to update a document in
-place by changing some of its fields. Some examples:
+ Un modificador es un objeto que describe cómo actualizar un documento 
+ en lugar de cambiar algunos de sus campos. 
+ Algunos ejemplos:
 
-    // Set the 'admin' property on the document to true
+    // Establece la propiedad 'admin' en el documento a <i>true</i>
     {$set: {admin: true}}
 
-    // Add 2 to the 'votes' property, and add "Traz"
-    // to the end of the 'supporters' array
+    // Añade 2 a la propiedad 'votes' y añade "Traz"
+    // al final del <i>array</i> 'supporters' 
     {$inc: {votes: 2}, $push: {supporters: "Traz"}}
 
-But if a modifier doesn't contain any $-operators, then it is instead
-interpreted as a literal document, and completely replaces whatever was
-previously in the database. (Literal document modifiers are not currently
-supported by [validated updates](#allow).)
+Sin embargo, si un modificador no contiene ningún $-operators, entonces en su lugar 
+se interpreta como un documento literal, y reemplaza por completo lo que estaba 
+previamente en la base de datos. ( Modificadores literales del documento no están 
+actualmente soportados por [validated updates](#allow).)
 
-    // Find the document with id "123", and completely replace it.
+    // Buscar el documento con id "123", y reemplazarlo completamente.
     Users.update({_id: "123"}, {name: "Alice", friends: ["Bob"]});
 
-Ver the [full list of
-modifiers](http://www.mongodb.org/display/DOCS/Updating#Updating-ModifierOperations).
+Ver la [lista completa de
+modificadores](http://www.mongodb.org/display/DOCS/Updating#Updating-ModifierOperations).
 
 {{/api_box_inline}}
 
