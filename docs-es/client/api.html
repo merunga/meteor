@@ -97,7 +97,7 @@ Estos métodos son proporcionados por `this` en la función de publicación.
 
 <!-- TODO discuss ready -->
 
-Example:
+Ejemplo:
 
     // server: publish the current size of a collection
     Meteor.publish("counts-by-room", function (roomId) {
@@ -1242,72 +1242,72 @@ modificadores](http://www.mongodb.org/display/DOCS/Updating#Updating-ModifierOpe
 
 {{#api_box_inline sortspecifiers}}
 
-Sorts may be specified using your choice of several syntaxes:
+Sorts puede ser specificado usando varias opciones de sintaxis:
 
-    // All of these do the same thing (sort in ascending order by
-    // key "a", breaking ties in descending order of key "b")
+    // Todo esto hace la misma cosa thing (ordena en orden ascendente por 
+    // la clave  "a", rompiendo lazos en orden descendente de la clave "b")
 
     [["a", "asc"], ["b", "desc"]]
     ["a", ["b", "desc"]]
     {a: 1, b: -1}
 
-The last form will only work if your JavaScript implementation
-preserves the order of keys in objects. Most do, most of the time, but
-it's up to you to be sure.
+La última forma sólo funcionará si su aplicación JavaScript
+conserva el orden de las claves en objetos. 
+La mayoría lo hacen, la mayoría de
+el tiempo, pero depende de usted para estar seguro. 
 
 {{/api_box_inline}}
 
 {{#api_box_inline fieldspecifiers}}
 
-On the server, queries can specify a particular set of fields to include
-or exclude from the result object.  (The field specifier is currently
-ignored on the client.)
+En el servidor, las consultas pueden especificar una determinado conjunto de campos 
+para incluir o excluir del objeto resultado. (El especificador de campo se ignora actualmente en el cliente.)
 
-To exclude certain fields from the result objects, the field specifier
-is a dictionary whose keys are field names and whose values are `0`.
+Para excluir ciertos campos de los objetos resultado, el especificador de campo es un
+diccionario cuyas claves son los nombres de campos y cuyos valores son  `0`.
 
     // Users.find({}, {fields: {password: 0, hash: 0}})
 
-To return an object that only includes the specified field, use `1` as
-the value.  The `_id` field is still included in the result.
+ para devolver un objeto que sólo incluye el campo especificado, utilice `1` 
+ como valor. El campo `_id` aún se incluye en el resultado.
 
     // Users.find({}, {fields: {firstname: 1, lastname: 1}})
 
-It is not possible to mix inclusion and exclusion styles.
+No es posible mezclar estilos de inclusión y exclusión.
 
 {{/api_box_inline}}
 
 <h2 id="session"><span>Session</span></h2>
 
-`Session` provides a global object on the client that you can use to
-store an arbitrary set of key-value pairs. Use it to store things like
-the currently selected item in a list.
+`Session` proporciona un objeto global en el cliente que puede utilizar para
+almacenar un conjunto arbitrario de pares clave-valor. Utilizelo para almacenar 
+cosas como el elemento actualmente seleccionado en una lista.
 
-What's special about `Session` is that it's reactive. If
-you call [`Session.get`](#session_get)`("currentList")`
-from inside a template, the template will automatically be rerendered
-whenever [`Session.set`](#session_set)`("currentList", x)` is called.
+¿Qué tiene de especial `Session` es que es reactivo. Si 
+llama [`Session.get`](#session_get)`("currentList")`
+desde el interior de una plantilla, la plantilla automaticamente se revisualizará
+cada vez que se llame [`Session.set`](#session_set)`("currentList", x)`.
 
 {{> api_box set}}
 
-Example:
+Ejemplo:
 
     Deps.autorun(function () {
       Meteor.subscribe("chat-history", {room: Session.get("currentRoomId")});
     });
 
-    // Causes the function passed to Deps.autorun to be re-run, so
-    // that the chat-history subscription is moved to the room "home".
+    // Hace que la función pasada a Deps.autorun se reejecute, por lo 
+    // que la suscripción de <i>chat-history</i> se mueva a la sala "home".
     Session.set("currentRoomId", "home");
 
 {{> api_box setDefault}}
 
-This is useful in initialization code, to avoid re-initializing a session
-variable every time a new version of your app is loaded.
+Esto es útil en el código de inicialización, para evitar volver a inicializar una
+variable de sesión cada vez que una nueva versión de su aplicación se cargue.
 
 {{> api_box get}}
 
-Example:
+Ejemplo:
 
     Session.set("enemy", "Eastasia");
     var frag = Meteor.render(function () {
@@ -1323,20 +1323,21 @@ Example:
 
 {{> api_box equals}}
 
-If value is a scalar, then these two expressions do the same thing:
+Si el valor es un escalar, entonces estas dos expresiones hacen la misma cosa: 
 
     (1) Session.get("key") === value
     (2) Session.equals("key", value)
 
-... but the second one is always better. It triggers fewer invalidations
-(template redraws), making your program more efficient.
+... pero el segundo es siempre mejor. Se dispara el menor número de invalidaciones
+(Se vuelve a dibujar la plantilla), haciendo su programa más eficiente.
 
-Example:
+Ejemplo:
 
     <template name="postsView">
-    {{dstache}}! Show a dynamically updating list of items. Let the user click on an
-        item to select it. The selected item is given a CSS class so it
-        can be rendered differently. }}
+    {{dstache}}! Muestra la actualización dinámica de una lista de elementos. 
+     {{! Deje que el usuario haga clic en un elemento para seleccionarlo.
+         Al elemento seleccionado se le da una clase CSS para que 
+         pueda ser mostrado de manera diferente. }}
 
     {{dstache}}#each posts}}
       {{dstache}}> postItem }}
@@ -1363,40 +1364,40 @@ Example:
       }
     });
 
-    // Using Session.equals here means that when the user clicks
-    // on an item and changes the selection, only the newly selected
-    // and the newly unselected items are re-rendered.
+    // El uso de Session.equals aquí significa que cuando el usuario clica
+    // en un item y cambia la selección, sólo los <i>items</i> recién seleccionado
+    // y el recién desseleccionado son re-visualizados.
     //
-    // If Session.get had been used instead of Session.equals, then
-    // when the selection changed, all the items would be re-rendered.
+    // Si Session.get había sido utilizado en lugar de Session.equals, entonces
+    // cuando la selección cambia, todos los items serán revisualizados.
 
-For object and array session values, you cannot use `Session.equals`; instead,
-you need to use the `underscore` package and write
+Para los valores de sesión de object y array, no puede utilizar `Session.equals`; en su lugar,
+usted necesita utilizar el paquete `underscore` y escribir
 `_.isEqual(Session.get(key), value)`.
 
 
 
 <h2 id="accounts_api"><span>Accounts</span></h2>
-
-The Meteor Accounts system builds on top of the `userId` support in
-[`publish`](#publish_userId) and [`methods`](#method_userId). The core
-packages add the concept of user documents stored in the database, and
-additional packages add [secure password
+ 
+El sistema <i>Meteor Accounts</i> construye en la parte superior de `userId` soporte a 
+[`publish`](#publish_userId) y [`methods`](#method_userId). Los paquetes principales 
+añaden el concepto de documentos usuario almacenado en la base de datos, y
+paquetes adicionales añaden [secure password
 authentication](#accounts_passwords), [integration with third party
-login services](#meteor_loginwithexternalservice), and a [pre-built user
+login services](#meteor_loginwithexternalservice), y un [pre-built user
 interface](#accountsui).
 
-The basic Accounts system is in the `accounts-base` package, but
-applications typically include this automatically by adding one of the
-login provider packages: `accounts-password`, `accounts-facebook`,
+El básico <i>Accounts system</i> está en el paquete `accounts-base`, pero
+las aplicaciones suelen incluir esto automaticamente mediante la adición de uno de los
+paquetes proveedores de <i>login</i>: `accounts-password`, `accounts-facebook`,
 `accounts-github`, `accounts-google`, `accounts-meetup`,
 `accounts-twitter`, or `accounts-weibo`.
 
 
 {{> api_box user}}
 
-Retrieves the user record for the current user from
-the [`Meteor.users`](#meteor_users) collection.
+Recupera el registro de usuario para el desde
+la colección [`Meteor.users`](#meteor_users).
 
 On the client, this will be the subset of the fields in the document that
 are published from the server (other fields won't be available on the
@@ -1408,7 +1409,7 @@ the fields used in user documents.
 
 {{> api_box users}}
 
-This collection contains one document per registered user. Here's an example
+This collection contains one document per registered user. Here's an Ejemplo
 user document:
 
     {
@@ -1416,7 +1417,7 @@ user document:
       username: "cool_kid_13", // unique name
       emails: [
         // each email address can only belong to one user.
-        { address: "cool@example.com", verified: true },
+        { address: "cool@Ejemplo.com", verified: true },
         { address: "another@different.com", verified: false }
       ],
       createdAt: 1349761684042,
@@ -1451,7 +1452,7 @@ treats the following fields specially:
 - `profile`: an Object which (by default) the user can create
   and update with any data.
 - `services`: an Object containing data used by particular
-  login services. For example, its `reset` field contains
+  login services. For Ejemplo, its `reset` field contains
   tokens used by [forgot password](#accounts_forgotpassword) links,
   and its `resume` field contains tokens used to keep you
   logged in between sessions.
@@ -1488,7 +1489,7 @@ their user document:
 
 {{> api_box loggingIn}}
 
-For example, [the `accounts-ui` package](#accountsui) uses this to display an
+For Ejemplo, [the `accounts-ui` package](#accountsui) uses this to display an
 animation while the login request is being processed.
 
 {{> api_box logout}}
@@ -1532,7 +1533,7 @@ your application before use. The easiest way to do this is with the
 [`accounts-ui` package](#accountsui) which presents a step-by-step guide
 to configuring each service. However, the data can be also be entered
 manually in the `Accounts.loginServiceConfiguration` collection. For
-example:
+Ejemplo:
 
     // first, remove configuration entry in case service is already configured
     Accounts.loginServiceConfiguration.remove({
@@ -1546,7 +1547,7 @@ example:
 
 
 Each external service has its own login provider package and login function. For
-example, to support GitHub login, run `$ meteor add accounts-github` and use the
+Ejemplo, to support GitHub login, run `$ meteor add accounts-github` and use the
 `Meteor.loginWithGithub` function:
 
     Meteor.loginWithGithub({
@@ -1563,7 +1564,7 @@ example, to support GitHub login, run `$ meteor add accounts-github` and use the
 {{> api_box accounts_config}}
 {{> api_box accounts_ui_config}}
 
-Example:
+Ejemplo:
 
     Accounts.ui.config({
       requestPermissions: {
@@ -1583,7 +1584,7 @@ throw an error, the new user creation is aborted. To set a specific error
 message (which will be displayed by [`accounts-ui`](#accountsui)), throw a new
 [`Meteor.Error`](#meteor_error).
 
-Example:
+Ejemplo:
 
     // Validate username, sending a specific error message on failure.
     Accounts.validateNewUser(function (user) {
@@ -1619,7 +1620,7 @@ The default create user function simply copies `options.profile` into
 the new user document. Calling `onCreateUser` overrides the default
 hook. This can only be called once.
 
-Example:
+Ejemplo:
 
 <!-- XXX replace d6 with _.random once we have underscore 1.4.2 -->
 
@@ -1757,10 +1758,10 @@ Override fields of the object by assigning to them:
    address.
 
 
-Example:
+Ejemplo:
 
     Accounts.emailTemplates.siteName = "AwesomeSite";
-    Accounts.emailTemplates.from = "AwesomeSite Admin <accounts@example.com>";
+    Accounts.emailTemplates.from = "AwesomeSite Admin <accounts@Ejemplo.com>";
     Accounts.emailTemplates.enrollAccount.subject = function (user) {
         return "Welcome to Awesome Town, " + user.profile.name;
     };
@@ -1855,7 +1856,7 @@ map format and how event handling works in Meteor.
 Each template has a local dictionary of helpers that are made available to it,
 and this call specifies helpers to add to the template's dictionary.
 
-Example:
+Ejemplo:
 
     Template.myTemplate.helpers({
       foo: function () {
@@ -1915,7 +1916,7 @@ and allows the selectors to match multiple nodes. The node-labeling
 function takes a node and returns a label string that is unique for each
 node, or `false` to exclude the node from preservation.
 
-For example, to preserve all `<input>` elements with ids in template 'foo', use:
+For Ejemplo, to preserve all `<input>` elements with ids in template 'foo', use:
 
     Template.foo.preserve({
       'input[id]': function (node) { return node.id; }
@@ -1934,7 +1935,7 @@ selection are left intact. Iframes retain their navigation state and
 animations continue to run as long as their parameters haven't changed.
 
 There are some cases where nodes can not be preserved because of
-constraints inherent in the DOM API. For example, an element's tag name
+constraints inherent in the DOM API. For Ejemplo, an element's tag name
 can't be changed, and it can't be moved relative to its parent or other
 preserved nodes.  For this reason, nodes that are re-ordered or
 re-parented by an update will not be preserved.
@@ -2026,7 +2027,7 @@ data sources used by that function. For more information, or to learn
 how to make your own reactive data sources, Ver
 [Reactivity](#reactivity).
 
-Example:
+Ejemplo:
 
     // Client side: show the number of players online.
     var frag = Meteor.render(function () {
@@ -2047,7 +2048,7 @@ of a database query change. Most Meteor apps use `{{dstache}}#each}}` in
 a template instead of calling this directly.
 
 `renderList` is more efficient than using `Meteor.render` to render HTML
-for a list of documents.  For example, if a new document is created in
+for a list of documents.  For Ejemplo, if a new document is created in
 the database that matches the query, a new item will be rendered and
 inserted at the appropriate place in the DOM without re-rendering the
 other elements.  Similarly, if a document changes position in a sorted
@@ -2062,7 +2063,7 @@ Each call to `docFunc` or `elseFunc` is run in its own reactive
 computation so that if it has other external data dependencies, it will be
 individually re-run when the data changes.
 
-Example:
+Ejemplo:
 
     // List the titles of all of the posts that have the tag
     // "frontpage". Keep the list updated as new posts are made, as tags
@@ -2114,7 +2115,7 @@ event.  In a Handlebars template, an element's context is the
 Handlebars data context where that element occurs, which is set by
 block helpers such as `#with` and `#each`.
 
-Example:
+Ejemplo:
 
     {
       // Fires when any element is clicked
@@ -2128,7 +2129,7 @@ Example:
     }
 
 Most events bubble up the document tree from their originating
-element.  For example, `'click p'` catches a click anywhere in a
+element.  For Ejemplo, `'click p'` catches a click anywhere in a
 paragraph, even if the click originated on a link, span, or some other
 element inside the paragraph.  The originating element of the event
 is available as the `target` property, while the element that matched
@@ -2142,7 +2143,7 @@ the selector and is currently handling it is called `currentTarget`.
     }
 
 If a selector matches multiple elements that an event bubbles to, it
-will be called multiple times, for example in the case of `'click
+will be called multiple times, for Ejemplo in the case of `'click
 div'` or `'click *'`.  If no selector is given, the handler
 will only be called once, on the original target element.
 
@@ -2337,7 +2338,7 @@ Unlike most other systems, you don't have to manually declare these
 dependencies &mdash; it "just works". The mechanism is simple and
 efficient. When you call a function that supports reactive updates
 (such as a database query), it automatically saves the current
-Computation object, if any (representing, for example, the current
+Computation object, if any (representing, for Ejemplo, the current
 template being rendered).  Later, when the data changes, the function
 can "invalidate" the Computation, causing it to rerun (rerendering the
 template).
@@ -2353,7 +2354,7 @@ reactive data sources.
 sources, in such a way that if there are changes to the data later,
 the function will be rerun.
 
-For example, you can monitor a cursor (which is a reactive data
+For Ejemplo, you can monitor a cursor (which is a reactive data
 source) and aggregate it into a session variable:
 
     Deps.autorun(function () {
@@ -2406,7 +2407,7 @@ won't go changing out from under your code as it runs. It's also one
 of the things that makes Meteor fast.
 
 `Deps.flush` forces all of the pending reactive updates to complete.
-For example, if an event handler changes a Session
+For Ejemplo, if an event handler changes a Session
 variable that will cause part of the user interface to rerender, the
 handler can call `flush` to perform the rerender immediately and then
 access the resulting DOM.
@@ -2498,7 +2499,7 @@ code finishes running, or sooner if `Deps.flush` is called.
 Stopping a computation invalidates it (if it is valid) for the purpose
 of calling callbacks, but ensures that it will never be rerun.
 
-Example:
+Ejemplo:
 
     // if we're in a computation, then perform some clean-up
     // when the current computation is invalidated (rerun or
@@ -2574,7 +2575,7 @@ invalidated.
 Dependencies don't store data, they just track the set of computations to
 invalidate if something changes.  Typically, a data value will be
 accompanied by a Dependency object that tracks the computations that depend
-on it, as in this example:
+on it, as in this Ejemplo:
 
     var weather = "sunny";
     var weatherDep = new Deps.Dependency;
@@ -2591,7 +2592,7 @@ on it, as in this example:
       weatherDep.changed();
     };
 
-This example implements a weather data source with a simple getter and
+This Ejemplo implements a weather data source with a simple getter and
 setter.  The getter records that the current computation depends on
 the `weatherDep` dependency using `depend()`, while the setter
 signals the dependency to invalidate all dependent computations by
@@ -2599,7 +2600,7 @@ calling `changed()`.
 
 The reason Dependencies do not store data themselves is that it can be
 useful to associate multiple Dependencies with the same piece of data.
-For example, one Dependency might represent the result of a database
+For Ejemplo, one Dependency might represent the result of a database
 query, while another might represent just the number of documents in
 the result.  A Dependency could represent whether the weather is sunny
 or not, or whether the temperature is above freezing.
@@ -2638,10 +2639,10 @@ types, as well as:
  - **Date** (JavaScript `Date`)
  - **Binary** (JavaScript `Uint8Array` or the
    result of [`EJSON.newBinary`](#ejson_new_binary))
- - **User-defined types** (Ver [`EJSON.addType`](#ejson_add_type).  For example,
+ - **User-defined types** (Ver [`EJSON.addType`](#ejson_add_type).  For Ejemplo,
  [`Meteor.Collection.ObjectID`](#collection_object_id) is implemented this way.)
 
-All EJSON serializations are also valid JSON.  For example an object with a date
+All EJSON serializations are also valid JSON.  For Ejemplo an object with a date
 and a binary buffer would be serialized in EJSON as:
 
     {
@@ -2708,7 +2709,7 @@ the following properties:
 {{> api_box ejsonTypeName}}
 {{> api_box ejsonTypeToJSONValue}}
 
-For example, the `toJSONValue` method for
+For Ejemplo, the `toJSONValue` method for
 [`Meteor.Collection.ObjectID`](#collection_object_id) could be:
 
     function () {
@@ -2742,7 +2743,7 @@ an absolute URL including protocol and host name on the server, but may be
 relative to the current host on the client.  The `query` option
 replaces the query string of `url`.  Parameters specified in `params`
 that are put in the URL are appended to any query string.
-For example, with a `url` of `"/path?query"` and
+For Ejemplo, with a `url` of `"/path?query"` and
 `params` of `{foo:"bar"}`, the final URL will be `"/path?query&foo=bar"`.
 
 The `params` are put in the URL or the request body, depending on the
@@ -2787,7 +2788,7 @@ Contents of the result object:
 
 </dl>
 
-Example server method:
+Ejemplo server method:
 
     Meteor.methods({checkTwitter: function (userId) {
       this.unblock();
@@ -2798,7 +2799,7 @@ Example server method:
       return false;
     }});
 
-Example asynchronous HTTP call:
+Ejemplo asynchronous HTTP call:
 
     Meteor.http.call("POST", "http://api.twitter.com/xyz",
                      {data: {some: "json", stuff: 1}},
@@ -2837,7 +2838,7 @@ If `MAIL_URL` is not set (ej, when running your application locally),
 You must provide the `from` option and at least one of `to`, `cc`, and `bcc`;
 all other options are optional.
 
-`Email.send` only works on the server. Here is an example of how a
+`Email.send` only works on the server. Here is an Ejemplo of how a
 client could use a server method call to send an email. (In an actual
 application, you'd need to be careful to limit the emails that a
 client could send, to prevent your server from being used as a relay
@@ -2861,8 +2862,8 @@ by spammers.)
 
     // In your client code: asynchronously send an email
     Meteor.call('sendEmail',
-                'alice@example.com',
-                'bob@example.com',
+                'alice@Ejemplo.com',
+                'bob@Ejemplo.com',
                 'Hello from Meteor!',
                 'This is a test of Email.send.');
 
