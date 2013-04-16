@@ -1,34 +1,34 @@
 <template name="pkg_random">
 {{#better_markdown}}
 ## `random`
-
-The `random` package provides several functions for generating random
-numbers. It uses a Meteor-provided random number generator that does not depend
-on the browser's facilities.
+ñáéíóú
+El paquete `random` proveé diversas funciones para generar números
+aleatorios. Usa un número aleatorio provisto por Meteor que no depende
+de las (facilities) del navegador.
 
 <dl class="callbacks">
 {{#dtdd "Random.id()"}}
-Returns a unique identifier, such as `"Jjwjg6gouWLXhMGKW"`, that is likely to
-be unique in the whole world.
+Devuelve un identificador único, por ejemplo `"Jjwjg6gouWLXhMGKW"`, que es
+probable que sea único en todo el mundo.
 {{/dtdd}}
 
 {{#dtdd "Random.fraction()"}}
-Returns a number between 0 and 1, like `Math.random`.
+Devuelve un número entre 0 y 1, como `Math.random`.
 {{/dtdd}}
 
 {{#dtdd "Random.choice(arrayOrString)"}}
-Returns a random element of the given array or string.
+Devuelve un elemento aleatorio del array o string provisto.
 {{/dtdd}}
 
 {{#dtdd "Random.hexString(n)"}}
-Returns a random string of `n` hexadecimal digits.
+Devuelve un string aleatorio con `n` dígitos hexadecimales.
 {{/dtdd}}
 </dl>
 
 {{#note}}
-In the current implementation, random values do not come from a
-cryptographically strong pseudorandom number generator. Future releases will
-improve this, particularly on the server.
+En la implementación actual, los números aleatorios no provienen de un
+generador de números pseudoaleatorio criptográficamente fuerte. En futuras
+versiones se mejorará, particularmente en el servidor.
 {{/note}}
 {{/better_markdown}}
 </template>
