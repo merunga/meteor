@@ -2,24 +2,24 @@
 {{#better_markdown}}
 ## `coffeescript`
 
-[CoffeeScript](http://coffeescript.org/) is a little language that
-compiles into JavaScript. It provides a simple syntax without lots of
-braces and parentheses.  The code compiles one-to-one into the
-equivalent JS, and there is no interpretation at runtime.
+[CoffeeScript](http://coffeescript.org/) es un pequeño lenguaje que
+compila a JavaScript. Proveé una sintaxis simple sin muchas llaves
+o paréntesis. El código compila uno a uno en su equivalente JS,
+y no hay interpretación durante la ejecución.
 
-CoffeeScript is supported on both the client and the server. Files
-ending with `.coffee` or `.litcoffee` are automatically compiled to
-JavaScript.
+CoffeeScript esta soportado tanto en el cliente como en el servidor.
+Los archivos terminados en '.coffee' o '.litcoffee' son automáticamente
+compilados a JavaScript.
 
-Global variables can be set in CoffeeScript by using `this` (or CoffeeScript's
-`@` shorthand), because at the top level `this` refers to the global namespace
-(`window` on the client and
-[`global`](http://nodejs.org/api/globals.html#globals_global) on the server).
-Thus
+Las variables globales pueden ser definidas en CoffeeScript mediante el uso
+de `this` (o el atajo `@` de CoffeeScript), ya que en el nivel superior
+`this` hace referencia al namespace global (`window` en el cliente y
+[`global`](http://nodejs.org/api/globals.html#globals_global) en el servidor).
+En consequencia
 
     @myFunction = -> 123
 
-at the top level sets the global variable `myFunction`.
+define la variable global `myFunction` en el nivel superior.
 
 {{/better_markdown}}
 </template>
