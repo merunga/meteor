@@ -20,10 +20,10 @@ En un servidor, la función se ejecutará tan pronto como el proceso del servido
 ha terminado de iniciarse. En un cliente, la función se ejecutará tan pronto como 
 el DOM esté listo.
 
-Los callbacks de `inicio` son llamados en el mismo orden que se hicieron 
+Los <i>callbacks</i> de `inicio` son llamados en el mismo orden que se hicieron 
 las llamadas a `Meteor.startup`.
 
-En un cliente, los callbacks de `startup` desde paquetes inteligentes será llamado 
+En un cliente, los <i>callbacks</i> de `startup` desde paquetes inteligentes será llamado 
 primero, seguido de las `<body>` templates de sus archivos `.html`,
 seguido por el código de su aplicación. 
 
@@ -117,7 +117,7 @@ Ejemplo:
         // don't care about moved or changed
       });
 
-      // Observe only returns after the initial added callbacks have
+      // Observe only returns after the initial added <i>callbacks</i> have
       // run.  Now return an initial value and mark the subscription
       // as ready.
       initializing = false;
@@ -173,7 +173,7 @@ manejador de publicación, esto es el lugar para detener <i>observes</i>.
 Cuando se suscribe a un conjunto de registros, le dice al servidor que envie 
 información al cliente. El cliente almacena estos archivos en local [Minimongo
 collections](#meteor_collection), con el mismo nombre que el argumento `collection`
-utilizado con el controlador de publicación los callbacks `added`, `changed`, and `removed`.  
+utilizado con el controlador de publicación los <i>callbacks</i> `added`, `changed`, and `removed`.  
 Meteor encolará atributos entrantes hasta que usted declare la
 [`Meteor.Collection`](#meteor_collection) en el cliente con el
 correspondiente nombre de la colección.
@@ -190,15 +190,15 @@ correspondiente nombre de la colección.
 El cliente verá un documento si el documento se encuentra actualmente 
 en el conjunto de registros publicados de cualquiera de sus suscripciones.
 
-El callback `onReady`  es llamado sin argumentos cuando
+El <i>callback</i> `onReady`  es llamado sin argumentos cuando
 el servidor [marca la suscripción como <i>onReady</i>](#publish_ready). 
-El callback `onError`  es llamado con un [`Meteor.Error`](#meteor_error) 
+El <i>callback</i> `onError`  es llamado con un [`Meteor.Error`](#meteor_error) 
 si la suscripción falla o es terminada por el servidor.
 
 `Meteor.subscribe` devuelve un identificador de suscripción, que es un objeto
 con los siguientes métodos:
 
-<dl class="callbacks">
+<dl class="<i>callbacks</i>">
 {{#dtdd "stop()"}}
 Cancelar la suscripción. Esto normalmente se traducirá
 en el servidor dirigiendose al cliente para eliminar los datos de la suscripción
@@ -346,11 +346,11 @@ también [`Meteor.apply`](#meteor_apply), que es idéntico a `Meteor.call` excep
 usted specifique los parametros como un <i>array</i> en lugar de como argumentos 
 separados y puede especificar varias opciones controlando cómo se ejecuta el método.)
 
-Si usted incluye una función callback como último argumento (que no puede ser un 
+Si usted incluye una función <i>callback</i> como último argumento (que no puede ser un 
 argumento para el método, ya que las funciones no son serializables),
 el método se ejecutará de forma asíncrona: no retornará nada en particular 
 y no lanzará una excepción. Cuando el método se haya completado (que puede 
-o no puede suceder antes de que `Meteor.call` retorne), el callback se invocará
+o no puede suceder antes de que `Meteor.call` retorne), el <i>callback</i> se invocará
 con dos argumentos: `error` and `result`. Si un error fue lanzado, entonces
 `error` será el objeto excepción. De lo contrario, `error` será indefinido y
 el valor de retorno (posiblemente indefinido, <i>undefined</i>) estará en `result`.
@@ -379,11 +379,11 @@ método, el otro método no es ejecutado (RPC no se genera, nada
 "real" sucede). Si ese otro método tiene un <i>stub</i>, ese <i>stub</i> sustituye al 
 del método y se ejecuta. El valor de retorno de la llamada al método es el valor de retorno 
 de la función stub.  El cliente no tiene nungún problema en la ejecución de un <i>stub</i> 
-sincrónicamente, y es por eso que está bien que el cliente utilize la forma sincrona 
+sincrónicamente, y es por eso que está bien que el cliente utilice la forma sincrona 
 `Meteor.call` dentro de un cuerpo de método, como se describió anteriormente.
 
 Meteor hace un seguimiento en la base de datos de las escrituras realizadas por métodos,
-tanto en el cliente como en el servidor, y no invoca `asyncCallback` 
+tanto en el cliente como en el servidor, y no invoca `async<i>callback</i>` 
 hasta que todas las escrituras en el servidor reemplazan las escrituras del stub's
 en la <i>caché</i> local. En algunos casos, puede haber un retraso entre el valor devuelto 
 por el método que está disponible y las escrituras que son visibles: por ejemplo, si otro 
@@ -441,7 +441,7 @@ El valor de retorno es un objeto con los siguientes campos:
 {{/dtdd}}
 </dl>
 
-En vez de utilizar callbacks para notificarle los cambios, esto es
+En vez de utilizar <i>callbacks</i> para notificarle los cambios, esto es
 una fuente de datos [reactive](#reactivity). Se puede utilizar en un
 [template](#templates) o [computation](#deps_autorun)
 para obtener actualizaciones en tiempo real.
@@ -530,7 +530,7 @@ Especificamente, cuando usted pasa un `name`, esto es lo que sucede:
 
 * En el servidor, una colección con este nombre se crea en un servidor <i>back-end</i> Mongo. 
 Cuando llame métodos en esta colección en el servidor,
- When you call methods on that collection on the server,
+ When you call methods on that collection en el servidor,
 se traducen directamente en las operaciones normales de Mongo (después de comprobar 
 que coinciden con sus [reglas de control de acceso](#allow)).
 
@@ -587,7 +587,7 @@ colección deben ser publicados y para que usuarios.
 
 Si especifica una opción `transform` a la `Collection` o cualquiera de sus
 métodos de recuperación, los documentos se pasan a través de la función `transform` 
-antes de ser retornados o pasados a los <i>callbacks</i>. Esto le permite añadir métodos 
+antes de ser retornados o pasados a los <i><i>callbacks</i></i>. Esto le permite añadir métodos 
 o por otra parte modificar el contenido de su colección desde la representación de su 
 base de datos. También puede especificar `transform` en una determinada llamada a `find`, 
 `findOne`, `allow`, o `deny`.
@@ -656,7 +656,7 @@ valga la pena.
 o devuelve documentos.  Los cursores proporcionan `fetch` para retornar 
 todos los documentos coincidentes, `map` y `forEach` para iterar sobre 
 todos los documentos coincidentes, y `observe` y `observeChanges` 
-para registrar callbacks cuando el conjunto de documentos coincidente cambia.
+para registrar <i>callbacks</i> cuando el conjunto de documentos coincidente cambia.
 
 {{#warning}}
 La colección de cursores no son instantáneas de la consulta.  Si la base de 
@@ -691,9 +691,9 @@ regla aplicable [`allow`](#allow) y [`deny`](#deny).
 
 En el servidor, si no proporciona un <i>callback</i>, entonces  `insert` bloques
 que la base de datos reconozca la escritura, o se produzca una excepción si
-algo salió mal.  Si  proporciona un callback, `insert` sigue devolviendo 
+algo salió mal.  Si  proporciona un <i>callback</i>, `insert` sigue devolviendo 
 el ID de inmediato. Una vez que la inserción se completa (o falla),
-el callback es llamado con argumentos de error y resultado.  En caso de error,
+el <i>callback</i> es llamado con argumentos de error y resultado.  En caso de error,
 `result` es indefinido.  Si la insercion tiene éxito, `error` es
 indefinido y `result` es el nuevo ID de documento.
 
@@ -732,7 +732,7 @@ tales como controladores de eventos y un navegador con consola JavaScript.
 En el servidor, si usted no proporciona un <i>callback</i>,, entonces `update` se bloquea
 hasta que la base de datos reconoce la escritura, o lanza una excepción si algo salió mal.
 Si usted proporciona un <i>callback</i>,, `update` retorna immediatamente.  
-Una vez finalizada la actualización, el callback se llama con un único argumento de error en
+Una vez finalizada la actualización, el <i>callback</i> se llama con un único argumento de error en
 el caso de fallo, o sin argumentos si la actualización se ha realizado correctamente.
 
 En el cliente, `update` nunca bloquea.  Si usted no provee un <i>callback</i>
@@ -791,19 +791,19 @@ tales como controladores de eventos y un navegador con consola JavaScript.
   por sus `_id`. El documento es eliminado sólo después de comprobar cualquier
   regla aplicable [`allow`](#allow) y [`deny`](#deny).
   
-En el servidor, si usted no proporciona un callback, entonces `update` se bloquea
+En el servidor, si usted no proporciona un <i>callback</i>, entonces `update` se bloquea
 hasta que la base de datos reconoce la escritura, o lanza una excepción si algo salió mal.
-Si usted proporciona un callback, `update` retorna immediatamente.  
-Una vez finalizada la actualización, el callback se llama con un único argumento de error en
+Si usted proporciona un <i>callback</i>, `update` retorna immediatamente.  
+Una vez finalizada la actualización, el <i>callback</i> se llama con un único argumento de error en
 el caso de avería, o sin argumentos si la actualización se ha realizado correctamente.
 
 En el servidor, si usted no proporciona un <i>callback</i>, entonces `remove` se bloquea
 hasta que la base de datos reconoce la escritura, o lanza una excepción si algo salió mal.
 Si usted proporciona un <i>callback</i>, `remove` retorna immediatamente.  
-Una vez completado el borrado, the callback se llama con un único argumento de error en
+Una vez completado el borrado, the <i>callback</i> se llama con un único argumento de error en
 el caso de error, o sin argumentos si el borrado se ha realizado correctamente.
 
-En el cliente, `remove` nunca se bloquea.  Si usted no provee un callback
+En el cliente, `remove` nunca se bloquea.  Si usted no provee un <i>callback</i>
 y el borrado falla en el servidor, entonces Meteor registrará un <i>warning</i> en
 la consola.  Si  provee un <i>callback</i>,  Meteor llamará esa función con 
 un argumento error si hubiera un error, o sin argumentos si el borrado tuvo éxito.
@@ -832,7 +832,7 @@ Ejemplo de servidor:
 {{> api_box allow}}
 
 Cuando un cliente llama `insert`, `update`, o `remove` en una colección, los
-callbacks de las colecciones `allow` y [`deny`](#deny) se invocan en el
+<i>callbacks</i> de las colecciones `allow` y [`deny`](#deny) se invocan en el
 servidor para determinar si la escritura se debe permitir. Si al menos
 un <i>callback</i> `allow` permite la escritura, y ningún <i>callback</i> `deny` niega la
 escritura, entonces, se permite proceder con la escritura.
@@ -851,9 +851,9 @@ De lo contrario, debe devolver `false`, o nada en absoluto (`undefined`).
 En ese caso Meteor continuará buscando a través de cualquier otra regla de 
 la colección.
 
-Los <i>callbacks</i> disponibles son:
+Los <i><i>callbacks</i></i> disponibles son:
 
-<dl class="callbacks">
+<dl class="<i>callbacks</i>">
 {{#dtdd "insert(userId, doc)"}}
 El usuario `userId` quiere insertar el documento `doc` en la
 colección. Retorna `true` si esto debe ser permitido.
@@ -987,7 +987,7 @@ de los documentos coincidentes.
 n
 <!-- Lo siguiente no se ha implementado todavía, pero los usuarios no deben asumir
 ejecución secuencial de todos modos porque romperá. -->
-En el servidor, si, `callback` cede, otras llamadas `callback` pueden ocurrir mientras 
+En el servidor, si, `<i>callback</i>` cede, otras llamadas `<i>callback</i>` pueden ocurrir mientras 
 la primera llamada está esperando. Si una estricta ejecución secuencial es necesaria, 
 use `foreach` en su lugar.
 
@@ -1020,15 +1020,15 @@ cursor. Para acceder a los datos en un cursor más de una vez, utilice
 
 {{> api_box cursor_observe}}
 
-Establecer un *live query* que invoca <i>callbacks</i> cuando el resultado de la 
-consulta cambia. Los <i>callbacks</i> reciben todo el contenido del documento que 
+Establecer un *live query* que invoca <i><i>callbacks</i></i> cuando el resultado de la 
+consulta cambia. Los <i><i>callbacks</i></i> reciben todo el contenido del documento que 
 fue afectado, así como su contenido anterior, si procede. Si sólo necesita recibir
 los campos que han cambiado, ver [`observeChanges`](#observe_changes).
 
-Los `callbacks` pueden tener las siguientes funciones como propiedades: 
+Los `<i>callbacks</i>` pueden tener las siguientes funciones como propiedades: 
 
 
-<dl class="callbacks">
+<dl class="<i>callbacks</i>">
 <dt><span class="name">added(document)</span> <span class="or">or</span></dt>
 <dt><span class="name">addedAt(document, atIndex, before)</span></dt>
 <dd>
@@ -1085,22 +1085,22 @@ y desmonta la consulta. **La consulta se ejecutará para siempre hasta que usted
 llame esto.** Si `observe`  se llama desde un cómputo `Deps.autorun`, se detiene 
 automáticamente cuando el cómputo se vuelve a ejecutar o esestablecido e detenido.
 (Si el cursor se creó con la opción `reactive` establecido en <i>false</i>, 
-sólo proporcionará los resultados iniciales y no llama a ningún adicional <i>callbacks</i>;
+sólo proporcionará los resultados iniciales y no llama a ningún adicional <i><i>callbacks</i></i>;
 no es necesario llamar `stop` en el manejador.)
 
 
 {{> api_box cursor_observe_changes}}
 
-Establece un *live query* que invoca <i>callbacks</i> cuando el resultado 
+Establece un *live query* que invoca <i><i>callbacks</i></i> cuando el resultado 
 de la consulta cambia.
 the query changes. En contraste con [`observe`](#observe),
 `observeChanges` que proporciona sólo la diferencia entre el conjunto de 
 resultadosthe antiguos y nuevos, no todo el contenido del documento que ha cambiado.
 
-`callbacks` pueden tener la las siguientes funciones como propiedades:
+`<i>callbacks</i>` pueden tener la las siguientes funciones como propiedades:
 
 
-<dl class="callbacks">
+<dl class="<i>callbacks</i>">
 <dt><span class="name">added(id, fields)</span>
   <span class="or">or</span></dt>
 <dt><span class="name">addedBefore(id, fields, before)</span></dt>
@@ -1137,12 +1137,12 @@ cero o más veces para proporcionar los resultados iniciales de la consulta.
 
 `observeChanges` devuelve un manejador de consulta en vivo, que es un objeto con un
 método `stop`.
-Llamar `stop` sin argumentos detiene las llamadas de las funciones callback 
+Llamar `stop` sin argumentos detiene las llamadas de las funciones <i>callback</i> 
 y desmonta la consulta. **La consulta se ejecutará para siempre hasta que se llama esto.**
 Si `observeChanges` es llamado desde un cómputo `Deps.autorun`,  se detiene 
 automáticamente cuando el cómputo se vuelve a ejecutar o es detenido.
 (Si el cursor fué creado con la opción `reactive` establecida en <i>false</i>, 
-sólo proporcionará los resultados iniciales y no llama a ningún adicional <i>callbacks</i>;
+sólo proporcionará los resultados iniciales y no llama a ningún adicional <i><i>callbacks</i></i>;
 no es necesario llamar `stop` en el manejador.)
 
 {{#note}}
@@ -1176,7 +1176,7 @@ Ejemplo:
 `ObjectID`](http://mongodb.github.com/node-mongodb-native/api-bson-generated/objectid.html)
 class. Tenga en cuenta que debe utilizar el método `equals`  (o [`EJSON.equals`](#ejson_equals)) para
 compararlos; the `===` operator no funcionará. Si va a escribir código genérico que tiene que lidiar 
-con campos `_id` que pueden ser cualquier cadena o `ObjectID`s, utilize
+con campos `_id` que pueden ser cualquier cadena o `ObjectID`s, utilice
 [`EJSON.equals`](#ejson_equals) en vez de  `===` para compararlos.
 
 {{#note}}
@@ -1280,7 +1280,7 @@ No es posible mezclar estilos de inclusión y exclusión.
 <h2 id="session"><span>Session</span></h2>
 
 `Session` proporciona un objeto global en el cliente que puede utilizar para
-almacenar un conjunto arbitrario de pares clave-valor. Utilizelo para almacenar 
+almacenar un conjunto arbitrario de pares clave-valor. Utilícelo para almacenar 
 cosas como el elemento actualmente seleccionado en una lista.
 
 ¿Qué tiene de especial `Session` es que es reactivo. Si 
@@ -1637,124 +1637,119 @@ Ejemplo:
 <h2 id="accounts_passwords"><span>Passwords</span></h2>
 
 El paquete  `accounts-password` contiene un sistema completo para autenticación basado en contraseña.
-authentication. In addition to the basic username and password-based
-sign-in process, it also supports email-based sign-in including
-address verification and password recovery emails.
+Además del proceso básico Nombre de usuario e inicio de sesión basado en contraseña, también soporta
+inicio de sesión basado en email incluyendo verificación de direcciones y recuperación de contraeña 
+por <i>email</i>.
 
-Unlike most web applications, the Meteor client does not send the user's
-password directly to the server. It uses the [Secure Remote Password
+A diferencia de la mayoría de  web applications, aplicaciones web, el cliente Meteor no envía 
+la contraseña del usuario directamente al servidor. Se utiliza el [Secure Remote Password
 protocol](http://en.wikipedia.org/wiki/Secure_Remote_Password_protocol)
-to ensure the server never Vers the user's plain-text password. This
-helps protect against embarrassing password leaks if the server's
-database is compromised.
+para garantizar que el servidor nunca ve la contraseña del usuario en texto plano. Esto
+ayuda a proteger contra fugas embarazosas de contraseñas si la base de datos del servidor
+se ve comprometida.
 
-To add password support to your application, run `$ meteor add
-accounts-password`. You can construct your own user interface using the
-functions below, or use the [`accounts-ui` package](#accountsui) to
-include a turn-key user interface for password-based sign-in.
+Para agregar soporte de password a su aplicación, ejecute `$ meteor add
+accounts-password`. Usted puede construir su propio interfaz de usuario utilizando
+las funciones de abajo, o utilizar el [`accounts-ui` package](#accountsui) para
+incluir una llave en la interfaz de usuario para un registro basado en contraseña.
 
 
 {{> api_box accounts_createUser}}
 
-On the client, this function logs in as the newly created user on
-successful completion. On the server, it returns the newly created user
-id.
+Esta función inicia la sesión como el nuevo usuario creado  que
+a finalizdo con éxito. En el servidor, devuelve el <i>id</i> del nuevo usuario creado.
 
-On the client, you must pass `password` and one of `username` or `email`
-&mdash; enough information for the user to be able to log in again
-later. On the server, you can pass any subset of these options, but the
-user will not be able to log in until it has an identifier and a
-password.
+En el cliente, debe pasar  `password` y un `username` o `email`
+&mdash; información suficiente para que el usuario pueda acceder de nuevo más 
+tarde. En el servidor, puede pasar cualquier subconjunto de estas opciones, pero el
+usuario no será capaz de iniciar sesión hasta que tenga un identificador y una contraseña.
 
-To create an account without a password on the server and still let the
-user pick their own password, call `createUser` with the `email` option
-and then
-call [`Accounts.sendEnrollmentEmail`](#accounts_sendenrollmentemail). This
-will send the user an email with a link to set their initial password.
+Para crear una cuenta sin contraseña en el servidor y todavía permitir al
+usuario elegir su propia contraseña, llame `createUser` con la opción `email` 
+y luego llame [`Accounts.sendEnrollmentEmail`](#accounts_sendenrollmentemail). Esto
+enviará al usuario un correo electrónico con un enlace para establecer su contraseña inicial.
 
-By default the `profile` option is added directly to the new user document. To
-override this behavior, use [`Accounts.onCreateUser`](#accounts_oncreateuser).
+Por defecto la opción `profile`  se añade directamente al nuevo documento de usuario. Para
+invalidar este comportamiento utilice [`Accounts.onCreateUser`](#accounts_oncreateuser).
 
-This function is only used for creating users with passwords. The external
-service login flows do not use this function.
+Esta función sólo se utiliza para crear usuarios con contraseñas. 
 
 
 {{> api_box accounts_changePassword}}
 
 {{> api_box accounts_forgotPassword}}
 
-This triggers a call
-to [`Accounts.sendResetPasswordEmail`](#accounts_sendresetpasswordemail)
-on the server. Pass the token the user receives in this email
-to [`Accounts.resetPassword`](#accounts_resetpassword) to
-complete the password reset process.
+Esto desencadena una llamada a [`Accounts.sendResetPasswordEmail`](#accounts_sendresetpasswordemail)
+en el servidor. Pasa el testigo que el usuario recibirá en este correo electrónico 
+a [`Accounts.resetPassword`](#accounts_resetpassword) para completar el proceso de restablecimiento 
+de contraseña.
 
-If you are using the [`accounts-ui` package](#accountsui), this is handled
-automatically. Otherwise, it is your responsiblity to prompt the user for the
-new password and call `resetPassword`.
+Si está utilizando el [`accounts-ui` package](#accountsui), esto se maneja de forma automática.
+automatically. De lo contrario, es su responsibilidad solicitar al usuario la 
+nueva contraseña y llame `resetPassword`.
 
 {{> api_box accounts_resetPassword}}
 
-This function accepts tokens generated
-by [`Accounts.sendResetPasswordEmail`](#accounts_sendresetpasswordemail)
-and
+Esta función acepta <i>tokens</i> generadas 
+por [`Accounts.sendResetPasswordEmail`](#accounts_sendresetpasswordemail)
+y
 [`Accounts.sendEnrollmentEmail`](#accounts_sendenrollmentemail).
 
 {{> api_box accounts_setPassword}}
 
 {{> api_box accounts_verifyEmail}}
 
-This function accepts tokens generated
-by [`Accounts.sendVerificationEmail`](#accounts_sendverificationemail). It
-sets the `emails.verified` field in the user record.
+Esta función acepta <i>tokens</i> generadas 
+por [`Accounts.sendVerificationEmail`](#accounts_sendverificationemail). Lo
+establece en el campo `emails.verified` en el registro de usuario.
 
 {{> api_box accounts_sendResetPasswordEmail}}
 
-The token in this email should be passed
-to [`Accounts.resetPassword`](#accounts_resetpassword).
+El <i>token</i> en este email debe ser pasado
+a [`Accounts.resetPassword`](#accounts_resetpassword).
 
-To customize the contents of the email, Ver
+Para personalizar el contenido del correo electrónico, Ver
 [`Accounts.emailTemplates`](#accounts_emailtemplates).
 
 {{> api_box accounts_sendEnrollmentEmail}}
 
-The token in this email should be passed
-to [`Accounts.resetPassword`](#accounts_resetpassword).
+El <i>token</i> en este email debe ser pasado
+a [`Accounts.resetPassword`](#accounts_resetpassword).
 
-To customize the contents of the email, Ver
+Para personalizar el contenido del correo electrónico, Ver
 [`Accounts.emailTemplates`](#accounts_emailtemplates).
 
 {{> api_box accounts_sendVerificationEmail}}
 
-The token in this email should be passed
-to [`Accounts.verifyEmail`](#accounts_verifyemail).
+El <i>token</i> en este email debe ser pasado
+a [`Accounts.verifyEmail`](#accounts_verifyemail).
 
-To customize the contents of the email, Ver
+Para personalizar el contenido del correo electrónico, Ver
 [`Accounts.emailTemplates`](#accounts_emailtemplates).
 
 {{> api_box accounts_emailTemplates}}
 
-This is an `Object` with several fields that are used to generate text
-for the emails sent by `sendResetPasswordEmail`, `sendEnrollmentEmail`,
-and `sendVerificationEmail`.
+Este es un `Object` con varios campos se utilizan para generar texto 
+para los <i>emails</i> enviados por `sendResetPasswordEmail`, `sendEnrollmentEmail`,
+y `sendVerificationEmail`.
 
-Override fields of the object by assigning to them:
+Reemplazar los campos del objeto asignandolos:
 
-- `from`: A `String` with an [RFC5322](http://tools.ietf.org/html/rfc5322) From
-   address. By default, the email is sent from `no-reply@meteor.com`. If you
-   wish to receive email from users asking for help with their account, be sure
-   to set this to an email address that you can receive email at.
-- `siteName`: The public name of your application. Defaults to the DNS name of
-   the application (eg: `awesome.meteor.com`).
-- `resetPassword`: An `Object` with two fields:
- - `resetPassword.subject`: A `Function` that takes a user object and returns
-   a `String` for the subject line of a reset password email.
- - `resetPassword.text`: A `Function` that takes a user object and a url, and
-   returns the body text for a reset password email.
-- `enrollAccount`: Same as `resetPassword`, but for initial password setup for
-   new accounts.
-- `verifyEmail`: Same as `resetPassword`, but for verifying the users email
-   address.
+- `from`: Un `String` con un [RFC5322](http://tools.ietf.org/html/rfc5322) Dirección del 
+   remitente. Por defecto, el <i>email</i> se envía desde `no-reply@meteor.com`. Si usted 
+   desea recibir <i>email</i> de los usuarios que solicitan ayuda con su cuenta,
+    asegúrese de establecer este a una dirección de <i>email</i> en el que puede recibir correos.
+- `siteName`: el nombre público de su aplicación. El valor predeterminado es el nombre DNS de
+   la aplicación (eg: `awesome.meteor.com`).
+- `resetPassword`: Un `Object` con dos campos:
+ - `resetPassword.subject`: Una `Function` que toma un objeto usuario y returna
+   un `String` para la línea de asunto de un restablecimiento <i>email</i> de contraseña.
+ - `resetPassword.text`: Una `Function` que toma un objeto usuario y una <i>url</i>, y
+   devuelve el cuerpo de texto para restablecer el <i>password</i> por <i>email</i>.
+- `enrollAccount`: Igual que `resetPassword`, pero para contraseña inicial al configurar 
+   nuevas cuentas.
+- `verifyEmail`: Igual que `resetPassword`, pero para verificar la dirección de correo 
+electrónico del usuario.
 
 
 Ejemplo:
@@ -1773,87 +1768,88 @@ Ejemplo:
 
 <h2 id="templates_api"><span>Templates</span></h2>
 
-A template that you declare as `<{{! }}template name="foo"> ... </{{!
-}}template>` can be accessed as the function `Template.foo`, which
-returns a string of HTML when called.
+Una plantilla que se declara como `<{{! }}template name="foo"> ... </{{!
+}}template>` Puede ser accedida como la función `Template.foo`, que
+devuelve una cadena de HTML cuando es llamada.
 
-The same template may occur many times on the page, and these
-occurrences are called template instances.  Template instances have a
-life cycle of being created, put into the document, and later taken
-out of the document and destroyed.  Meteor manages these stages for
-you, including determining when a template instance has been removed
-or replaced and should be cleaned up.  You can associate data with a
-template instance, and you can access its DOM nodes when it is in the
-document.
+La misma plantilla puede ocurrir muchas veces en la página, y
+estos sucesos se denominan instancias de plantilla.  Las Instancias de la plantilla tienen un
+ciclo de vida de creación, colocada el documento, extraida del documento y destruida.
+Meteor gestiona estas etapas por usted, incluyendo la determinación de cuando una instancia de 
+plantilla ha sido eliminado o sustituido y debe ser limpiada
+Usted puede asociar datos a una instancia de plantilla,
+template instance, y se puede acceder a los nodos DOM cuando se encuentra en el documento.
 
-Additionally, Meteor will maintain a template instance and its state
-even if its surrounding HTML is re-rendered into new DOM nodes.  As
-long as the structure of template invocations is the same, Meteor will
-not consider any instances to have been created or destroyed.  You can
-request that the same DOM nodes be retained as well using `preserve`
-and `constant`.
+Además, Meteor mantendrá una instancia de plantilla y su estado
+incluso si su código HTML circundante se vuelve a representar en los nuevos nodos DOM.
+even if its surrounding HTML is re-rendered into new DOM nodes.  
+Como siempre  la estructura de invocaciones de plantilla es la misma,
+Meteor no tendrá en cuenta todas las instancias que han sido creadas o destruidas.
+Puede solicitar que los mismos nodos DOM deban conservarse,
+utilizando `preserve` y `constant`.
 
-There are a number of callbacks and directives that you can specify on
-a named template and that apply to all instances of the template.
-They are described below.
+Hay una serie de <i><i>callbacks</i></i> y directivas que puede especificar en 
+una plantilla nombrada y que se aplique en todas las instancias 
+de la plantilla.
+Se describen a continuación. 
 
 {{> api_box template_call}}
 
-When called inside a template helper, the body of `Meteor.render`, or
-other settings where reactive HTML is being generated, the resulting
-HTML is annotated so that it renders as reactive DOM elements.
-Otherwise, the HTML is unadorned and static.
-
+Cuando se llama el interior de un auxiliar de plantilla, el cuerpo de `Meteor.render`,
+u otros lugares donde HTML reactivo se está generando, el HTML que resulta
+es anotado para que sea visualizado como elementos DOM reactivos.
+De lo contrario, el HTML es sobrio y estático.
 
 {{> api_box template_rendered}}
 
-This callback is called once when an instance of Template.*myTemplate* is
-rendered into DOM nodes and put into the document for the first time, and again
-each time any part of the template is re-rendered.
+Este <i>callback</i> se llama una vez cuando una instancia de <i>Template</i>.*myTemplate* es
+mostrada en nodos DOM y lo pone en el documento por primera vez, 
+y de nuevo cada vez que cualquier parte de la plantilla es revisualizada.
 
-In the body of the callback, `this` is a [template
-instance](#template_inst) object that is unique to this occurrence of
-the template and persists across re-renderings.  Use the `created` and
-`destroyed` callbacks to perform initialization or clean-up on the
-object.
+
+En el cuerpo del <i>callback</i>, `this` es un objeto [template
+instance](#template_inst) quew es único en esta ocurrencia de
+la plantilla y persiste a través de revisualizaciones. Utilize los <i><i>callbacks</i></i> 
+`created` y `destroyed` para realizar inicialización o limpieza en el objeto.
 
 {{> api_box template_created}}
 
-This callback is called when an invocation of *myTemplate* represents
-a new occurrence of the template and not a re-rendering of an existing
-template instance.  Inside the callback, `this` is the new [template
-instance](#template_inst) object.  Properties you set on this object
-will be visible from the `rendered` and `destroyed` callbacks and from
-event handlers.
+Este <i>callback</i> es llamado cuando una invocación de *myTemplate* representa
+una nueva ocurrencia de la plantilla y no una representación de una exitente 
+instancia de plantilla.  Dentro del <i>callback</i> , `this` es el nuevo objeto [template
+instance](#template_inst). Las propiedades que usted puede establecer en este objeto
+será visible desde los <i>callbacks</i>  `rendered` y `destroyed` y desde 
+los manipuladores de eventos.
 
-This callback fires once and is the first callback to fire.  Every
-`created` has a corresponding `destroyed`; that is, if you get a
-`created` callback with a certain template instance object in `this`,
-you will eventually get a `destroyed` callback for the same object.
+Este <i>callback</i> se dispara una vez y es el primer <i>callback</i> que se dispara. Cada
+`created` tiene un correspondiente `destroyed`; es decir, si se obtiene un
+<i>callback</i> `created` con un cierto object de instancia de plantilla en `this`,
+usted eventualmente obtendrá un <i>callback</i> `destroyed` para el mismo objeto.
 
 {{> api_box template_destroyed}}
 
-This callback is called when an occurrence of a template is taken off
-the page for any reason and not replaced with a re-rendering.  Inside
-the callback, `this` is the [template instance](#template_inst) object
-being destroyed.
+This <i>callback</i> es llamado cuando una occurrencia de una plantilla es sacado fuera de
+la página por cualquier motivo y no se sustituye con una nueva re-representación.  Dentro 
+del <i>callback</i>, `this` es el objeto [template instance](#template_inst) que será 
+destruido.
 
-This callback is most useful for cleaning up or undoing any external
-effects of `created`.  It fires once and is the last callback to fire.
+Este <i>callback</i> es más útil para limpiar o deshacer los efectos externos de
+`created`.  Se dispara una vez y es el último <i>callback</i> en ser disparado.
 
 
 {{> api_box template_events}}
 
-Declare event handers for instances of this template. Multiple calls add
-new event handlers in addition to the existing ones.
+Declarar controladores de eventos para las instancias de esta plantilla.
+Multiple llamadas añaden nuevos controladores de eventos sumandolos
+a los existentes.
 
-Ver [Event Maps](#eventmaps) for a detailed description of the event
-map format and how event handling works in Meteor.
+Ver [Event Maps](#eventmaps) para una descripción detallada del formato de mapa eventos
+y de cómo la gestión de eventos trabaja en Meteor.
 
 {{> api_box template_helpers}}
 
-Each template has a local dictionary of helpers that are made available to it,
-and this call specifies helpers to add to the template's dictionary.
+Cada plantilla tiene un diccionario local de auxiliares que están disponibles en la misma,
+y esta llamada especifica auxiliares para añadir al dictionario de plantillas.
 
 Ejemplo:
 
@@ -1863,10 +1859,10 @@ Ejemplo:
       }
     });
 
-In Handlebars, this helper would then be invoked as `{{dstache}}foo}}`.
+En <i>Handlebars</i>, este auxiliar se invoca como `{{dstache}}foo}}`.
 
-The following syntax is equivalent, but won't work for reserved property
-names:
+La siguiente sintaxis es equivalente pero no funciona para las propiedades reservadas 
+de nombres:
 
     Template.myTemplate.foo = function () {
       return Session.get("foo");
@@ -1874,75 +1870,77 @@ names:
 
 {{> api_box template_preserve}}
 
-You can "preserve" a DOM element during re-rendering, leaving the
-existing element in place in the document while replacing the
-surrounding HTML.  This means that re-rendering a template need not
-disturb text fields, iframes, and other sensitive elements it
-contains.  The elements to preserve must be present both as nodes in
-the old DOM and as tags in the new HTML.  Meteor will patch the DOM
-around the preserved elements.
+Usted puede "preservar" un elemento DOM  durante la re-representación, dejando el
+elemento existente en el lugar del documento mientras se sustituye el código HTML 
+circundante.
+Esto significa que una re-representación de plantilla no tiene por qué
+estorbar los campos de texto, <i>iframes</i>, y otros elementos sensitivos 
+que contenga.  Los elementos a preservar deben estar presentes tanto como nodos en
+el viejo DOM y como <i>tags</i> en el nuevo HTML.  Meteor parcheará el DOM
+basándose en los elementos conservados.
 
 {{#note}}
-By default, new Meteor apps automatically include the
-`preserve-inputs` package.  This preserves all elements of type
-`input`, `textarea`, `button`, `select`, and `option` that have unique
-`id` attributes or that have `name` attributes that are unique within
-an enclosing element with an `id` attribute.  To turn off this default
-behavior, simply remove the `preserve-inputs` package.
+Pot defecto, las nuevas <i>apps</i> Meteor automaticamente incluyen el
+paquete `preserve-inputs`.  Todos estos elementos preservados de tipo
+`input`, `textarea`, `button`, `select`, y `option` que tienen un único atributo
+`id` o que tienen atributos `name` únicos dentro de un 
+un elemento que lo encierra con un atributo `id`.  Para desactivar 
+este comportamiento por defecto,
+behavior, simplemente borre el paquete `preserve-inputs`.
 {{/note}}
 
-Preservation is useful in a variety of cases where replacing a DOM
-element with an identical or modified element would not have the same
-effect as retaining the original element.  These include:
+Preservar es útil en varietad de casos en los que reemplazar un elemento DOM
+con un idéntico o elemento modificado no tendría el mismo efecto 
+que retener el elemento original.  Estos incluyen:
 
-* Input text fields and other form controls
-* Elements with CSS animations
+* Campos <i>Input text</i> y otros controles de formulario
+* Elementos con animaciones CSS
 * Iframes
-* Nodes with references kept in JavaScript code
+* Nodos con referencias que se encuentran en el código JavaScript
 
-If you want to preserve a whole region of the DOM, an element and its
-children, or nodes not rendered by Meteor, use a [constant
-region](#constant) instead.
+Si desea preservar una región completa del DOM, un element y sus 
+hijos, o nodos no representados por Meteor, utilice en su lugar un [constant
+region](#constant).
 
-To preserve nodes, pass a list of selectors, each of which should match
-at most one element in the template.  When the template is re-rendered,
-the selector is run on the old DOM and the new DOM, and Meteor will
-reuse the old element in place while working in any HTML changes around
-it.
+Para preservar nodos, pase una lista de selectores, cada una de ellas debe coincidir
+por lo menos con un elemento en la plantilla.  Cuando la plantilla es re-visualizada,
+el selector es ejecutado en el viejo DOM y el nuevo DOM, y Meteor reutilizará
+el viejo elemento en su lugar mientras se trabajan cambios en todo el código HTML.
 
-A second form of `preserve` takes a labeling function for each selector
-and allows the selectors to match multiple nodes. The node-labeling
-function takes a node and returns a label string that is unique for each
-node, or `false` to exclude the node from preservation.
+Una segunda forma de `preserve` toma una función de etiquetado para cada selector
+y permite que los selectores coincidan con varios nodos. La función etiquetado de nodos
+toma un nodo y retorna una caden etiqueta que es única para cada nodo
+o `false` para excluir el nodo de ser preservado.
 
-For Ejemplo, to preserve all `<input>` elements with ids in template 'foo', use:
+Por Ejemplo, para preservar todos los elementos <code>`<input>`</code>  
+con <i>ids</i> la plantilla 'foo', utilice:
 
     Template.foo.preserve({
       'input[id]': function (node) { return node.id; }
     });
 
-Selectors are interpreted as rooted at the top level of the template.
-Each occurrence of the template operates independently, so the selectors
-do not have to be unique on the entire page, only within one occurrence
-of the template.  Selectors will match nodes even if they are in
-sub-templates.
+Los selectores son interpretados como <i>rooted</i> de nivel superior de la plantilla.
+Cada ocurrencia de la plantilla funciona de forma independiente, por lo que los selectores
+no tiene que ser únicos en toda la página, sólo dentro de una ocurrencia de la plantilla.
+of the template. Los selectores coincidirán con los nodos, incluso si están en
+sub-plantillas.
 
-Preserving a node does *not* preserve its attributes or contents. They
-will be updated to reflect the new HTML. Text in input fields is not
-preserved unless the input field has focus, in which case the cursor and
-selection are left intact. Iframes retain their navigation state and
-animations continue to run as long as their parameters haven't changed.
+Preservar un nodo *no* preserva sus atributos o contenidos. Ellos 
+se actualizarán para reflejar el nuevo HTML. El texto en campos <i>input</i> no es 
+preservado a menos que el campo <i>input</i> tenga el foco, en tal caso el cursor y
+la seleción se dejant intactos. <i>Iframes</i> retienen su estado de navegació y
+las animaciones continuarán funcionando siempre y cuando sus parámetros no hayan cambiado.
 
-There are some cases where nodes can not be preserved because of
-constraints inherent in the DOM API. For Ejemplo, an element's tag name
-can't be changed, and it can't be moved relative to its parent or other
-preserved nodes.  For this reason, nodes that are re-ordered or
-re-parented by an update will not be preserved.
+Hay algunos casos en los que los nodos no pueden ser preservados debido a
+las limitaciones inherentes a la API DOM. Por Ejemplo, un <i>tag name</i> de elemento 
+no puede ser cambiado, y no puede ser movido en relación a sus padres o otros nodos
+preservados. Por esta razón, los nodos que están  re-ordenados o 
+re-emparentados por una actualización no serán preservados.
 
 {{#note}}
-Previous versions of Meteor had an implicit page-wide `preserve`
-directive that labeled nodes by their "id" and "name" attributes.
-This has been removed in favor of the explicit, opt-in mechanism.
+Las versiones anteriores de Meteor tenían un implícito <i>page-wide</i> `preserve`
+Esta directiva que etiquetaba nodos por sus atributos "id" y "name".
+Ha sido eliminado en favor del mecanismo explícito <i>opt-in</i>.
 {{/note}}
 
 
@@ -1953,17 +1951,17 @@ the document.  It can be used to access the DOM and it can be
 assigned properties that persist across page re-renderings.
 
 Template instance objects are found as the value of `this` in the
-`created`, `rendered`, and `destroyed` template callbacks and as an
+`created`, `rendered`, and `destroyed` template <i>callbacks</i> and as an
 argument to event handlers.
 
 In addition to the properties and functions described below, you can
 assign additional properties of your choice to the object.  Property names
 starting with `_` are guaranteed to be available for your use.  Use
-the `created` and `destroyed` callbacks to perform initialization or
+the `created` and `destroyed` <i>callbacks</i> to perform initialization or
 clean-up on the object.
 
 You can only access `findAll`, `find`, `firstNode`, and `lastNode`
-from the `rendered` callback and event handlers, not from `created`
+from the `rendered` <i>callback</i> and event handlers, not from `created`
 and `destroyed`, because they require the template instance to be
 in the DOM.
 
@@ -2010,7 +2008,7 @@ call this directly; they use templates and Meteor handles the rendering.
 Pass in `htmlFunc`, a function that returns an HTML
 string. `Meteor.render` calls the function and turns the output into
 DOM nodes. Meanwhile, it tracks the data that was used when `htmlFunc`
-ran, and automatically wires up callbacks so that whenever any of the
+ran, and automatically wires up <i>callbacks</i> so that whenever any of the
 data changes, `htmlFunc` is re-run and the DOM nodes are updated in
 place.
 
@@ -2344,7 +2342,7 @@ template).
 
 Applications will find [`Deps.autorun`](#deps_autorun) useful, while more
 advanced facilities such as `Deps.Dependency` and `onInvalidate`
-callbacks are intended primarily for package authors implementing new
+<i>callbacks</i> are intended primarily for package authors implementing new
 reactive data sources.
 
 {{> api_box deps_autorun }}
@@ -2415,7 +2413,7 @@ An automatic flush occurs whenever the system is idle which performs
 exactly the same work as `Deps.flush`.  The flushing process consists
 of rerunning any invalidated computations.  If additional
 invalidations happen while flushing, they are processed as part of the
-same flush until there is no more work to be done.  Callbacks
+same flush until there is no more work to be done.  <i>callbacks</i>
 registered with [`Meteor.afterFlush`](#deps_afterflush) are called
 after processing outstanding invalidations.
 
@@ -2448,7 +2446,7 @@ current computation is used implicitly by
 [`Deps.active`](#deps_active) (which tests whether there is one),
 [`dependency.depend()`](#dependency_depend) (which registers that it depends on a
 dependency), and [`Deps.onInvalidate`](#deps_oninvalidate) (which
-registers a callback with it).
+registers a <i>callback</i> with it).
 
 {{> api_box deps_oninvalidate }}
 
@@ -2489,14 +2487,14 @@ Data sources are responsible for tracking these dependencies using
 
 Invalidating a computation sets its `invalidated` property to true
 and immediately calls all of the computation's `onInvalidate`
-callbacks.  When a flush occurs, if the computation has been invalidated
+<i>callbacks</i>.  When a flush occurs, if the computation has been invalidated
 and not stopped, then the computation is rerun by setting the
 `invalidated` property to `false` and calling the original function
 that was passed to `Deps.autorun`.  A flush will occur when the current
 code finishes running, or sooner if `Deps.flush` is called.
 
 Stopping a computation invalidates it (if it is valid) for the purpose
-of calling callbacks, but ensures that it will never be rerun.
+of calling <i>callbacks</i>, but ensures that it will never be rerun.
 
 Ejemplo:
 
@@ -2517,7 +2515,7 @@ never be rerun.  You can stop a computation at any time, including
 from the computation's own run function.  Stopping a computation that
 is already stopped has no effect.
 
-Stopping a computation causes its `onInvalidate` callbacks to run
+Stopping a computation causes its `onInvalidate` <i>callbacks</i> to run
 immediately if it is not currently invalidated.
 
 Nested computations are stopped automatically when their enclosing
@@ -2534,19 +2532,19 @@ sources in turn perform this invalidation using one or more
 [`Deps.Dependency`](#deps_dependency) objects.
 
 Invalidating a computation immediately calls all `onInvalidate`
-callbacks registered on it.  Invalidating a computation that is
+<i>callbacks</i> registered on it.  Invalidating a computation that is
 currently invalidated or is stopped has no effect.  A computation can
 invalidate itself, but if it continues to do so indefinitely, the
 result will be an infinite loop.
 
 {{> api_box computation_oninvalidate }}
 
-`onInvalidate` registers a one-time callback that either fires
+`onInvalidate` registers a one-time <i>callback</i> that either fires
 immediately or as soon as the computation is next invalidated or
 stopped.  It is used by reactive data sources to clean up resources or
 break dependencies when a computation is rerun or stopped.
 
-To get a callback after a computation has been recomputed, you can
+To get a <i>callback</i> after a computation has been recomputed, you can
 call [`Deps.afterFlush`](#deps_afterflush) from `onInvalidate`.
 
 {{> api_box computation_stopped }}
@@ -2684,7 +2682,7 @@ When you add a type to EJSON, Meteor will be able to use that type in:
 
 {{#note}}
 
-  MongoDB cannot store most user-defined types natively on the server.  Your
+  MongoDB cannot store most user-defined types natively en el servidor.  Your
   type will work in Minimongo, and you can send it to the client using a custom
   publisher, but MongoDB can only store the types defined in
   [BSON](http://bsonspec.org/).
@@ -2727,18 +2725,18 @@ This function initiates an HTTP request to a remote server. It returns
 a result object with the contents of the HTTP response.  The result
 object is detailed below.
 
-On the server, this function can be run either synchronously or
-asynchronously.  If the callback is omitted, it runs synchronously,
+en el servidor, this function can be run either synchronously or
+asynchronously.  If the <i>callback</i> is omitted, it runs synchronously,
 and the results are returned once the request completes. This is
 useful when making server-to-server HTTP API calls from within Meteor
 methods, as the method can succeed or fail based on the results of the
 synchronous HTTP call.  In this case, consider using
 [`this.unblock()`](#method_unblock) to allow other methods to run in
 the mean time.  On the client, this function must be used
-asynchronously by passing a callback.
+asynchronously by passing a <i>callback</i>.
 
 Both HTTP and HTTPS protocols are supported.  The `url` argument must be
-an absolute URL including protocol and host name on the server, but may be
+an absolute URL including protocol and host name en el servidor, but may be
 relative to the current host on the client.  The `query` option
 replaces the query string of `url`.  Parameters specified in `params`
 that are put in the URL are appended to any query string.
@@ -2753,7 +2751,7 @@ standard `x-www-form-urlencoded` content type, unless the `content`
 or `data` option is used to specify a body, in which case the
 parameters will be appended to the URL instead.
 
-The callback receives two arguments, `error` and `result`.  The `error`
+The <i>callback</i> receives two arguments, `error` and `result`.  The `error`
 argument will contain an Error if the request fails in any way,
 including a network error, time-out, or an HTTP status code in the 400
 or 500 range.  The result object is always
@@ -2782,7 +2780,7 @@ Contents of the result object:
 
 <dt><span class="name">error</span>
   <span class="type">Error</span></dt>
-<dd>Error object if the request failed. Matches the <code>error</code> callback parameter.</dd>
+<dd>Error object if the request failed. Matches the <code>error</code> <i>callback</i> parameter.</dd>
 
 
 </dl>
@@ -2837,7 +2835,7 @@ If `MAIL_URL` is not set (ej, when running your application locally),
 You must provide the `from` option and at least one of `to`, `cc`, and `bcc`;
 all other options are optional.
 
-`Email.send` only works on the server. Here is an Ejemplo of how a
+`Email.send` only works en el servidor. Here is an Ejemplo of how a
 client could use a server method call to send an email. (In an actual
 application, you'd need to be careful to limit the emails that a
 client could send, to prevent your server from being used as a relay
