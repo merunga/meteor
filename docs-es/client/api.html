@@ -1637,9 +1637,15 @@ Ejemplo:
 <h2 id="accounts_passwords"><span>Passwords</span></h2>
 
 El paquete  `accounts-password` contiene un sistema completo para autenticación basado en contraseña.
+<<<<<<< HEAD
+authentication. In addition to the basic username and password-based
+sign-in process, it also supports email-based sign-in including
+address verification and password recovery emails.
+=======
 Además del proceso básico Nombre de usuario e inicio de sesión basado en contraseña, también soporta
 inicio de sesión basado en email incluyendo verificación de direcciones y recuperación de contraeña 
 por <i>email</i>.
+>>>>>>>  templates linea 2000 y pico-
 
 A diferencia de la mayoría de  web applications, aplicaciones web, el cliente Meteor no envía 
 la contraseña del usuario directamente al servidor. Se utiliza el [Secure Remote Password
@@ -1946,82 +1952,79 @@ Ha sido eliminado en favor del mecanismo explícito <i>opt-in</i>.
 
 <h2 id="template_inst"><span>Template instances</span></h2>
 
-A template instance object represents an occurrence of a template in
-the document.  It can be used to access the DOM and it can be
-assigned properties that persist across page re-renderings.
+Un objeto de instancia de plantilla representa una ocurrencia de una plantilla en el
+documento.  Se puede utilizar para acceder al DOM y se pueden asignadar
+propiedades que persisten a través de la revisualización de la página.
 
-Template instance objects are found as the value of `this` in the
-`created`, `rendered`, and `destroyed` template <i>callbacks</i> and as an
-argument to event handlers.
+Los objetos de una instancia de plantilla se encuentran como el valor de  `this` en la
+plantilla <i>callbacks</i> `created`, `rendered`, y `destroyed` y como 
+aargumento para controladores de eventos.
 
-In addition to the properties and functions described below, you can
-assign additional properties of your choice to the object.  Property names
-starting with `_` are guaranteed to be available for your use.  Use
-the `created` and `destroyed` <i>callbacks</i> to perform initialization or
-clean-up on the object.
+Además de las propiedades y funciones que se describen a continuación, puede
+asignar propiedades adicionales de su elección en el objeto. Los nombres de propiedades
+comienzan con `_` están garantizados para que esten disponibles para su uso 
+Utilice el <i>callbacks</i>  `created` y `destroyed` para realizar la inicialización o
+limpieza en el objeto.
 
-You can only access `findAll`, `find`, `firstNode`, and `lastNode`
-from the `rendered` <i>callback</i> and event handlers, not from `created`
-and `destroyed`, because they require the template instance to be
-in the DOM.
+Sólo puede acceder a `findAll`, `find`, `firstNode`, y `lastNode`
+desde el <i>callback</i> `rendered` y desde el manipulador de eventos, no desde `created`
+y `destroyed`, porque requieren que la instancia de la plantilla  esté 
+en el DOM.
 
 {{> api_box template_findAll}}
 
-Returns an array of DOM elements matching `selector`.
+Devuelve un <i>array</i> de elementos DOM  que coincidan con el `selector`.
 
-The template instance serves as the document root for the selector. Only
-elements inside the template and its sub-templates can match parts of
-the selector.
+La instancia de plantilla sirve como el documento raiz para el selector. Sólo
+los elementos dentro de la plantilla y en sus sub-plantillas pueden coincidir con partes 
+del selector.
 
 {{> api_box template_find}}
 
-Returns one DOM element matching `selector`, or `null` if there are no
-such elements.
+Devuelve un elemento DOM a juego con `selector`, o `null`  si no existen 
+tales elementos.
 
-The template instance serves as the document root for the selector. Only
-elements inside the template and its sub-templates can match parts of
-the selector.
+La instancia de plantilla sirve como el documento raiz para el selector. Sólo
+los elementos dentro de la plantilla y en sus sub-plantillas pueden coincidir con partes 
+del selector.
 
 {{> api_box template_firstNode}}
 
-The two nodes `firstNode` and `lastNode` indicate the extent of the
-rendered template in the DOM.  The rendered template includes these
-nodes, their intervening siblings, and their descendents.  These two
-nodes are siblings (they have the same parent), and `lastNode` comes
-after `firstNode`, or else they are the same node.
+Los dos nodos `firstNode` y `lastNode` indican el alcance de la plantilla 
+visualizada en el DOM. La plantilla  visualizada incluye Estos dos nodos 
+son hermanos (tienen el mismo padre), y `lastNode` viene después de 
+`firstNode`, o sino son el mismo nodo.
 
 {{> api_box template_lastNode}}
 
 {{> api_box template_data}}
 
-This property provides access to the data context at the top level of
-the template.  It is updated each time the template is re-rendered.
-Access is read-only and non-reactive.
+Esta propiedad proporciona acceso al contexto de los datos en el nivel superior de
+la plantilla. Se actualiza cada vez que la plantilla es re-visualizada.
+El acceso es de solo-lectura y no-reactivo.
 
 
 {{> api_box render}}
 
-`Meteor.render` creates a `DocumentFragment` (a sequence of DOM nodes)
-that automatically updates in realtime. Most Meteor apps don't need to
-call this directly; they use templates and Meteor handles the rendering.
+`Meteor.render` crea un `DocumentFragment` (una secuencia de nodos DOM)
+que se actualiza automaticamente en tiempo real. La mayoría de las aplicaciones no necesitan 
+llamar a esto directamente; utilizan plantillas y Meteor maneja la visualización.
 
-Pass in `htmlFunc`, a function that returns an HTML
-string. `Meteor.render` calls the function and turns the output into
-DOM nodes. Meanwhile, it tracks the data that was used when `htmlFunc`
-ran, and automatically wires up <i>callbacks</i> so that whenever any of the
-data changes, `htmlFunc` is re-run and the DOM nodes are updated in
-place.
+Pase una función `htmlFunc`, que retorna una cadena HTML. 
+`Meteor.render` llama la función y convierte la salida en
+nodos DOM. Mientras tanto, hace un seguimiento de los datos que se utilizan cuando `htmlFunc`
+se ejecuta, y automaticamente conecta <i>callbacks</i> de modo que cada vez que alguno de los
+datos cambie, `htmlFunc` se re-ejecuta y los nodos DOM se actualizan en su lugar.
 
-You may insert the returned `DocumentFragment` directly into the DOM
-wherever you would like it to appear. The inserted nodes will continue
-to update until they are taken off the screen. Then they will be
-automatically cleaned up. For more details about clean-up, Ver
-[`Deps.flush`](#deps_flush).
+Puede insertar el retornado `DocumentFragment` directamente en el DOM
+dondequiera desee que aparezca. Los nodos insertados continuarán
+actualizandose hasta que se retiren de pantalla. Luego se limpianrán automáticamente.
+Para más detalles sobre la limpieza, consulte [`Deps.flush`](#deps_flush).
 
-`Meteor.render` tracks the data dependencies of `htmlFunc` by running
-it in a reactive computation, so it can respond to changes in any reactive
-data sources used by that function. For more information, or to learn
-how to make your own reactive data sources, Ver
+`Meteor.render` hace un seguimiento de los datos de dependencies de `htmlFunc` ejecutándolo
+en una computación reactiva, para que  pueda responder a los cambios en cada fuente de
+datos reactivos utilizados por esta función. Para ampliar información, o aprender
+como hacer su propias fuentes de datos reactivos, Ver
 [Reactivity](#reactivity).
 
 Ejemplo:
@@ -2033,176 +2036,176 @@ Ejemplo:
     });
     document.body.appendChild(frag);
 
-    // Server side: find all players that have been idle for a while,
-    // and mark them as offline. The count on the screen will
-    // automatically update on all clients.
+    // Server side: encontrar todos los jugadores que han estado inactivos durante un tiempo,
+    // ​​y marcarlos como fuera de línea.  El recuento en la pantalla se actualizará
+    // automaticamente en todos los clientes.
     Players.update({idleTime: {$gt: 30}}, {$set: {online: false}});
 
 {{> api_box renderList}}
 
-Creates a `DocumentFragment` that automatically updates as the results
-of a database query change. Most Meteor apps use `{{dstache}}#each}}` in
-a template instead of calling this directly.
+Crea un `DocumentFragment` que automaticamente se actualiza en cuanto los resultados
+de la consulta a la base de datos cambia. La mayoría de las aplicaciones Meteor utilizan 
+`{{dstache}}#each}}` en una plantilla en vez de llamarlo directamente.
 
-`renderList` is more efficient than using `Meteor.render` to render HTML
-for a list of documents.  For Ejemplo, if a new document is created in
-the database that matches the query, a new item will be rendered and
-inserted at the appropriate place in the DOM without re-rendering the
-other elements.  Similarly, if a document changes position in a sorted
-query, the DOM nodes will simply be moved and not re-rendered.
+`renderList` es más eficiente que el uso de `Meteor.render` para representar HTML
+de una lista de documentos.  Por Ejemplo, si un documento nuevo se crea en
+la base de datos que coincida con la consulta, un nuevo elemento se representará e 
+insertará en el lugar apropiado en el DOM sin re-revisualizar los otros elementos. 
+Del mismo modo, si un documento cambia de posición en un consulta ordenada, 
+los nodos DOM se moverán y no volverán a representar.
 
-`docFunc` is called as needed to generate HTML for each document.  If
-you provide `elseFunc`, then whenever the query returns no results, it
-will be called to render alternate content. You might use this to show
-a message like "No records match your query."
+`docFunc` se llama asi como se necesita para generar código HTML para cada documento. 
+Si usted proporciona `elseFunc`, entonces siempre que la consulta no devuelva ningún resultado,
+será llamado para visualizar contenido alternativo. puede usar esto para mostrar 
+un mensaje como "Ningún registro coincide con su consulta."
 
-Each call to `docFunc` or `elseFunc` is run in its own reactive
-computation so that if it has other external data dependencies, it will be
-individually re-run when the data changes.
+Cada llamada a `docFunc` o `elseFunc` se ejecuta en su propia computación reactiva
+de manera que si tiene otras dependencias de datos externos, será
+individualmente re-ejecutado cuando los datos cambien.
 
 Ejemplo:
 
-    // List the titles of all of the posts that have the tag
-    // "frontpage". Keep the list updated as new posts are made, as tags
-    // change, etc.  Display the selected post differently.
+    // Lista los títulos de todos los puestos que tienen la etiqueta
+    // "frontpage". Mantiene la lista actualizada cuando los se hacen nuevos mensajesew posts, como etiquetas
+     // cambio, etc.  Muestra el mensaje seleccionado de manera diferente.
     var frag = Meteor.renderList(
       Posts.find({tags: "frontpage"}),
       function(post) {
         var style = Session.equals("selectedId", post._id) ? "selected" : "";
-        // A real app would need to quote/sanitize post.name
+        // En una aplicación real habría que  habría que citar / sanear  post.name
         return '<div class="' + style + '">' + post.name + '</div>';
       });
     document.body.appendChild(frag);
 
-    // Select a post.  This will cause only the selected item and the
-    // previously selected item to update.
+    // Selecciona un mensaje.  Esto causará que sólo el elemento seleccionado y el
+    // elemento seleccionado previamente se actualicen.
     var somePost = Posts.findOne({tags: "frontpage"});
     Session.set("selectedId", somePost._id);
 
 
 {{#api_box_inline eventmaps}}
 
-Several functions take event maps. An event map is an object where
-the properties specify a set of events to handle, and the values are
-the handlers for those events. The property can be in one of several
-forms:
+Varias funciones toma mapas de eventos. Un mapa de eventos es un objeto donde 
+las propiedades especifican un conjunto de eventos para manejar, y los valores son los
+manejadores para estos eventos. La propiedad puede ser en una de estas formas:
+
 
 <dl>
 {{#dtdd "<em>eventtype</em>"}}
-Matches a particular type of event, such as 'click'.
+Coincide con un tipo particular de evento, como 'click'.
 {{/dtdd}}
 
 {{#dtdd "<em>eventtype selector</em>"}}
-Matches a particular type of event, but only when it appears on
-an element that matches a certain CSS selector.
+Coincide con un tipo particular de evento, pero sólo cuando aparece en un
+elemento que cumpla con un determinado selector CSS.
 {{/dtdd}}
 
 {{#dtdd "<em>event1, event2</em>"}}
-To handle more than one type of event with the same function, use a
-comma-separated list.
+Para manejar más de un tipo de evento con la misma función, utilice
+una Lista separada por comas.
 {{/dtdd}}
 </dl>
 
-The handler function receives two arguments: `event`, an object with
-information about the event, and `template`, a [template
-instance](#template_inst) for the template where the handler is
-defined.  The handler also receives some additional context data in
-`this`, depending on the context of the current element handling the
-event.  In a Handlebars template, an element's context is the
-Handlebars data context where that element occurs, which is set by
-block helpers such as `#with` and `#each`.
+La función controladora recibe dos argumentos: `event`, un objeto con
+información sobre el evento, y `template`, una [template
+instance](#template_inst) para la plantilla donde se define el controlador.
+El controlador también recibe algunos datos de contexto adicionales en
+`this`, dependiendo del contexto del elemento actual se maneja el evento.
+En una plantilla <i>Handlebars</i>, un contexto de elemento es el
+dato de contexto <i>Handlebars</i> donde sucede ese elemento, que se establece por
+bloques auxiliares como `#with` y `#each`.
 
 Ejemplo:
 
     {
-      // Fires when any element is clicked
+      // Se activa cuando se hace clic en cualquier elemento
       'click': function (event) { ... },
 
-      // Fires when any element with the 'accept' class is clicked
+      // Se activa cuando cualquier elemento con la clase 'accept' es clicado
       'click .accept': function (event) { ... },
 
-      // Fires when 'accept' is clicked, or a key is pressed
+      // Se activa cuando se hace clic en 'accept' o se presiona una tecla
       'keydown, click .accept': function (event) { ... }
     }
 
-Most events bubble up the document tree from their originating
-element.  For Ejemplo, `'click p'` catches a click anywhere in a
-paragraph, even if the click originated on a link, span, or some other
-element inside the paragraph.  The originating element of the event
-is available as the `target` property, while the element that matched
-the selector and is currently handling it is called `currentTarget`.
+La mayoría de los eventos se propagan por el arbol del documento 
+desde su elemento de origen. Por Ejemplo, `'click p'` atrapa un clic en cualquier lugar 
+en un párrafo, incluso si la pulsación se originó en un enlace, span, o algún otro
+elemento dentro del párrafo.  El elemento de origen del evento 
+está disponible como característica `target`, mientras que el elemento que coincidía con
+el selector y está menejado actualmente se llama `currentTarget`.
 
     {
       'click p': function (event) {
-        var paragraph = event.currentTarget; // always a P
-        var clickedElement = event.target; // could be the P or a child element
+        var paragraph = event.currentTarget; // siempre un  <i>P</i>
+        var clickedElement = event.target; // podría ser el <i>P</i> o un elemento hijo
       }
     }
 
-If a selector matches multiple elements that an event bubbles to, it
-will be called multiple times, for Ejemplo in the case of `'click
-div'` or `'click *'`.  If no selector is given, the handler
-will only be called once, on the original target element.
+Si un selector coincide con multiples elementos que un evento propague, it
+se le llamará varias veces, por Ejemplo en el caso de `'click
+div'` o `'click *'`. Si ningún selector es dado, el controlador 
+sólo se llama una vez, en la etiqueta original del elemento.
 
-The following properties and methods are available on the event object
-passed to handlers:
+Las siguientes propiedades y métodos están disponibles en el objeto evento
+pasado al controlador:
 
 <dl class="objdesc">
 {{#dtdd name="type" type="String"}}
-The event's type, such as "click", "blur" or "keypress".
+El tipo de evento, como por ejemplo "click", "blur" o "keypress".
 {{/dtdd}}
 
 {{#dtdd name="target" type="DOM Element"}}
-The element that originated the event.
+El elemento que originó el evento.
 {{/dtdd}}
 
 {{#dtdd name="currentTarget" type="DOM Element"}}
-The element currently handling the event.  This is the element that
-matched the selector in the event map.  For events that bubble, it may
-be `target` or an ancestor of `target`, and its value changes as the
-event bubbles.
+El elemento que actualmente maneja el evento.  Este es el elemento que 
+coincidió con el selector en el mapa de eventos. Para eventos que se propagan, puede
+ser `target` o un ancestro de `target`, y su valor cambia asi como 
+el evento se propaga.
 {{/dtdd}}
 
 {{#dtdd name="which" type="Number"}}
-For mouse events, the number of the mouse button (1=left, 2=middle, 3=right).
-For key events, a character or key code.
+Para los eventos del ratón, el número del botón del ratón (1=izquierda, 2=medio, 3=derecha).
+Par eventos de teclado, un caracter o codigo de tecla.
 {{/dtdd}}
 
 {{#dtdd "stopPropagation()"}}
-Prevent the event from propagating (bubbling) up to other elements.
-Other event handlers matching the same element are still fired, in
-this and other event maps.
+Para impedir que el evento se propague (burbujee) hasta otros elementos.
+Otros manejadores de eventos que coincidan con el mismo elemento y estén lanzados todavía, en
+este y otros mapas de eventos.
 {{/dtdd}}
 
 {{#dtdd "stopImmediatePropagation()"}}
-Prevent all additional event handlers from being run on this event,
-including other handlers in this event map, handlers reached by
-bubbling, and handlers in other event maps.
+Impiden que todos los manejadores de eventos adicionales que se ejecuten en este evento,
+incluyendo otros manejadores en este mapa de eventos, los manipuladores alcanzados por
+la propagación, y manejadores en otros mapas de eventos.
 {{/dtdd}}
 
 {{#dtdd "preventDefault()"}}
-Prevents the action the browser would normally take in response to this
-event, such as following a link or submitting a form.  Further handlers
-are still called, but cannot reverse the effect.
+Impide la acción del navegador tomaría normalmente en respuesta a esta 
+evento, como seguir un enlace o enviar un formulario. Controladores adicionales 
+todavía son llamados, pero no pueden revertir el efecto. 
 {{/dtdd}}
 
 {{#dtdd "isPropagationStopped()"}}
-Returns whether `stopPropagation()` has been called for this event.
+Devuelve si `stopPropagation()` ha sido llamado para este evento.
 {{/dtdd}}
 
 {{#dtdd "isImmediatePropagationStopped()"}}
-Returns whether `stopImmediatePropagation()` has been called for this event.
+Devuelve si `stopImmediatePropagation()` ha sido llamado para este evento..
 {{/dtdd}}
 
 {{#dtdd "isDefaultPrevented()"}}
-Returns whether `preventDefault()` has been called for this event.
+Devuelve si `preventDefault()` ha sido llamado para este evento.
 {{/dtdd}}
 </dl>
 
-Returning `false` from a handler is the same as calling
-both `stopImmediatePropagation` and `preventDefault` on the event.
+Devuelve `false` de un manejador que es el mismo que llamar a la vez
+`stopImmediatePropagation` y `preventDefault` en el evento.
 
-Event types and their uses include:
+Tipos de eventos y usos incluye:
 
 <dl class="objdesc">
 {{#dtdd "<code>click</code>"}}
