@@ -2209,9 +2209,9 @@ Tipos de eventos y usos incluye:
 
 <dl class="objdesc">
 {{#dtdd "<code>click</code>"}}
-Mouse click on any element, including a link, button, form control, or div.
-Use `preventDefault()` to prevent a clicked link from being followed.
-Some ways of activating an element from the keyboard also fire `click`.
+Pulse con el ratón en cualquier elemento, incluyendo un enlace, botón, control de formulario, o un <i>div</i>.
+Utilice `preventDefault()` para evitar que al clicar un enlace sea sequido.
+Algunas formas de activar un elemento desde el teclado también lanza `click`.
 {{/dtdd}}
 
 {{#dtdd "<code>dblclick</code>"}}
@@ -2219,35 +2219,35 @@ Double-click.
 {{/dtdd}}
 
 {{#dtdd "<code>focus, blur</code>"}}
-A text input field or other form control gains or loses focus.  You
-can make any element focusable by giving it a `tabindex` property.
-Browsers differ on whether links, checkboxes, and radio buttons are
-natively focusable.  These events do not bubble.
+Un campo <i>input</i> de texto o otro control de formulario gana o pierde el foco.
+Puede hacer cualquier elemento enfocable dándole una propiedad `tabindex`.
+Los navegadores difieren sobre si <i>links, checkboxes, </i>y <i>radio buttons</i> son
+nativamente enfocables. Estos eventos no son propagables.
 {{/dtdd}}
 
 {{#dtdd "<code>change</code>"}}
-A checkbox or radio button changes state.  For text fields, use
-`blur` or key events to respond to changes.
+Un <i>checkbox</i> o <i>radio button</i> cambia de estado. Para campos de texto, utilice
+`blur` o eventos de teclado para responder a cambios.
 {{/dtdd}}
 
-{{#dtdd "<code>mouVernter, mouseleave</code>"}} The pointer enters or
-leaves the bounds of an element.  These events do not bubble.
+{{#dtdd "<code>mouVernter, mouseleave</code>"}} El puntero entra o 
+sale de los límites de un elemento. Estos eventos no son propagables.
 {{/dtdd}}
 
 {{#dtdd "<code>mousedown, mouseup</code>"}}
-The mouse button is newly down or up.
+El botón del ratón está recién pulsado o soltado.
 {{/dtdd}}
 
 {{#dtdd "<code>keydown, keypress, keyup</code>"}}
-The user presses a keyboard key.  `keypress` is most useful for
-catching typing in text fields, while `keydown` and `keyup` can be
-used for arrow keys or modifier keys.
+El usuario pulsa una tecla del teclado.  `keypress` es más útil para la captura de
+pulsaciones en un campo de texto, mientras que `keydown` y `keyup` pueden ser 
+utilizado por las teclas flecha o las teclas modificadoras.
 {{/dtdd}}
 </dl>
 
-Other DOM events are available as well, but for the events above,
-Meteor has taken some care to ensure that they work uniformly in all
-browsers.
+Otros eventos DOM están disponibles también, pero ante estos eventos,
+Meteor ha tomado un poco de cuidado para asegurarse de que funcionan de 
+manera uniforme en todos los navegadores.
 
 {{/api_box_inline}}
 
@@ -2255,30 +2255,30 @@ browsers.
 
 {{#api_box_inline constant}}
 
-You can mark a region of a template as "constant" and not subject to
-re-rendering using the
-`{{dstache}}#constant}}...{{dstache}}/constant}}` block helper.
-Content inside the `#constant` block helper is preserved exactly as-is
-even if the enclosing template is re-rendered.  Changes to other parts
-of the template are patched in around it in the same manner as
-`preserve`.  Unlike individual node preservation, a constant region
-retains not only the identities of its nodes but also their attributes
-and contents.  The contents of the block will only be evaluated once
-per occurrence of the enclosing template.
+Puede marcar una región de una plantilla como "constant"  y no someterse a un
+re-visualizado utilizando el bloque auxiliar
+`{{dstache}}#constant}}...{{dstache}}/constant}}`.
+El contenido dentro del bloque auxiliar `#constant` se conserva exactamente tal y como es,
+incluso si encerrando la plantilla es re-visualizada. Los cambios en otras partes de la
+plantilla están pacheados ​​en torno a ella de la misma manera como
+`preserve`. A diferencia de la preservación de un nodo individual, una region constante 
+retiene no sólo las identidades de sus nodos, sino también sus atributos y contenidos
+y contents. El contenido del bloque sólo se evalua una vez 
+por ocurrencia de la plantilla encerrada.
 
-Constant regions allow non-Meteor content to be embedded in a Meteor
-template.  Many third-party widgets create and manage their own DOM
-nodes programmatically. Typically, you put an empty element in your
-template, which the widget or library will then populate with
-children. Normally, when Meteor re-renders the enclosing template it
-would remove the new children, since the template says it should be
-empty. If the container is wrapped in a `#constant` block, however, it
-is left alone; whatever content is currently in the DOM remains.
+Las regiones constantes permiten que contenido <i>non-Meteor</i> sea embebido en una plantilla Meteor
+Muchos widgets de terceros crean y gestionan sus propios nodos DOM 
+mediante programación.Por lo general, se pone un elemento vacio en su 
+plantilla, que el widget o biblioteca luego poblará con hijos DOM
+children. Normalmente, cuando Meteor se vuelve a representar la plantilla encerrada
+borrará  los nuevos hijos DOM, ya que la plantilla dice que debe estar vacío.
+empty. Si el se envuelve en un blque `#constant`, sin embargo, se
+deja solo; cualquiera que sea el contenido que se encuentre en los restos del DOM.
 
 {{#note}}
-Constant regions are intended for embedding non-Meteor content.
-Event handlers and reactive dependencies don't currently work
-correctly inside constant regions.
+Las regiones constantes se destinan a incorporar contenido No-Meteor.
+Los controladores de eventos y las dependencias reactivas actualmente no funcionan
+correctamente dentro de las regiones constantes.
 {{/note}}
 
 
@@ -2286,76 +2286,76 @@ correctly inside constant regions.
 
 {{#api_box_inline isolate}}
 
-Each template runs as its own reactive computation.  When the template
-accesses a reactive data source, such as by calling `Session.get` or
-making a database query, this establishes a data dependency that will
-cause the whole template to be re-rendered when the data changes.
-This means that the amount of re-rendering for a particular change
-is affected by how you've divided your HTML into templates.
+Cada plantilla se ejecuta como su propia cmputación reactiva.  Cuando la plantilla tiene 
+acceso a una fuente de datos reactivo, tales como llamar `Session.get` o
+hacer una consulta de base de datos, esto establece dependencia de datos que hará que
+cause que la totalidad de la plantilla se vuelva a re-representar cuando los datos cambian.
+Esto significa que la cantidad de re-presentación para un cambio particular
+se ve afectada por como ha dividido su código HTML en plantillas.
 
-Typically, the exact extent of re-rendering is not crucial, but if you
-want more control, such as for performance reasons, you can use the
-`{{dstache}}#isolate}}...{{dstache}}/isolate}}` helper.  Data
-dependencies established inside an `#isolate` block are localized to
-the block and will not in themselves cause the parent template to be
-re-rendered.  This block helper essentially conveys the reactivity
-benefits you would get by pulling the content out into a new
-sub-template.
+Típicamente, la extensión exacta de re-presentación no es crucial, pero si quieres
+más control, como por motivos de rendimiento, puede utilizar el auxiliar
+`{{dstache}}#isolate}}...{{dstache}}/isolate}}`. los datos de dependencias establecidos 
+en el interior de un bloque `#isolate` están localizados en el
+bloque y no en sí mismos causa que la plantilla padre sea
+re-representada. Este bloque auxiliar esencialmente transmite los beneficios de la 
+reactividad que obtendría tirando el contenido hacia una nueva sub-plantilla.
 
 {{/api_box_inline}}
 
 
 <h2 id="timers"><span>Timers</span></h2>
 
-Meteor uses global environment variables
-to keep track of things like the current request's user.  To make sure
-these variables have the right values, you need to use
-`Meteor.setTimeout` instead of `setTimeout` and `Meteor.setInterval`
-instead of `setInterval`.
+Meteor utiliza variables de entorno globales para controlar las cosas como
+la solicitud actual del usuario. Para asegurarse de que
+estas variables tienen los valores corectos, necesita utilizar
+`Meteor.setTimeout` en vez de `setTimeout` y `Meteor.setInterval`
+en vez  de `setInterval`.
 
-These functions work just like their native JavaScript equivalents.
-You'll get an error if you call the native function.
+Estas funciones trabajan justo igual que sus equivalentes JavaScript nativas.
+Obtendrá un error si llama a la función nativa.
 
 {{> api_box setTimeout}}
 
-Returns a handle that can be used by `Meteor.clearTimeout`.
+Devuelve un identificador que puede ser utilizado por `Meteor.clearTimeout`.
 
 {{> api_box setInterval}}
 
-Returns a handle that can be used by `Meteor.clearInterval`.
+Devuelve su manejador que puede ser utilizado por `Meteor.clearInterval`.
 
 {{> api_box clearTimeout}}
 {{> api_box clearInterval}}
 
 <h2 id="deps"><span>Deps</span></h2>
 
-Meteor has a simple dependency tracking system which allows it to
-automatically rerun templates and other computations whenever
-[`Session`](#session) variables, database queries, and other data
-sources change.
+Meteor tiene un simple sistema de dependencia de seguimiento que le permite
+volver a ejecutar automáticamente las plantillas y otros computos cuando
+[`Session`](#session) variables, consultas de bases de datos, y otros fuentes 
+de datos cambia.
 
-Unlike most other systems, you don't have to manually declare these
-dependencies &mdash; it "just works". The mechanism is simple and
-efficient. When you call a function that supports reactive updates
-(such as a database query), it automatically saves the current
-Computation object, if any (representing, for Ejemplo, the current
-template being rendered).  Later, when the data changes, the function
-can "invalidate" the Computation, causing it to rerun (rerendering the
-template).
+A diferencia de la mayoría de los otros sistemas, usted no tiene que
+declarar manualmente estas dependencias &mdash; que "simplemente funciona". 
+El mecanismo es sencillo y eficiente.
+Cuando llama una función que admite actualizaciones reactivas
+(Por ejemplo, una consulta de base de datos), que guarda automáticamente el actual
+objeto <i>Computation</i>, en su caso (que representa, por Ejemplo, la plantilla actual
+siendo viualizada). Más tarde, cuando los datos cambian, la función
+puede "invalidate" el <i>Computation</i>, haciendo que se vuelva a ejecutar (reevisualizando la
+plantilla).
 
-Applications will find [`Deps.autorun`](#deps_autorun) useful, while more
-advanced facilities such as `Deps.Dependency` and `onInvalidate`
-<i>callbacks</i> are intended primarily for package authors implementing new
-reactive data sources.
+Las aplicaciones encontrarán [`Deps.autorun`](#deps_autorun) útil, mientras más 
+servicios avanzados tales como `Deps.Dependency` y `onInvalidate`
+<i>callbacks</i> están destinados principalmente a los autores de paquetes que implementan
+nuevas fuentes de datos reactivas.
 
 {{> api_box deps_autorun }}
 
-`Deps.autorun` allows you to run a function that depends on reactive data
-sources, in such a way that if there are changes to the data later,
-the function will be rerun.
+`Deps.autorun` le permite ejecutar una función que depende de fuentes de 
+datos reactivos de tal manera que si hay cambios en los datos más adelante,
+la función se vuelve a ejecutar. .
 
-For Ejemplo, you can monitor a cursor (which is a reactive data
-source) and aggregate it into a session variable:
+Por Ejemplo, puede monitorizar un cursor (que es una fuentes de datos 
+reactiva) y agregarlos a una variable de sesión:
 
     Deps.autorun(function () {
       var oldest = _.max(Monkeys.find().fetch(), function (monkey) {
@@ -2365,9 +2365,9 @@ source) and aggregate it into a session variable:
         Session.set("oldest", oldest.name);
     });
 
-Or you can wait for a session variable to have a certain value, and do
-something the first time it does, calling `stop` on the computation to
-prevent further rerunning:
+ o puede esperar que una variable de sesión tenga un cierto valor, y haga
+algo la primera vez que lo hace, llamando `stop` en la computación para
+evitar posteriores reejecuciones:
 
     Deps.autorun(function (c) {
       if (! Session.equals("shouldAlert", true))
