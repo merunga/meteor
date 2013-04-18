@@ -2377,46 +2377,46 @@ evitar posteriores reejecuciones:
       alert("Oh no!");
     });
 
-The function is invoked immediately, at which point it may alert and
-stop right away if `shouldAlert` is already true.  If not, the
-function is run again when `shouldAlert` becomes true.
+La función se invoca inmediatamente, en tal punto se puede alertar y
+detener de inmediato si `shouldAlert` es ya <i>true</i>.  Si no, la
+función se ejecuta de nuevo cuando `shouldAlert` se convierte en <i>true</i>.
 
-A change to a data dependency does not cause an immediate rerun, but
-rather "invalidates" the computation, causing it to rerun the next
-time a flush occurs.  A flush will occur automatically as soon as
-the system is idle if there are invalidated computations.  You can
-also use [`Deps.flush`](#deps_flush) to cause an immediate flush of
-all pending reruns.
+Un cambio en una dependencia de datos no provoca una immediata reejecución, sino
+que "invalidates" la computación, causando que se vuelva a ejecutar la próxima
+vez que se produce una descarga.  Una descarga se producirá automáticamente tan pronto como 
+el sistema está inactivo si no se invalidan los computos. También puede utilizar
+[`Deps.flush`](#deps_flush) para causar una descarga inmediata de
+todas las reposiciones pendientes. .
 
-If you nest calls to `Deps.autorun`, then when the outer call stops or
-reruns, the inner call will stop automatically.  Subscriptions and
-observers are also automatically stopped when used as part of a
-computation that is rerun, allowing new ones to be established.  Ver
-[`Meteor.subscribe`](#meteor_subscribe) for more information about
-subscriptions and reactivity.
+Si anida llamadas a `Deps.autorun`, entonces cuando la llamada externa se detenga o
+se reejecute, la llamada interna se detendrá automáticamente. Las suscripciones y 
+los observadores también se detiene automáticamente cuando se utiliza como parte de 
+un cálculo que se vuelve a ejecutar, permitiendo que los nuevos que se establezcan.  Ver
+[`Meteor.subscribe`](#meteor_subscribe) para obtener más información acerca 
+de las suscripciones y la reactividad.
 
-If the initial run of an autorun throws an exception, the computation
-is automatically stopped and won't be rerun.
+Si la ejecución inicial de un <i>autorun</i> produce una excepción, la computación 
+se detiene automáticamente y no se vuelve a ejecutar.
 
 {{> api_box deps_flush }}
 
-Normally, when you make changes (like writing to the database),
-their impact (like updating the DOM) is delayed until the system is
-idle. This keeps things predictable &mdash; you can know that the DOM
-won't go changing out from under your code as it runs. It's also one
-of the things that makes Meteor fast.
+Normalmente, al hacer cambios (como escribir a la base de datos),
+su impacto (como la actualización del DOM) se retrasa hasta que el sistema esté inactivo.
+idle.  Esto mantiene las cosas predecibles &mdash; puede saber que el DOM
+no va a cambiar por debajo de su código a medida que se ejecuta.
+Es también una de las cosas que hace a Meteor rápido.
 
-`Deps.flush` forces all of the pending reactive updates to complete.
-For Ejemplo, if an event handler changes a Session
-variable that will cause part of the user interface to rerender, the
-handler can call `flush` to perform the rerender immediately and then
-access the resulting DOM.
+`Deps.flush` obliga todas las actualizaciones reactivas pendientes a completarse.
+Por Ejemplo, si un controlador de eventos cambia una variable de sesión que causará
+que se vuelva a procesar parte de la interfaz de usuario  el controlador
+puede llamar  `flush` para realizar la revisualización inmediatamente y luego 
+aceder al DOM resultante .
 
-An automatic flush occurs whenever the system is idle which performs
-exactly the same work as `Deps.flush`.  The flushing process consists
-of rerunning any invalidated computations.  If additional
-invalidations happen while flushing, they are processed as part of the
-same flush until there is no more work to be done.  <i>callbacks</i>
+Una limpieza automática se produce cuando el sistema está inactivo lo que realiza
+exactamente el mismo trabajo que `Deps.flush`.  El proceso de limpieza consiste 
+en reejecutaar cualquier computación invalidada.  Si invalidaciones adicionales 
+suceden durante la limpieza, se procesan como parte de la misma limpieza hasta
+que no hay más trabajo por hacer <i>callbacks</i>
 registered with [`Meteor.afterFlush`](#deps_afterflush) are called
 after processing outstanding invalidations.
 
