@@ -238,28 +238,28 @@ servidor, al tiempo que le dan al servidor la última palabra en relación al ca
 solicitado.
 
 
-<h3 id="dataandsecurity-authentication">Authentication and user accounts</h3>
+<h3 id="dataandsecurity-authentication">Autenticación y cuentas de usuarios</h3>
 
-Meteor includes [Meteor Accounts](#accounts_api), a state-of-the-art
-authentication system. It features secure password login using the
+Meteor incluye [Meteor Accounts](#accounts_api), un sistema de autenticación
+de última generación. Cuenta con login usando contraseñas seguras
 [Secure Remote Password
 protocol](http://en.wikipedia.org/wiki/Secure_Remote_Password_protocol),
-and integration with external services including Facebook, GitHub,
-Google, Meetup, Twitter, and Weibo. Meteor Accounts defines a
-[`Meteor.users`](#meteor_users) collection where developers can store
-application-specific user data.
+e integración con servicios externos incluyendo Facebook, GitHub,
+Google, Meetup, Twitter, and Weibo. Meteor Accounts define una colección
+[`Meteor.users`](#meteor_users) donde los desarrolladores pueden guardar
+información de usuarios específica de sus aplicaciones.
 
-Meteor also includes pre-built forms for common tasks like login, signup,
-password change, and password reset emails. You can add [Accounts
-UI](#accountsui) to your app with just one line of code. The `accounts-ui` smart
-package even provides a configuration wizard that walks you through the steps to
-set up the external login services you're using in your app.
+Meteor también incluye formularios pre-creados para tareas comunes como login, registro,
+cambio de contraseña, e emails para restaurar contraseñas. Puedes agregar [Accounts
+UI](#accountsui) a tu aplicación tan sólo con una línea de código. El smart package `accounts-ui`
+inclusive proveed un asistente de configuración paso a paso, que te guía a través del proceso
+para configurar los servicios externos que utilizas en tu aplicación.
 
 {{#note}}
-The current release of Meteor supports MongoDB, the popular document
-database, and the examples in this section use the
-        [MongoDB API](http://www.mongodb.org/display/DOCS/Manual).  Future
-releases will include support for other databases.
+La versión actual de Meteor soporta MongoDB, la popupal base de datos documental,
+y los ejemplos en esta sección una el 
+        [MongoDB API](http://www.mongodb.org/display/DOCS/Manual).  Futuras versiones
+incluirán soporte para otras bases de datos.
 {{/note}}
 
 {{/better_markdown}}
@@ -268,66 +268,67 @@ releases will include support for other databases.
 <template name="reactivity">
 {{#better_markdown}}
 
-<h2 id="reactivity">Reactivity</h2>
+<h2 id="reactivity">Reactividad</h2>
 
-Meteor embraces the concept of [reactive
-programming](http://en.wikipedia.org/wiki/Reactive_programming). This means that
-you can write your code in a simple imperative style, and the result will be
-automatically recalculated whenever data changes that your code depends on.
+Meteor acoge el concepto de [programación
+reactiva](http://en.wikipedia.org/wiki/Reactive_programming). Esto quiere decir
+que tu puedes escribir tu código en un estilo imperativo simple, y el resultado
+se recalculará automáticamente cada vez que los datos de los que depende tu
+código, cambien.
 
     Deps.autorun(function () {
       Meteor.subscribe("messages", Session.get("currentRoomId"));
     });
 
-This example (taken from a chat room client) sets up a data
-subscription based on the session variable `currentRoomId`.
-If the value of `Session.get("currentRoomId")` changes for any reason, the
-function will be automatically re-run, setting up a new subscription that
-replaces the old one.
+Este ejemplo (tomado del cliente de chat) establece una suscripción de datos basada en la 
+variable de sesión `currentRoomId`.
+Si por cualquier motivo el valor de `Session.get("currentRoomId")` cambia, la función
+volverá a ejecutarse automáticamente, estableciendo una nueva suscripción que
+reemplace a la antigua.
 
-This automatic recomputation is achieved by a cooperation between
-`Session` and `Deps.autorun`.  `Deps.autorun` performs an arbitrary "reactive
-computation" inside of which data dependencies are tracked, and it
-will re-run its function argument as necessary.  Data providers like
-`Session`, on the other hand, make note of the computation they are
-called from and what data was requested, and they are prepared to send
-an invalidation signal to the computation when the data changes.
+Este nuevo cálculo automático se consigue por una cooperación entre
+`Session` y `Deps.autorun`.  `Deps.autorun` lleva a cabo un "cálculo reactivo"
+arbitrario, dónde se identifican las dependencias de datos, y que volverá a
+ejecutar la función argumento según lo necesite.  Proveedores de datos
+como por ejemplo `Session`, en cambio, toman nota de la función desde dónde
+se los llama y qué datos se les solicita, y están preparados para enviar
+una señal de invalidación a la función que los llama cada vez que la información
+cambie.
 
-This simple pattern (reactive computation + reactive data source) has wide
-applicability.  Above, the programmer is saved from writing
-unsubscribe/resubscribe calls and making sure they are called at the
-right time.  In general, Meteor can eliminate whole classes of data
-propagation code which would otherwise clog up your application with
-error-prone logic.
+Este simple patrón (cálculo reactivo + origen de datos reactivo) tiene una amplia
+aplicación.  Con este, el programador se ahorra el trabajo
+de realizar desuscripciones/suscripciones y asegurarse que éstas se llamen
+en el momento indicado.  En general, Meteor ahorra toda clase de
+código encargado de la propagación de información, que de otra manera
+llenarían tu aplicación de lógica propensa a la introducción de errores.
 
-These Meteor functions run your code as a reactive computation:
+Estas funciones de Meteor ejecutan tu código como cálculos reactivos:
 
 * [Templates](#templates)
-* [`Meteor.render`](#meteor_render) and [`Meteor.renderList`](#meteor_renderlist)
+* [`Meteor.render`](#meteor_render) y [`Meteor.renderList`](#meteor_renderlist)
 * [`Deps.autorun`](#deps_autorun)
 
-And the reactive data sources that can trigger changes are:
+Y los orígenes de datos reactivos que pueden disparar cambios son:
 
-* [`Session`](#session) variables
-* Database queries on [Collections](#find)
+* Variables dentro de [`Session`](#session)
+* Consultas a base de datos a través de [Collections](#find)
 * [`Meteor.status`](#meteor_status)
-* The `ready()` method on a [subscription handle](#meteor_subscribe)
+* El método `ready()` en un [manejador de suscripción](#meteor_subscribe)
 * [`Meteor.user`](#meteor_user)
 * [`Meteor.userId`](#meteor_userid)
 * [`Meteor.loggingIn`](#meteor_loggingin)
 
-In addition, the following functions which return an object with a
-`stop` method, if called from a reactive computation, are stopped when
-the computation is rerun or stopped:
+Además, las siguientes funciones que devuelven un objeto con un método 
+`stop`, si son llamados dentro de un cálculo reactivo, son detenidas
+cuando el cálculo se vuelve a realizar o se detiene:
 
-* [`Deps.autorun`](#deps_autorun) (nested)
+* [`Deps.autorun`](#deps_autorun) (anidado)
 * [`Meteor.subscribe`](#meteor_subscribe)
-* [`observe()`](#observe) and [`observeChanges()`](#observe_changes) on cursors
+* [`observe()`](#observe) and [`observeChanges()`](#observe_changes) sobre cursores
 
-Meteor's
-[implementation](https://github.com/meteor/meteor/blob/master/packages/deps/deps.js)
-is a package called [`Deps`](#deps) that is fairly short and straightforward.
-You can use it yourself to implement new reactive data sources.
+La [implementación](https://github.com/meteor/meteor/blob/master/packages/deps/deps.js)
+de Meteor es un paquete llamado [`Deps`](#deps) que es bastante reducido y directo.
+Puedes usarlo tu mismo para implementar nuevo orígenes de datos reactivos.
 
 {{/better_markdown}}
 </template>
