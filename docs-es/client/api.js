@@ -2,25 +2,25 @@ Template.api.isClient = {
   id: "meteor_isclient",
   name: "Meteor.isClient",
   locus: "Anywhere",
-  descr: ["Boolean variable.  True if running in client environment."]
+  descr: ["Boolean variable.  True si se ejecuta en enorno cliente."]
 };
 
 Template.api.isServer = {
   id: "meteor_isserver",
   name: "Meteor.isServer",
   locus: "Anywhere",
-  descr: ["Boolean variable.  True if running in server environment."]
+  descr: ["Boolean variable.  True si se ejecuta en enorno cliente."]
 };
 
 Template.api.startup = {
   id: "meteor_startup",
   name: "Meteor.startup(func)",
   locus: "Anywhere",
-  descr: ["Run code when a client or a server starts."],
+  descr: ["Se ejecuta el código cuando un cliente o un servidor se inicia."],
   args: [
     {name: "func",
      type: "Function",
-     descr: "A function to run on startup."}
+     descr: "Una función que se ejecuta en el inicio."}
   ]
 };
 
@@ -28,28 +28,28 @@ Template.api.absoluteUrl = {
   id: "meteor_absoluteurl",
   name: "Meteor.absoluteUrl([path], [options])",
   locus: "Anywhere",
-  descr: ["Generate an absolute URL pointing to the application. The server "
-          + "reads from the `ROOT_URL` environment variable to determine "
-          + "where it is running. This is taken care of automatically for "
-          + "apps deployed with `meteor deploy`, but must be provided when "
-          + "using `meteor bundle`."],
+  descr: ["Genera una URL absoluta que apunta a la aplicación. El servidor "
+          + "lee desde  la variable de entorno `ROOT_URL` para determinar "
+          + "dónde se está ejecutando. Esta es adquirida automaticamente para "
+          + "las apps desplegadas con `meteor deploy`, pero se debe proporcionar cuando "
+          + "se utiliza `meteor bundle`."],
   args: [
     {name: "path",
      type: "String",
-     descr: 'A path to append to the root URL. Do not include a leading "`/`".'
+     descr: 'Una ruta para anexar a la dirección URL raiz. No incluya una barra "`/`".'
     }
   ],
   options: [
     {name: "secure",
      type: "Boolean",
-     descr: "Create an HTTPS URL."
+     descr: "Crea una HTTPS URL."
     },
     {name: "replaceLocalhost",
      type: "Boolean",
-     descr: "Replace localhost with 127.0.0.1. Useful for services that don't recognize localhost as a domain name."},
+     descr: "Sustituye localhost por  127.0.0.1.  Útil para los servicios que no reconocen localhost como nombre de dominio."},
     {name: "rootUrl",
      type: "String",
-     descr: "Override the default ROOT_URL from the server environment. For example: \"`http://foo.example.com`\""
+     descr: "Reemplaza el por defecto ROOT_URL del entorno del servidor. Por ejemplo: \"`http://foo.example.com`\""
     }
   ]
 };
@@ -58,25 +58,25 @@ Template.api.settings = {
   id: "meteor_settings",
   name: "Meteor.settings",
   locus: "Server and client",
-  descr: ["`Meteor.settings` contains any deployment-specific options that were " +
-          "provided using the `--settings` option for `meteor run` or `meteor deploy`. " +
-          "If you provide the `--settings` option, `Meteor.settings` will be the " +
-          "JSON object in the file you specify.  Otherwise, `Meteor.settings` will " +
-          "be an empty object. If the object contains a key named `public`, then " +
-          "`Meteor.settings.public` will also be available on the client."]
+  descr: ["`Meteor.settings` contiene las opciones específicas de implementación que fueron" +
+          "proporcionadas utilizando la opcióne `--settings` para `meteor run` o `meteor deploy`. " +
+          "Si proporciona la opción `--settings`, `Meteor.settings` será un " +
+          "objeto JSON en el archivo que se especifique. De lo contrario, `Meteor.settings` será " +
+          "un objeto vacio. Si el objeto contiene una clave con nombre `public`, entonces " +
+          "`Meteor.settings.public` también estará disponible en el cliente."]
 };
 
 Template.api.release = {
   id: "meteor_release",
   name: "Meteor.release",
   locus: "Server and client",
-  descr: ["`Meteor.release` is a string containing the name of the " +
-          "[release](#meteorupdate) with which the project was built (for " +
-          "example, `\"" +
+  descr: ["`Meteor.release` es un string conteniendo el nombre del " +
+          "[release](#meteorupdate) con el que el projecto ha sido construido (por " +
+          "ejemplo, `\"" +
           // Put the current release in the docs as the example)
-          (Meteor.release ? Meteor.release : '0.6.0') +
-          "\"`). It is `undefined` if the project was built using a git " +
-          "checkout of Meteor."]
+          (Meteor.release ? Meteor.release : '0.6.1') +
+          "\"`). Es `undefined` si el proyecto se construye a partir de un git " +
+          "checkout de Meteor."]
 };
 
 Template.api.ejsonParse = {
@@ -84,7 +84,7 @@ Template.api.ejsonParse = {
   name: "EJSON.parse(str)",
   locus: "Anywhere",
   args: [ {name: "str", type: "String", descr: "A string to parse into an EJSON value."} ],
-  descr: ["Parse a string into an EJSON value. Throws an error if the string is not valid EJSON."]
+  descr: ["Analiza ua string dentro de un valor EJSON. Lanza un error si el string no es EJSON válido."]
 },
 
 Template.api.ejsonStringify = {
@@ -92,9 +92,9 @@ Template.api.ejsonStringify = {
   name: "EJSON.stringify(val)",
   locus: "Anywhere",
   args: [ {name: "val", type: "EJSON-compatible value", descr: "A value to stringify."} ],
-  descr: ["Serialize a value to a string.\n\nFor EJSON values, the serialization " +
-          "fully represents the value. For non-EJSON values, serializes the " +
-          "same way as `JSON.stringify`."]
+  descr: ["Serializa un valor a un string.\n\n Para valores EJSON, la serialización " +
+          "completa representa el valor. Para valores non-EJSON, serializa de la " +
+          "misma forma que `JSON.stringify`."]
 },
 
 
@@ -103,7 +103,7 @@ Template.api.ejsonFromJSONValue = {
   name: "EJSON.fromJSONValue(val)",
   locus: "Anywhere",
   args: [ {name: "val", type: "JSON-compatible value", descr: "A value to deserialize into EJSON."} ],
-  descr: ["Deserialize an EJSON value from its  plain JSON representation."]
+  descr: ["Deserializa un valor EJSON de su representación sin formato JSON."]
 },
 
 Template.api.ejsonToJSONValue = {
@@ -111,7 +111,7 @@ Template.api.ejsonToJSONValue = {
   name: "EJSON.toJSONValue(val)",
   locus: "Anywhere",
   args: [ {name: "val", type: "EJSON-compatible value", descr: "A value to serialize to plain JSON."} ],
-  descr: ["Serialize an EJSON-compatible value into its plain JSON representation."]
+  descr: ["Serializa un valor EJSON-compatible value en su representación sin formato JSON."]
 },
 
 Template.api.ejsonEquals = {
@@ -120,8 +120,8 @@ Template.api.ejsonEquals = {
   locus: "Anywhere",
   args: [ {name: "a", type: "EJSON-compatible object"},
           {name: "b", type: "EJSON-compatible object"} ],
-  descr: ["Return true if `a` and `b` are equal to each other.  Return false otherwise." +
-          "  Uses the `equals` method on `a` if present, otherwise performs a deep comparison."]
+  descr: ["Returna true si `a` y `b` son iguales entre si.  Returna false en otro caso." +
+          "  Utilice el método `equals` en `a` si está presente, de otro modo realice una comparación profunda."]
 },
 
 Template.api.ejsonClone = {
@@ -129,15 +129,15 @@ Template.api.ejsonClone = {
   name: "EJSON.clone(val)",
   locus: "Anywhere",
   args: [ {name: "val", type: "EJSON-compatible value", descr: "A value to copy."} ],
-  descr: ["Return a deep copy of `val`."]
+  descr: ["Returno una copia en profundidad de `val`."]
 },
 
 Template.api.ejsonNewBinary = {
   id: "ejson_new_binary",
   name: "EJSON.newBinary(size)",
   locus: "Anywhere",
-  args: [ {name: "size", type: "Number", descr: "The number of bytes of binary data to allocate."} ],
-  descr: ["Allocate a new buffer of binary data that EJSON can serialize."]
+  args: [ {name: "size", type: "Number", descr: "El número de  bytes de datos binarios para asignar."} ],
+  descr: ["Asigna un nuevo buffer de datos binarios que  EJSON puede serializar."]
 },
 
 Template.api.ejsonAddType = {
@@ -147,53 +147,53 @@ Template.api.ejsonAddType = {
   args: [
     {name: "name",
      type: "String",
-     descr: "A tag for your custom type; must be unique among custom data types defined in your project, and must match the result of your type's `typeName` method."
+     descr: "Una etiqueta para su tipo peronalizado; debe ser único entre los tipos de datos personalizados definidos en el proyecto, y debe coincidir el resultado de su tipo de método `typeName` ."
     },
     {name: "factory",
      type: "Function",
-     descr: "A function that deserializes a JSON-compatible value into an instance of your type.  This should match the serialization performed by your type's `toJSONValue` method."
+     descr: "Una función que  deserializa un valor JSON-compatible dentro de una instancia de su type. Debe coincidir con la serialización realizada por su tipo de método `toJSONValue`."
     }
   ],
-  descr: ["Add a custom datatype to EJSON."]
+  descr: ["Añade un datatype personalizado a EJSON."]
 };
 
 Template.api.ejsonTypeClone = {
   id: "ejson_type_clone",
   name: "<i>instance</i>.clone()",
-  descr: ["Return a value `r` such that `this.equals(r)` is true, and modifications to `r` do not affect `this` and vice versa."]
+  descr: ["Retorna una valor `r` tal que `this.equals(r)` es true, y modificaciones en `r`  no afectan `this` y viceversa."]
 };
 
 Template.api.ejsonTypeEquals = {
   id: "ejson_type_equals",
   name: "<i>instance</i>.equals(other)",
   args: [ {name: "other", type: "object", descr: "Another object to compare this to."}],
-  descr: ["Return `true` if `other` has a value equal to `this`; `false` otherwise."]
+  descr: ["Retorna `true` si `other` tiene un valor igual a  `this`; `false` de otra manera."]
 };
 
 Template.api.ejsonTypeName = {
   id: "ejson_type_typeName",
   name: "<i>instance</i>.typeName()",
-  descr: ["Return the tag used to identify this type.  This must match the tag used to register this type with [`EJSON.addType`](#ejson_add_type)."]
+  descr: ["Retorna la etiqueta utilizada para identificar este tipo.  Debe coincidir con la etiqueta utilizada para registrar este tipo con [`EJSON.addType`](#ejson_add_type)."]
 };
 
 Template.api.ejsonTypeToJSONValue = {
   id: "ejson_type_toJSONValue",
   name: "<i>instance</i>.toJSONValue()",
-  descr: ["Serialize this instance into a JSON-compatible value."]
+  descr: ["Serializa esta instancian en un valor JSON-compatible."]
 };
 
 Template.api.publish = {
   id: "meteor_publish",
   name: "Meteor.publish(name, func)",
   locus: "Server",
-  descr: ["Publish a record set."],
+  descr: ["Publica un conjunto de registros."],
   args: [
     {name: "name",
      type: "String",
-     descr: "Name of the attribute set.  If `null`, the set has no name, and the record set is automatically sent to all connected clients."},
+     descr: "Nombre del atributo establecido.  Si `null`, el conjunto no tiene nombre, y el conjunto de registros se envía automaticamente a todos los clientes conectados."},
     {name: "func",
      type: "Function",
-     descr: "Function called on the server each time a client subscribes.  Inside the function, `this` is the publish handler object, described below.  If the client passed arguments to `subscribe`, the function is called with the same arguments."}
+     descr: "Función llamada en el servidor cada vez que se suscribe un cliente.  Dentro de la función, `this` es el objeto manejador de publicación, descrito a continuación.  Si el cliente ha pasado argumentos a `subscribe`, la función es llamada con los mismos argumentos."}
   ]
 };
 
@@ -201,19 +201,19 @@ Template.api.subscription_added = {
   id: "publish_added",
   name: "<i>this</i>.added(collection, id, fields)",
   locus: "Server",
-  descr: ["Call inside the publish function.  Informs the subscriber that a document has been added to the record set."],
+  descr: ["Llama dentro de la función de pblicaciónn.  Informa al suscriptor que un documento ha sido añadido al conjunto de registros."],
   args: [
     {name: "collection",
      type: "String",
-     descr: "The name of the collection that contains the new document."
+     descr: "El nombre de la colección que contiene el documento nuevo."
     },
     {name: "id",
      type: "String",
-     descr: "The new document's ID."
+     descr: "El nuevo ID de documento."
     },
     {name: "fields",
      type: "Object",
-     descr: "The fields in the new document.  If `_id` is present it is ignored."
+     descr: "Los campos en el nuevo documento.  Si `_id` está presente es ignorado."
     }
   ]
 };
@@ -222,19 +222,19 @@ Template.api.subscription_changed = {
   id: "publish_changed",
   name: "<i>this</i>.changed(collection, id, fields)",
   locus: "Server",
-  descr: ["Call inside the publish function.  Informs the subscriber that a document in the record set has been modified."],
+  descr: ["Llama dentro de la función de publicación.  Informa al suscriptor que un documento en el conjunto de registros ha sido modificado."],
   args: [
     {name: "collection",
      type: "String",
-     descr: "The name of the collection that contains the changed document."
+     descr: "El nombre de la colección que contiene el documento cambiado."
     },
     {name: "id",
      type: "String",
-     descr: "The changed document's ID."
+     descr: "El ID del documento cambiado."
     },
     {name: "fields",
      type: "Object",
-     descr: "The fields in the document that have changed, together with their new values.  If a field is not present in `fields` it was left unchanged; if it is present in `fields` and has a value of `undefined` it was removed from the document.  If `_id` is present it is ignored."
+     descr: "Los campos del documento que han cambiado, junto a sus nuevos valores.  Si un campo no está presente en `fields`  se deja sin cambiar; si está presente en `fields` y tiene un valor de `undefined` se elimina del documento.  Si `_id` está presente se ignora."
     }
   ]
 };
@@ -243,15 +243,15 @@ Template.api.subscription_removed = {
   id: "publish_removed",
   name: "<i>this</i>.removed(collection, id)",
   locus: "Server",
-  descr: ["Call inside the publish function.  Informs the subscriber that a document has been removed from the record set."],
+  descr: ["Llama dentro de la función de publicación.  Informa al suscriptor que un documento ha sido eliminado del conjunto de registros."],
   args: [
     {name: "collection",
      type: "String",
-     descr: "The name of the collection that the document has been removed from."
+     descr: "El nombre de la colección del que se ha borrado el documento."
     },
     {name: "id",
      type: "String",
-     descr: "The ID of the document that has been removed."
+     descr: "El ID del documento que ha sido borrado."
     }
   ]
 };
@@ -260,7 +260,7 @@ Template.api.subscription_ready = {
   id: "publish_ready",
   name: "<i>this</i>.ready()",
   locus: "Server",
-  descr: ["Call inside the publish function.  Informs the subscriber that an initial, complete snapshot of the record set has been sent.  This will trigger a call on the client to the `onReady` callback passed to  [`Meteor.subscribe`](#meteor_subscribe), if any."]
+  descr: ["Llama dentro de la función de publicación.  Informa al suscriptor que una inicial, instantánea completa del conjunto de regitros ha sido enviado.  Esto desencadenará una llamada en el cliente para el callback `onReady` pasado a  [`Meteor.subscribe`](#meteor_subscribe), si hay alguno."]
 };
 
 
@@ -268,25 +268,25 @@ Template.api.subscription_error = {
   id: "publish_error",
   name: "<i>this</i>.error(error)",
   locus: "Server",
-  descr: ["Call inside the publish function.  Stops this client's subscription, triggering a call on the client to the `onError` callback passed to [`Meteor.subscribe`](#meteor_subscribe), if any. If `error` is not a [`Meteor.Error`](#meteor_error), it will be mapped to `Meteor.Error(500, \"Internal server error\")`."]
+  descr: ["Llama dentro de la función de publicación.  Detiene la suscripción de este cliente, desencadenndo una llamada en el cliente para el callback `onError`  pasado a [`Meteor.subscribe`](#meteor_subscribe), si hay alguno. Si `error` no es un [`Meteor.Error`](#meteor_error), se asignará a `Meteor.Error(500, \"Internal server error\")`."]
 };
 
 Template.api.subscription_stop = {
   id: "publish_stop",
   name: "<i>this</i>.stop()",
   locus: "Server",
-  descr: ["Call inside the publish function.  Stops this client's subscription; the `onError` callback is *not* invoked on the client."]
+  descr: ["Llama dentro de la función de publicación.  Detiene la suscripción de este cliente; el callback `onError`  *not* es invocado en el cliente."]
 };
 
 Template.api.subscription_onStop = {
   id: "publish_onstop",
   name: "<i>this</i>.onStop(func)",
   locus: "Server",
-  descr: ["Call inside the publish function.  Registers a callback function to run when the subscription is stopped."],
+  descr: ["Llama dentro de la función de publicación.  Registra una función callback para ejecutar cuando la suscripción se detenga."],
   args: [
     {name: "func",
      type: "Function",
-     descr: "The callback function"
+     descr: "La función callback"
     }
   ]
 };
@@ -295,7 +295,7 @@ Template.api.subscription_userId = {
   id: "publish_userId",
   name: "<i>this</i>.userId",
   locus: "Server",
-  descr: ["Access inside the publish function. The id of the logged-in user, or `null` if no user is logged in."]
+  descr: ["Accede dentro de la función de publicación. E id del usuario conectado, o `null` si ningún usuario está conectado."]
 };
 
 
@@ -303,17 +303,17 @@ Template.api.subscribe = {
   id: "meteor_subscribe",
   name: "Meteor.subscribe(name [, arg1, arg2, ... ] [, callbacks])",
   locus: "Client",
-  descr: ["Subscribe to a record set.  Returns a handle that provides `stop()` and `ready()` methods."],
+  descr: ["Se suscribe a un conjunto de regitros.  Retorna un manejador que proporciona métodos `stop()` y `ready()`."],
   args: [
     {name: "name",
      type: "String",
-     descr: "Name of the subscription.  Matches name of server's publish() call."},
+     descr: "Nombre de la suscripción.  Coincide con el nombre de llamada al servidor publish()."},
     {name: "arg1, arg2, ...",
      type: "Any",
-     descr: "Optional arguments passed to publisher function on server."},
+     descr: "argumentos opcionales pasados ​​a la función de publicación en el servidor."},
     {name: "callbacks",
      type: "Function or Object",
-     descr: "Optional. May include `onError` and `onReady` callbacks. If a function is passed instead of an object, it is interpreted as an `onReady` callback."}
+     descr: "Opcional. Puede incluir los callbacks `onError` y `onReady`.Si se pasa una función en lugar de un objeto, se interpreta como un callback `onReady`."}
   ]
 };
 
@@ -321,11 +321,11 @@ Template.api.methods = {
   id: "meteor_methods",
   name: "Meteor.methods(methods)",
   locus: "Anywhere",
-  descr: ["Defines functions that can be invoked over the network by clients."],
+  descr: ["Define funciones que pueden ser invocados a través de la red por los clientes."],
   args: [
     {name: "methods",
      type: "Object",
-     descr: "Dictionary whose keys are method names and values are functions."}
+     descr: "Diccionario cuyas claves son nombres de métodos y los  valores son  funciones."}
   ]
 };
 
@@ -333,18 +333,18 @@ Template.api.method_invocation_userId = {
   id: "method_userId",
   name: "<i>this</i>.userId",
   locus: "Anywhere",
-  descr: ["The id of the user that made this method call, or `null` if no user was logged in."]
+  descr: ["El id del usuario que realizó la llamada a este método, o `null` si ningún usuario ha iniciado sesión."]
 };
 
 Template.api.method_invocation_setUserId = {
   id: "method_setUserId",
   name: "<i>this</i>.setUserId(userId)",
   locus: "Server",
-  descr: ["Set the logged in user."],
+  descr: ["Establece el usuario conectado."],
   args: [
     {name: "userId",
      type: "String or null",
-     descr: "The value that should be returned by `userId` on this connection."}
+     descr: "El valor que debe ser devuelto por `userId` en esta conexión."}
   ]
 };
 
@@ -352,31 +352,31 @@ Template.api.method_invocation_unblock = {
   id: "method_unblock",
   name: "<i>this</i>.unblock()",
   locus: "Server",
-  descr: ["Call inside a method invocation.  Allow subsequent method from this client to begin running in a new fiber."]
+  descr: ["Llama dentro de una invocación de método . Permite posterior método de este cliente para empezar a ejecutar en una nueva fibra."]
 };
 
 Template.api.method_invocation_isSimulation = {
   id: "method_issimulation",
   name: "<i>this</i>.isSimulation",
   locus: "Anywhere",
-  descr: ["Access inside a method invocation.  Boolean value, true if this invocation is a stub."]
+  descr: ["Accede dentro de la invocación del método. Valor boolean, true si esta invocación es un stub."]
 };
 
 Template.api.error = {
   id: "meteor_error",
   name: "new Meteor.Error(error, reason, details)",
   locus: "Anywhere",
-  descr: ["This class represents a symbolic error thrown by a method."],
+  descr: ["Esta clase representa un error simbólico lanzado por un método."],
   args: [
     {name: "error",
      type: "Number",
-     descr: "A numeric error code, likely similar to an HTTP code (eg, 404, 500)."},
+     descr: "Un código de error numérico, probablemente similar a un código HTTP  (ej, 404, 500)."},
     {name: "reason",
      type: "String",
-     descr: "Optional.  A short human-readable summary of the error, like 'Not Found'."},
+     descr: "Opcional.  Un corto resumen human-readable del error, como 'Not Found'."},
     {name: "details",
      type: "String",
-     descr: "Optional.  Additional information about the error, like a textual stack trace."}
+     descr: "Opcional.  Información adicional sobre el error, como  un seguimiento de la pila textual."}
   ]
 };
 
@@ -384,17 +384,17 @@ Template.api.meteor_call = {
   id: "meteor_call",
   name: "Meteor.call(name, param1, param2, ... [, asyncCallback])",
   locus: "Anywhere",
-  descr: ["Invokes a method passing any number of arguments."],
+  descr: ["Invoca un método pasando cualquier número de argumentos."],
   args: [
     {name: "name",
      type: "String",
-     descr: "Name of method to invoke"},
+     descr: "Nombre del método a invocar"},
     {name: "param1, param2, ...",
      type: "EJSON",
-     descr: "Optional method arguments"},
+     descr: "Opcional, argumentos de métodos"},
     {name: "asyncCallback",
      type: "Function",
-     descr: "Optional callback, which is called asynchronously with the error or result after the method is complete. If not provided, the method runs synchronously if possible (see below)."}
+     descr: "Callback Opcional, que se llama de forma asincrónica con el error o el resultado después de que el método esté completo. Si no se proporciona, el método se ejecuta sincrónicamente, si es posible (ver más abajo)."}
   ]
 };
 
@@ -402,25 +402,25 @@ Template.api.meteor_apply = {
   id: "meteor_apply",
   name: "Meteor.apply(name, params [, options] [, asyncCallback])",
   locus: "Anywhere",
-  descr: ["Invoke a method passing an array of arguments."],
+  descr: ["Invoca un método pasando un array de argumentos."],
   args: [
     {name: "name",
      type: "String",
-     descr: "Name of method to invoke"},
+     descr: "Nombre del método a invocar"},
     {name: "params",
      type: "Array",
-     descr: "Method arguments"},
+     descr: "argumentos de método"},
     {name: "asyncCallback",
      type: "Function",
-     descr: "Optional callback; same semantics as in [`Meteor.call`](#meteor_call)."}
+     descr: "Callback opcional ; la misma semántica que en [`Meteor.call`](#meteor_call)."}
   ],
   options: [
     {name: "wait",
      type: "Boolean",
-     descr: "(Client only) If true, don't send this method until all previous method calls have completed, and don't send any subsequent method calls until this one is completed."},
+     descr: "(Sólo cliente) Si es true, no enía este método hasta que todos las llamadas a métodos anteriores han concluido, y no envíe las llamadas a métodos siguientes hasta que se complete esta."},
     {name: "onResultReceived",
      type: "Function",
-     descr: "(Client only) This callback is invoked with the error or result of the method (just like `asyncCallback`) as soon as the error or result is available. The local cache may not yet reflect the writes performed by the method."}
+     descr: "(Sólo cliente) Este callback se invoca con el error o el resultado del método (como `asyncCallback`)  tan pronto como el error o el resultado estén disponible. La caché local sin embargo, puede no reflejar la escrituras realizadas por el método."}
   ]
 };
 
@@ -428,7 +428,7 @@ Template.api.status = {
   id: "meteor_status",
   name: "Meteor.status()",
   locus: "Client",
-  descr: ["Get the current connection status. A reactive data source."]
+  descr: ["Obtiene el estado de la conexión actual. Una fuente de datos reactiva."]
 };
 
 Template.api.reconnect = {
@@ -436,19 +436,19 @@ Template.api.reconnect = {
   name: "Meteor.reconnect()",
   locus: "Client",
   descr: [
-    "Force an immediate reconnection attempt if the client is not connected to the server.",
-    "This method does nothing if the client is already connected."]
+    "Fuerza un intento de reconexión inmediata si el cliente no está conectado al servidor.",
+    "Este método no hace nada si el cliente ya está conectado."]
 };
 
 Template.api.connect = {
   id: "meteor_connect",
   name: "Meteor.connect(url)",
   locus: "Client",
-  descr: ["Connect to the server of a different Meteor application to subscribe to its document sets and invoke its remote methods."],
+  descr: ["Conecta con el servidor de una diferente aplicación Meteor para suscribirse a los conjuntos de documentos e invocar sus métodos remotos."],
   args: [
     {name: "url",
      type: "String",
-     descr: "The URL of another Meteor application."}
+     descr: "La  URL de otra aplicación Meteor."}
   ]
 };
 
@@ -458,27 +458,27 @@ Template.api.meteor_collection = {
   id: "meteor_collection",
   name: "new Meteor.Collection(name, [options])",
   locus: "Anywhere",
-  descr: ["Constructor for a Collection"],
+  descr: ["Constructor para una Collection"],
   args: [
     {name: "name",
      type: "String",
-     descr: "The name of the collection.  If null, creates an unmanaged (unsynchronized) local collection."}
+     descr: "El nombre de una colección.  Si null, crea una no-administrado (no-sincronizado) colección local."}
   ],
   options: [
     {name: "manager",
      type: "Object",
-     descr: "The Meteor connection that will manage this collection, defaults to `Meteor` if null.  Unmanaged (`name` is null) collections cannot specify a manager."
+     descr: "La conexión Meteor que gestionará esta colección, por defecto en `Meteor` si null. A las Colecciones no-administradas (`name` es null) no se les puede especificar un gestor."
     },
     {name: "idGeneration",
      type: "String",
-     descr: "The method of generating the `_id` fields of new documents in this collection.  Possible values:\n\n" +
+     descr: "El método de generación de los campos `_id` de nuevo documentos en esta colección.  Posibles valores:\n\n" +
      " - **`'STRING'`**: random strings\n" +
      " - **`'MONGO'`**:  random [`Meteor.Collection.ObjectID`](#collection_object_id) values\n\n" +
-     "The default id generation technique is `'STRING'`."
+     "La técnica de generación de id por defecto es `'STRING'`."
     },
     {name: "transform",
      type: "Function",
-     descr: "An optional transformation function. Documents will be passed through this function before being returned from `fetch` or `findOne`, and before being passed to callbacks of `observe`, `allow`, and `deny`."
+     descr: "Una opcional función de transformación. Se pasarán documentos a través de esta función antes de ser devueltos desde `fetch` o `findOne`, y antes de pasar a los callbacks de `observe`, `allow`, y `deny`."
     }
   ]
 };
@@ -487,34 +487,34 @@ Template.api.find = {
   id: "find",
   name: "<em>collection</em>.find(selector, [options])",
   locus: "Anywhere",
-  descr: ["Find the documents in a collection that match the selector."],
+  descr: ["Encuentra los documentos en una colección que coinciden con el selector."],
   args: [
     {name: "selector",
      type: "Mongo selector, or String",
      type_link: "selectors",
-     descr: "The query"}
+     descr: "The query, La consulta"}
   ],
   options: [
     {name: "sort",
      type: "Sort specifier",
      type_link: "sortspecifiers",
-     descr: "Sort order (default: natural order)"},
+     descr: "Modificar ordenación (por defecto: orden natural)"},
     {name: "skip",
      type: "Number",
-     descr: "Number of results to skip at the beginning"},
+     descr: "Número de resultados para saltar al principio"},
     {name: "limit",
      type: "Number",
-     descr: "Maximum number of results to return"},
+     descr: "Número máximo de resultados a devolver"},
     {name: "fields",
      type: "Field specifier",
      type_link: "fieldspecifiers",
-     descr: "(Server only) Dictionary of fields to return or exclude."},
+     descr: "(Sólo servidor) Diccionario de campos para retornar o excluir."},
     {name: "reactive",
      type: "Boolean",
-     descr: "(Client only) Default `true`; pass `false` to disable reactivity"},
+     descr: "(Sólo cliente) Por defecto `true`; pasar `false` para desctivar la reactividad"},
     {name: "transform",
      type: "Function",
-     descr: "Overrides `transform` on the  [`Collection`](#collections) for this cursor.  Pass `null` to disable transformation."}
+     descr: "Invalida `transform` en el  [`Collection`](#collections) para este cursor.  Pasar `null` para desactivar transformación."}
   ]
 };
 
@@ -522,7 +522,7 @@ Template.api.findone = {
   id: "findone",
   name: "<em>collection</em>.findOne(selector, [options])",
   locus: "Anywhere",
-  descr: ["Finds the first document that matches the selector, as ordered by sort and skip options."],
+  descr: ["Busca el primer documento que coincida con el selector, según lo ordenado por las opciones sort y skip."],
   args: [
     {name: "selector",
      type: "Mongo selector, or String",
@@ -533,20 +533,20 @@ Template.api.findone = {
     {name: "sort",
      type: "Sort specifier",
      type_link: "sortspecifiers",
-     descr: "Sort order (default: natural order)"},
+     descr: "Modificar la ordenación (por defecto: orden natural)"},
     {name: "skip",
      type: "Number",
-     descr: "Number of results to skip at the beginning"},
+     descr: "Número de resultados para saltar hasta el principio"},
     {name: "fields",
      type: "Field specifier",
      type_link: "fieldspecifiers",
-     descr: "(Server only) Dictionary of fields to return or exclude."},
+     descr: "(Sólo servidor) Diccionario de campos para retornar o excluir."},
     {name: "reactive",
      type: "Boolean",
-     descr: "(Client only) Default true; pass false to disable reactivity"},
+     descr: "(Sólo cliente) Por defecto true; pasar false para desactivar la reactividad"},
     {name: "transform",
      type: "Function",
-     descr:  "Overrides `transform` on the [`Collection`](#collections) for this cursor.  Pass `null` to disable transformation."
+     descr:  "Invalida `transform` en el  [`Collection`](#collections) para este cursor.  Pasar `null` para desactivar transformación."
     }
   ]
 };
@@ -555,14 +555,14 @@ Template.api.insert = {
   id: "insert",
   name: "<em>collection</em>.insert(doc, [callback])",
   locus: "Anywhere",
-  descr: ["Insert a document in the collection.  Returns its unique _id."],
+  descr: ["Inserta un documento en la colección.  Returna un único _id."],
   args: [
     {name: "doc",
      type: "Object",
-     descr: "The document to insert. May not yet have an _id attribute, in which case Meteor will generate one for you."},
+     descr: "El documento a insertar. Puede aún no tener un atributo  _id, en cuyo caso Meteor lo generará para usted."},
     {name: "callback",
      type: "Function",
-     descr: "Optional.  If present, called with an error object as the first argument and, if no error, the _id as the second."}
+     descr: "Opcional.  Si está presente, se llama con un objeto error  como el primer argumento y , si no hay error, el _id como el segundo."}
   ]
 };
 
