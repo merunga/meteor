@@ -2260,7 +2260,7 @@ re-visualizado utilizando el bloque auxiliar
 `{{dstache}}#constant}}...{{dstache}}/constant}}`.
 El contenido dentro del bloque auxiliar `#constant` se conserva exactamente tal y como es,
 incluso si encerrando la plantilla es re-visualizada. Los cambios en otras partes de la
-plantilla están pacheados ​​en torno a ella de la misma manera como
+plantilla están parcheados ​​en torno a ella de la misma manera como
 `preserve`. A diferencia de la preservación de un nodo individual, una region constante 
 retiene no sólo las identidades de sus nodos, sino también sus atributos y contenidos
 y contents. El contenido del bloque sólo se evalua una vez 
@@ -2271,9 +2271,9 @@ Muchos widgets de terceros crean y gestionan sus propios nodos DOM
 mediante programación.Por lo general, se pone un elemento vacio en su 
 plantilla, que el widget o biblioteca luego poblará con hijos DOM
 children. Normalmente, cuando Meteor se vuelve a representar la plantilla encerrada
-borrará  los nuevos hijos DOM, ya que la plantilla dice que debe estar vacío.
-empty. Si el se envuelve en un blque `#constant`, sin embargo, se
-deja solo; cualquiera que sea el contenido que se encuentre en los restos del DOM.
+borrará  los nuevos hijos DOM, ya que la plantilla especifica que debe estar vacío.
+Si se envuelve en un blque `#constant`, sin embargo, se deja solo; 
+cualquiera que sea el contenido que se encuentre en los restos del DOM.
 
 {{#note}}
 Las regiones constantes se destinan a incorporar contenido No-Meteor.
@@ -2412,89 +2412,90 @@ que se vuelva a procesar parte de la interfaz de usuario  el controlador
 puede llamar  `flush` para realizar la revisualización inmediatamente y luego 
 aceder al DOM resultante .
 
-Una limpieza automática se produce cuando el sistema está inactivo lo que realiza
+Una limpieza automática se produce cuando el sistema está inactivo lo cual realiza
 exactamente el mismo trabajo que `Deps.flush`.  El proceso de limpieza consiste 
-en reejecutaar cualquier computación invalidada.  Si invalidaciones adicionales 
+en reejecutar cualquier computación invalidada.  Si invalidaciones adicionales 
 suceden durante la limpieza, se procesan como parte de la misma limpieza hasta
-que no hay más trabajo por hacer <i>callbacks</i>
-registered with [`Meteor.afterFlush`](#deps_afterflush) are called
-after processing outstanding invalidations.
+que no hay más trabajo por hacer. <i>callbacks</i> registradas con 
+[`Meteor.afterFlush`](#deps_afterflush) se llaman después de procesar 
+invalidaciones pendientes.
 
-Any auto-updating DOM elements that are found to not be in the
-document during a flush may be cleaned up by Meteor (meaning that
-Meteor will stop tracking and updating the elements, so that the
-browser's garbage collector can delete them).  So, if you manually
-call `flush`, you need to make sure that any auto-updating elements
-that you have created by calling [`Meteor.render`](#meteor_render)
-have already been inserted in the main DOM tree.
+Cualquier auto-actualización de elementos DOM que se observan no estar encontrado el 
+documento durante una limpieza puede ser limpiado por Meteor (Lo que significa que
+Meteor dejará de seguir y actualizar los elementos, por lo que
+el colector de basura del navegador puede eliminarlos) Así que, si llama
+manualmente `flush`, necesita asegurarse de que cualquier auto-actualización de elementos
+que haya creado llamando [`Meteor.render`](#meteor_render)
+ya se han insertado en el principal árbol DOM.
 
-It is illegal to call `flush` from inside a `flush` or from a running
-computation.
+Es ilegal llamar `flush` desde el interior de un `flush` o de una computación
+ejecutandose.
 
 {{> api_box deps_nonreactive }}
 
-Calls `func()` with `Deps.currentComputation` temporarily set to
-`null`.  If `func` accesses reactive data sources, these data sources
-will never cause a rerun of the enclosing computation.
+Lllamadas `func()` con `Deps.currentComputation` temporalmente se establece a 
+`null`.  Si `func` accede a fuentes de datos reactivos, estas fuentes de datos
+nunca causarán reejecución de la computación envolvente.
 
 {{> api_box deps_active }}
 
-This value is useful for data source implementations to determine
-whether they are being accessed reactively or not.
+Este valor es útil para implementaciones de fuentes de datos que determinan
+si están siendo accedidos reactivamente o no.
 
 {{> api_box deps_currentcomputation }}
 
-It's very rare to need to access `currentComputation` directly.  The
-current computation is used implicitly by
-[`Deps.active`](#deps_active) (which tests whether there is one),
-[`dependency.depend()`](#dependency_depend) (which registers that it depends on a
-dependency), and [`Deps.onInvalidate`](#deps_oninvalidate) (which
-registers a <i>callback</i> with it).
+Es muy raro necesitar acceder a `currentComputation` directamente.  La
+computación actual se utiliza implícitamente por
+[`Deps.active`](#deps_active) (Que comprueba si hay uno),
+[`dependency.depend()`](#dependency_depend) (que registra que depende de una 
+dependencia), y [`Deps.onInvalidate`](#deps_oninvalidate) (Que 
+registra un <i>callback</i> con el mismo).
 
 {{> api_box deps_oninvalidate }}
 
-Ver [*`computation`*`.onInvalidate`](#computation_oninvalidate) for more
-details.
+Ver [*`computation`*`.onInvalidate`](#computation_oninvalidate) para obtener más
+detalles.
 
 {{> api_box deps_afterflush }}
 
-Functions scheduled by multiple calls to `afterFlush` are guaranteed
-to run in the order that `afterFlush` was called.  Functions are
-guaranteed to be called at a time when there are no invalidated
-computations that need rerunning.  This means that if an `afterFlush`
+Funciones programadas por múltiples llamadas a `afterFlush` llamadas a
+que funcionen en el orden en que `afterFlush` ha sido llamado. Las funciones están
+garantizados que serán llamadas en el momento que no se hayan invalidado 
+los cálculos que deben volver a ejecutar. Esto significa que si una
+función `afterFlush` invalida una computación, esta computación se reejecuta
 function invalidates a computation, that computation will be rerun
-before any other `afterFlush` functions are called.
+antes que cualquier otra función `afterFlush` sea llamada.
 
 <h2 id="deps_computation"><span>Deps.Computation</span></h2>
 
-A Computation object represents code that is repeatedly rerun in
-response to reactive data changes.  Computations don't have return
-values; they just perform actions, such as rerendering a template on
-the screen.  Computations are created using [`Deps.autorun`](#deps_autorun).
-Use [`stop`](#computation_stop) to prevent further rerunning of a
-computation.
+Un objeto <i>Computation</i> representa código que es repetidamente reejecutado en
+respuesta a los cambios de datos reactivos. <i>Computations</i> no tienen valores de retorno
+sino que sólo llevan a cabo acciones, como rerepresentar una plantilla en la
+pantalla.  <i>Computations</i> se crean utilizando [`Deps.autorun`](#deps_autorun).
+Utilice [`stop`](#computation_stop) para evitar adicionales reejecuciones de una
+computación.
 
-Each time a computation runs, it may access various reactive data
-sources that serve as inputs to the computation, which are called its
-dependencies.  At some future time, one of these dependencies may
-trigger the computation to be rerun by invalidating it.  When this
-happens, the dependencies are cleared, and the computation is
-scheduled to be rerun at flush time.
+Cada vez que se ejecuta una computación, puede acceder a varias fuentes de datos
+reactivos que sirven como entradas para la computación, which are called its
+dependencies. En algún tiempo futuro, una de estas dependencias
+desencadenará que la computación se vuelva a ejecutar invalidando la misma.  Cuando esto
+sucede, las dependencias se borran, y la computación es
+programado para volver a ejecutarse en tiempo de limpieza.
 
-The *current computation*
-([`Deps.currentComputation`](#deps_currentcomputation)) is the
-computation that is currently being run or rerun (computed), and the
-one that gains a dependency when a reactive data source is accessed.
-Data sources are responsible for tracking these dependencies using
-[`Deps.Dependency`](#deps_dependency) objects.
+La *current computation*
+([`Deps.currentComputation`](#deps_currentcomputation)) es la
+computación que se está ejecutando actualmente o reejecutando (computed), y el que
+gana una dependencia cuando se accede a una una fuente de datos reactiva.
+Las fuentes de datos son los responsables para el seguimiento de estas dependencias mediante 
+los objetos [`Deps.Dependency`](#deps_dependency).
 
-Invalidating a computation sets its `invalidated` property to true
-and immediately calls all of the computation's `onInvalidate`
-<i>callbacks</i>.  When a flush occurs, if the computation has been invalidated
-and not stopped, then the computation is rerun by setting the
-`invalidated` property to `false` and calling the original function
+Al invalidar una computación se establece su propiedad `invalidated` a true
+y immediatamente llama  a todos los `onInvalidate` de <i>callbacks</i> computación.
+Cuando una limpieza sucede, si la computacion ha sido invalidada 
+y no detenida, entonces la computación es reejecutada mediante el establecimiento 
+de la propiedad `invalidated` a `false` y llamando a la funcion original
 that was passed to `Deps.autorun`.  A flush will occur when the current
-code finishes running, or sooner if `Deps.flush` is called.
+el código termina de ejecutarse, o pronto si se llama `Deps.flush`.
 
 Stopping a computation invalidates it (if it is valid) for the purpose
 of calling <i>callbacks</i>, but ensures that it will never be rerun.
@@ -2529,7 +2530,7 @@ computation is rerun.
 Invalidating a computation marks it to be rerun at
 [flush time](#deps_flush), at
 which point the computation becomes valid again.  It is rare to
-invalidate a computation manually, because reactive data sources
+invalidate a computation manually, becausefuentes de datos reactivos
 invalidate their calling computations when they change.  Reactive data
 sources in turn perform this invalidation using one or more
 [`Deps.Dependency`](#deps_dependency) objects.
@@ -2544,7 +2545,7 @@ result will be an infinite loop.
 
 `onInvalidate` registers a one-time <i>callback</i> that either fires
 immediately or as soon as the computation is next invalidated or
-stopped.  It is used by reactive data sources to clean up resources or
+stopped.  It is used byfuentes de datos reactivos to clean up resources or
 break dependencies when a computation is rerun or stopped.
 
 To get a <i>callback</i> after a computation has been recomputed, you can
@@ -2566,7 +2567,7 @@ computation has logic specific to the first run.
 <h2 id="deps_dependency"><span>Deps.Dependency</span></h2>
 
 A Dependency represents an atomic unit of reactive data that a
-computation might depend on.  Reactive data sources such as Session or
+computation might depend on. fuentes de datos reactivos such as Session or
 Minimongo internally create different Dependency objects for different
 pieces of data, each of which may be depended on by multiple
 computations.  When the data changes, the computations are
@@ -2626,7 +2627,7 @@ the fact that `dep` is being accessed from the current computation.
 
 {{> api_box dependency_hasdependents }}
 
-For reactive data sources that create many internal Dependencies,
+Forfuentes de datos reactivos that create many internal Dependencies,
 this function is useful to determine whether a particular Dependency is
 still tracking any dependency relationships or if it can be cleaned up
 to save memory.
