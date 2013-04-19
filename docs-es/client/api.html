@@ -1815,7 +1815,7 @@ y de nuevo cada vez que cualquier parte de la plantilla es revisualizada.
 
 En el cuerpo del <i>callback</i>, `this` es un objeto [template
 instance](#template_inst) quew es único en esta ocurrencia de
-la plantilla y persiste a través de revisualizaciones. Utilize los <i><i>callbacks</i></i> 
+la plantilla y persiste a través de revisualizaciones. Utilice los <i><i>callbacks</i></i> 
 `created` y `destroyed` para realizar inicialización o limpieza en el objeto.
 
 {{> api_box template_created}}
@@ -2494,17 +2494,17 @@ y immediatamente llama  a todos los `onInvalidate` de <i>callbacks</i> computaci
 Cuando una limpieza sucede, si la computacion ha sido invalidada 
 y no detenida, entonces la computación es reejecutada mediante el establecimiento 
 de la propiedad `invalidated` a `false` y llamando a la funcion original
-that was passed to `Deps.autorun`.  A flush will occur when the current
-el código termina de ejecutarse, o pronto si se llama `Deps.flush`.
+que fué pasada  a `Deps.autorun`. Una limpieza sucederá cuando el actual
+código termine de ejecutarse, o antes si se llama `Deps.flush`.
 
-Stopping a computation invalidates it (if it is valid) for the purpose
-of calling <i>callbacks</i>, but ensures that it will never be rerun.
+Deteniendo una computación lo invalida (si es válido) con el propósito
+de llamar <i>callbacks</i>, pero asegura que nunca se vuelva a ejecutar.
 
 Ejemplo:
 
-    // if we're in a computation, then perform some clean-up
-    // when the current computation is invalidated (rerun or
-    // stopped)
+    //  si estamos en una computación, entonces realiza alguna limpieza
+    //cuando se invalida la actual computación (reejecutada o
+    // detenida)
     if (Deps.active) {
       Deps.onInvalidate(function () {
         x.destroy();
@@ -2514,69 +2514,69 @@ Ejemplo:
 
 {{> api_box computation_stop}}
 
-Stopping a computation is irreversible and guarantees that it will
-never be rerun.  You can stop a computation at any time, including
-from the computation's own run function.  Stopping a computation that
-is already stopped has no effect.
+La detención de una computación es irreversible y garrantiza que nunca
+se vuelva a ejecutar.  Puede detener una computación en cualquier momento, incluyendo
+desde la propia función que gestióna la computación. La detención de una computación que
+ya se ha detenido no tiene ningún efecto. 
 
-Stopping a computation causes its `onInvalidate` <i>callbacks</i> to run
-immediately if it is not currently invalidated.
+La detención de una computación causa que su <i>callbacks</i> `onInvalidate` se 
+ejecute inmediatamente si no está ya actualmente ivalidado.
 
-Nested computations are stopped automatically when their enclosing
-computation is rerun.
+Las computaciones anidadas se detienen automaticamente cuando su computación
+adjunto se vuelve a ejecutar.
 
 {{> api_box computation_invalidate }}
 
-Invalidating a computation marks it to be rerun at
-[flush time](#deps_flush), at
-which point the computation becomes valid again.  It is rare to
-invalidate a computation manually, becausefuentes de datos reactivos
-invalidate their calling computations when they change.  Reactive data
-sources in turn perform this invalidation using one or more
-[`Deps.Dependency`](#deps_dependency) objects.
+Invalidando una computación lo marca para ser reejecutado por
+[flush time](#deps_flush), en este punto la computación 
+se vuelve válido nuevamente.  Es raro invalidar una computación 
+manualmente, ya que las fuentes de datos reactivos
+invalidan sus llamadas computacionaless cuando cambian. Fuentes de datos
+reactivos, a su vez realizan esta invalidación usando uno o más 
+objetos b[`Deps.Dependency`](#deps_dependency).
 
-Invalidating a computation immediately calls all `onInvalidate`
-<i>callbacks</i> registered on it.  Invalidating a computation that is
-currently invalidated or is stopped has no effect.  A computation can
-invalidate itself, but if it continues to do so indefinitely, the
-result will be an infinite loop.
+Invalidando una computación inmediatamente llama todos los <i>callbacks</i> `onInvalidate`
+registrados en el. Invalidando una computación que actualmente
+ya está invalidada o está detenida no tiene efecto.  Unas computación puede
+invalidarse a si mismo, pero si se continúa haciéndolo indefinidamente, el 
+resultado será un bucle infinito.
 
 {{> api_box computation_oninvalidate }}
 
-`onInvalidate` registers a one-time <i>callback</i> that either fires
-immediately or as soon as the computation is next invalidated or
-stopped.  It is used byfuentes de datos reactivos to clean up resources or
-break dependencies when a computation is rerun or stopped.
+`onInvalidate` registra una sola vez <i>callback</i> que o bien ejecuta
+immediatamente o tan pronto como la computación siguiente se invalida o se detiene. 
+Es utilizado por las fuentes de datos reactivos para limpiar los recursos o
+interrumpir dependencias cuando la computación is reejecutada o detenida.
 
-To get a <i>callback</i> after a computation has been recomputed, you can
-call [`Deps.afterFlush`](#deps_afterflush) from `onInvalidate`.
+Para obtener un <i>callback</i> después de que una computación has been recalculada, puede
+llamar [`Deps.afterFlush`](#deps_afterflush) desde `onInvalidate`.
 
 {{> api_box computation_stopped }}
 
 {{> api_box computation_invalidated }}
 
-This property is initially false.  It is set to true by `stop()` and
-`invalidate()`.  It is reset to false when the computation is
-recomputed at flush time.
+Esta propiedad es inicialmente <i>false</i>.  Se fija en <i>true</i> por `stop()` y
+`invalidate()`.  Se restablece en <i>false</i> cuando la computación ess
+recalculada en tiempo de limpieza.
 
 {{> api_box computation_firstrun }}
 
-This property is a convenience to support the common pattern where a
-computation has logic specific to the first run.
+Esta propiedad es una conveniencia para apoyar el patrón común donde una
+computación tiene una lógica específica de la primera ejecución.
 
 <h2 id="deps_dependency"><span>Deps.Dependency</span></h2>
 
-A Dependency represents an atomic unit of reactive data that a
-computation might depend on. fuentes de datos reactivos such as Session or
-Minimongo internally create different Dependency objects for different
-pieces of data, each of which may be depended on by multiple
-computations.  When the data changes, the computations are
-invalidated.
+Una <i>Dependencia</i> representa una unidad atómica de datos reactivos de la que una
+computacion pueda depender. Fuentes de datos reactivos tales como <i>Session</i> o
+<i>Minimongo</i> crea internamente  diferentes objetos <i>Dependency</i>  para diferentes
+piezas de datos, cada uno de los cuales puede depender de multiples
+computaciones.  Cuando los datos cambian, la computaciones son
+invalidadas.
 
-Dependencies don't store data, they just track the set of computations to
-invalidate if something changes.  Typically, a data value will be
-accompanied by a Dependency object that tracks the computations that depend
-on it, as in this Ejemplo:
+Las Dependencias no almacenan datos, sólo el seguimiento del conjunto de las computaciones para
+invalidar si algo cambia. Típicamente, un valor de datos será acompañado por un objeto 
+<i>Dependency</i> que rastrea las computaciones que dependen de ella,
+como en este Ejemplo:
 
     var weather = "sunny";
     var weatherDep = new Deps.Dependency;
@@ -2588,71 +2588,71 @@ on it, as in this Ejemplo:
 
     var setWeather = function (w) {
       weather = w;
-      // (could add logic here to only call changed()
-      // if the new value is different from the old)
+      // (podría agregar lógica para llamar sólo a changed()
+      // nuevo valor es diferente de la antigua)
       weatherDep.changed();
     };
 
-This Ejemplo implements a weather data source with a simple getter and
-setter.  The getter records that the current computation depends on
-the `weatherDep` dependency using `depend()`, while the setter
-signals the dependency to invalidate all dependent computations by
-calling `changed()`.
+Este ejemplo implementa una fuente de datos de con un simple <i>getter</i> y
+<i>setter</i>.  Los registros  <i>getter</i>  de las que depende la actual computación
+en la dependencia `weatherDep` uttiliza `depend()`, mientras que <i>setter</i>
+señala la dependencia  al invalidar todos las cálculos dependientes llamando `changed()`.
 
-The reason Dependencies do not store data themselves is that it can be
-useful to associate multiple Dependencies with the same piece of data.
-For Ejemplo, one Dependency might represent the result of a database
-query, while another might represent just the number of documents in
-the result.  A Dependency could represent whether the weather is sunny
-or not, or whether the temperature is above freezing.
-[`Session.equals`](#session_equals) is implemented this way for
-efficiency.  When you call `Session.equals("weather", "sunny")`, the
-current computation is made to depend on an internal Dependency that
-does not change if the weather goes from, say, "rainy" to "cloudy".
+La razón de que las <i>Dependencies</i> no almacenan datos ellas mismas es que puede 
+ser útil as
+useful asociar múltiples <i>Dependencies</i> con el mismo pieza de información.
+Por Ejemplo, una dependencia podría representar el resultado de una consulta de
+base de datos, mientras que otro puede representar sólo el número de documentos 
+en el resultado. Una <i>Dependency</i> podría representar clima el clima es soleado 
+o no, o la temperatura del clima está por encima de la congelación.
+[`Session.equals`](#session_equals) se lleva a cabo de esta manera para por
+eficiencia.  Cuando llama  `Session.equals("weather", "sunny")`, la actual
+computación se hace depender de una  <i>Dependency</i> interna que
+no cambia si el clima va desde, digamos, "lluvioso" a "nublado".
 
-Conceptually, the only two things a Dependency can do are gain a
-dependent and change.
+Conceptualmente, las únicas dos cosas que una <i>Dependency</i> puede hacer es obtener un
+dependiente y cambiar.
 
-A Dependency's dependent computations are always valid (they have
-`invalidated === false`).  If a dependent is invalidated at any time,
-either by the Dependency itself or some other way, it is immediately
-removed.
+Los cálculos que dependen de una <i>Dependency</i> son siempre válidos (tienen
+`invalidated === false`).  Si un dependiente es invalidado en cualquier momento,
+ya sea por la propia <i>Dependency</i> o de otra manera, es
+inmediatamente eliminado.
 
 {{> api_box dependency_changed }}
 
 {{> api_box dependency_depend }}
 
-`dep.depend()` is used in reactive data source implementations to record
-the fact that `dep` is being accessed from the current computation.
+`dep.depend()` se utiliza en implementaciones de código de datos reactivos para registrar 
+el hecho de que `dep` está siendo accedido desde la actual computación.
 
 {{> api_box dependency_hasdependents }}
 
-Forfuentes de datos reactivos that create many internal Dependencies,
-this function is useful to determine whether a particular Dependency is
-still tracking any dependency relationships or if it can be cleaned up
-to save memory.
+Para las fuentes de datos de reactivos que crean muchas <i>Dependencies</i>,
+internal esta función es útil para determinar si una dependencia particular 
+está todavía rastreando cualquier relación de dependencia o si se puede 
+limpiar para ahorrar memoria.
 
 <h2 id="ejson"><span>EJSON</span></h2>
 
-EJSON is an extension of JSON to support more types. It supports all JSON-safe
-types, as well as:
+EJSON es una extensión de <i>JSON</i> para suportar más tipos. Es compatible con todos
+los tipos <i>JSON-safe</i> como:
 
  - **Date** (JavaScript `Date`)
  - **Binary** (JavaScript `Uint8Array` or the
    result of [`EJSON.newBinary`](#ejson_new_binary))
- - **User-defined types** (Ver [`EJSON.addType`](#ejson_add_type).  For Ejemplo,
- [`Meteor.Collection.ObjectID`](#collection_object_id) is implemented this way.)
+ - **User-defined types** (Ver [`EJSON.addType`](#ejson_add_type).  Por ejemplo,
+ [`Meteor.Collection.ObjectID`](#collection_object_id) se implementa de esta manera.)
 
-All EJSON serializations are also valid JSON.  For Ejemplo an object with a date
-and a binary buffer would be serialized in EJSON as:
+Todas las serializaciones <i>EJSON</i> son tambien JSON válido.  Por ejemplo un objeto con una fecha
+y un búfer binario que se va a serializar en <i>EJSON</i> como:
 
     {
       "d": {"$date": 1358205756553},
       "b": {"$binary": "c3VyZS4="}
     }
 
-Meteor supports all built-in EJSON data types in publishers, method arguments
-and results, Mongo databases, and [`Session`](#session) variables.
+Meteor soporta todos los tipos de datos construidos en <i>EJSON</i>  publicadores, argumentos de método 
+y resultados, bases de datos Mongo, y variables de [`Session`](#session) .
 
 {{> api_box ejsonParse}}
 
@@ -2668,50 +2668,52 @@ and results, Mongo databases, and [`Session`](#session) variables.
 
 {{> api_box ejsonNewBinary}}
 
-Buffers of binary data are represented by `Uint8Array` instances on JavaScript
-platforms that support them.  On implementations of JavaScript that do not
-support `Uint8Array`, binary data buffers are represented by standard arrays
-containing numbers ranging from 0 to 255, and the `$Uint8ArrayPolyfill` key
-set to `true`.
+Los <i>Buffers</i> de datos binarios son representados por `Uint8Array` instancias en 
+plataformas JavaScript que los suporta. En las implementaciones de JavaScript que no 
+soportan `Uint8Array`, los búfers de datos binario se representan por <i>arrays</i>
+estandar que contienen números con rangos desde 0 a 255, y la tecla `$Uint8ArrayPolyfill` se
+establece a `true`.
 
 {{> api_box ejsonAddType}}
 
-When you add a type to EJSON, Meteor will be able to use that type in:
+Cuando añada un tipo de <i>EJSON</i>, Meteor será capaz de utilizar ese tipo en:
 
- - publishing objects of your type if you pass them to publish handlers.
- - allowing your type in the return values or arguments to
+ - la publicación de objetos de su tipo si pasa a publicar controladores.
+ - permitiendo el tipo de los valores de retorno o argumentos a
    [methods](#methods_header).
- - storing your type client-side in Minimongo.
- - allowing your type in [`Session`](#session) variables.
+ - almacenar el tipo de <i>client-side</i> en <i>Minimongo</i>.
+ - permitiendo su tipo de variables [`Session`](#session).
 
 {{#note}}
 
-  MongoDB cannot store most user-defined types natively en el servidor.  Your
-  type will work in Minimongo, and you can send it to the client using a custom
-  publisher, but MongoDB can only store the types defined in
+  <i>MongoDB</i> no puede almacenar más tipos definidos por el usuario de forma nativa en el servidor.  
+  Your
+  Su tipo funcionará en <i>Minimongo</i>, y usted puede enviarlo al cliente utilizando el 
+  publicador acostumbrado, pero MongoDB sólo puede almacenar los tipos definidos en
   [BSON](http://bsonspec.org/).
 
 {{/note}}
 
-Instances of your type should implement the following interface:
+Las instancias de su tipo should implementarán la siguiente interfaz:
 
 {{> api_box ejsonTypeClone}}
 
 {{> api_box ejsonTypeEquals}}
 
-The `equals` method should define an [equivalence
-relation](http://en.wikipedia.org/wiki/Equivalence_relation).  It should have
-the following properties:
+El método `equals` debe definir una [equivalence
+relation](http://en.wikipedia.org/wiki/Equivalence_relation).  Debe tener 
+las siguientes propiedades: 
 
- - *Reflexivity* - for any instance `a`: `a.equals(a)` must be true.
- - *Symmetry* - for any two instances `a` and `b`: `a.equals(b)` if and only if `b.equals(a)`.
- - *Transitivity* - for any three instances `a`, `b`, and `c`: `a.equals(b)` and `b.equals(c)` implies `a.equals(c)`.
+ - *Reflexivity* - por cada instancia `a`: `a.equals(a)` debe ser <i>true</i>.
+ - *Symmetry* - para cualquiera de dos instancias `a` y `b`: `a.equals(b)` si y sólo si `b.equals(a)`.
+ - *Transitivity* - para cualquiera de tres instancias `a`, `b`, y `c`: `a.equals(b)` y `b.equals(c)` 
+ implica `a.equals(c)`.
 
 {{> api_box ejsonTypeName}}
 {{> api_box ejsonTypeToJSONValue}}
 
-For Ejemplo, the `toJSONValue` method for
-[`Meteor.Collection.ObjectID`](#collection_object_id) could be:
+Por ejemplo, el método `toJSONValue` para
+[`Meteor.Collection.ObjectID`](#collection_object_id) debe ser:
 
     function () {
       return this.toHexString();
@@ -2719,77 +2721,77 @@ For Ejemplo, the `toJSONValue` method for
 
 <h2 id="meteor_http"><span>Meteor.http</span></h2>
 
-`Meteor.http` provides an HTTP API on the client and server.  To use
-these functions, add the HTTP package to your project with `$ meteor add
+`Meteor.http` proporciona una HTTP API en el cliente y en el servidor.  Para utilizar 
+estás funciones, añada el paquete HTTP a su  projecto con `$ meteor add
 http`.
 
 {{> api_box httpcall}}
 
-This function initiates an HTTP request to a remote server. It returns
-a result object with the contents of the HTTP response.  The result
-object is detailed below.
+Esta función inicia una petición HTTP a un server remoto. Devuelve
+un objeto resultado con el contenido de la respuesta HTTP.  El objeto 
+resultado es detallado a continuación.
 
-en el servidor, this function can be run either synchronously or
-asynchronously.  If the <i>callback</i> is omitted, it runs synchronously,
-and the results are returned once the request completes. This is
-useful when making server-to-server HTTP API calls from within Meteor
-methods, as the method can succeed or fail based on the results of the
-synchronous HTTP call.  In this case, consider using
-[`this.unblock()`](#method_unblock) to allow other methods to run in
-the mean time.  On the client, this function must be used
-asynchronously by passing a <i>callback</i>.
+En el servidor, esta función se puede ejecutar de forma sincrónica o asincrónica.
+asynchronously.  Si el <i>callback</i> es omitido se ejecuta sincrónicamente,
+y los resultados son devueltos una vez que la solicitud se completa. Esto es
+Esto es útil si se hace <i>server-to-server</i> HTTP API llama desde dentro del método 
+Meteor, ya que el método puede tener éxito o fallar sobre la base de los resultados de la
+llamada HTTP sínchrona.  En este caso, considere utilizar
+[`this.unblock()`](#method_unblock) para permitir que otros métodos se ejecuten mientras tanto.  
+En el cliente, esta función debe ser utilizada
+asinchrónicamente pasando un  <i>callback</i>.
 
-Both HTTP and HTTPS protocols are supported.  The `url` argument must be
-an absolute URL including protocol and host name en el servidor, but may be
-relative to the current host on the client.  The `query` option
-replaces the query string of `url`.  Parameters specified in `params`
-that are put in the URL are appended to any query string.
-For Ejemplo, with a `url` of `"/path?query"` and
-`params` of `{foo:"bar"}`, the final URL will be `"/path?query&foo=bar"`.
+Ambos protocolos HTTP y HTTPS son compatibles.  El argumento `url` debe ser
+una URL absoluta incluyendo protocolo y nombre de <i>host</i> en el servidor, pero puede ser
+relativo al actual <i>host</i> en el cliente.  La opción `query` reemplaza
+la cadena de consulta del `url`.  Los parámetros especificados en `params`
+que están puestos en el URL se añaden a cada cadena de consulta.
+Por ejemplo, con un `url` de `"/path?query"` y
+`params` def `{foo:"bar"}`, el  URL final será `"/path?query&foo=bar"`.
 
-The `params` are put in the URL or the request body, depending on the
-type of request.  In the case of request with no bodies, like GET and
-HEAD, the parameters will always go in the URL.  For a POST or other
-type of request, the parameters will be encoded into the body with a
-standard `x-www-form-urlencoded` content type, unless the `content`
-or `data` option is used to specify a body, in which case the
-parameters will be appended to the URL instead.
+Los `params` se ponen en el URL o en el cuerpo de la solicitud, dependiendo del 
+tipo de solicitud.  En el caso de solicitudes sin cuerpos, como GET y
+HEAD, los parámetros siempre irán en la URL.  Para un POST o otro
+tipo de soilcitud, los parámetros se codifican en el <i>body</i> con un
+contenido estandar de tipo `x-www-form-urlencoded` , a menos que la opción `content`
+o `data` sean utilizadas para especificar un <i>body</i>, en tal caso los 
+parámetros serán añadidos al URL en su lugar.
 
-The <i>callback</i> receives two arguments, `error` and `result`.  The `error`
-argument will contain an Error if the request fails in any way,
-including a network error, time-out, or an HTTP status code in the 400
-or 500 range.  The result object is always
-defined. When run in synchronous mode, the `result` is returned from the
-function, and the `error` value is a stored as a property in `result`.
+El <i>callback</i> recibe dos argumentos, `error` y `result`.  El argumento
+`error` contendrá un Error si la solicitud falla de cualquier manera,
+incluyendo un error de red, <i>time-out</i>, o un código de estado HTTP definido en
+el rango 400 o 500.  El objeto resultado está siempre definido. 
+Cuando se ejecuta en modo síncrono, el `result` es devuelto desde la
+función, y el valor `error` es almacenado como una propiedad en `result`.
 
-Contents of the result object:
+Contenidos del objeto de resultado:
 
 <dl class="objdesc">
 
 <dt><span class="name">statusCode</span>
   <span class="type">Number</span></dt>
-<dd>Numeric HTTP result status code, or <code>null</code> on error.</dd>
+<dd>Resultado numérico, código de estado HTTP , o <code>null</code> en error.</dd>
 
 <dt><span class="name">content</span>
   <span class="type">String</span></dt>
-<dd>The body of the HTTP response as a string.</dd>
+<dd>El <i>body</i> de la respuesta HTTP como un <i>string</i>.</dd>
 
 <dt><span class="name">data</span>
-  <span class="type">Object or <code>null</code></span></dt>
-<dd>If the response headers indicate JSON content, this contains the body of the document parsed as a JSON object.</dd>
+  <span class="type">Object o <code>null</code></span></dt>
+<dd>Si las cabeceras de <i>response</i> indican contenido JSON, contiene el cuerpo del documento parseado como un objeto JSON .</dd>
 
 <dt><span class="name">headers</span>
   <span class="type">Object</span></dt>
-<dd>A dictionary of HTTP headers from the response.</dd>
+<dd>Un <i>dictionary</i> de cabeceras HTTP de la respuesta.</dd>
 
 <dt><span class="name">error</span>
   <span class="type">Error</span></dt>
-<dd>Error object if the request failed. Matches the <code>error</code> <i>callback</i> parameter.</dd>
+<dd>Error de objeto si la solicitud ha fallado. Coincide con el parameter <code>error</code> del <i>callback</i>.</dd>
 
 
 </dl>
 
-Ejemplo server method:
+Ejemplo <i>server method</i>:
 
     Meteor.methods({checkTwitter: function (userId) {
       this.unblock();
@@ -2819,37 +2821,35 @@ Ejemplo asynchronous HTTP call:
 
 <h2 id="email"><span>Email</span></h2>
 
-The `email` package allows sending email from a Meteor app. To use it, add the
-package to your project with `$ meteor add email`.
+El paquete `email` permite el envío de correo electrónico desde una aplicación Meteor.
+Para utilizarlo, agregar el paquete a su proyecto con `$ meteor add email`.
 
-The server reads from the `MAIL_URL` environment variable to determine how to
-send mail. Currently, Meteor supports sending mail over SMTP; the `MAIL_URL`
-environment variable should be of the form
-`smtp://USERNAME:PASSWORD@HOST:PORT/`. For apps deployed with `meteor deploy`,
-`MAIL_URL` defaults to an account (provided by
-[Mailgun](http://www.mailgun.com/)) which allows apps to send up to 200 emails
-per day; you may override this default by assigning to `process.env.MAIL_URL`
-before your first call to `Email.send`.
+El servidor lee de la variable del entorno `MAIL_URL` para determinar cómo enviar
+correo. Actualmente, Meteor admite el envío de correo a través de SMTP; la variable 
+del entorno `MAIL_URL` debe estar en la forma `smtp://USERNAME:PASSWORD@HOST:PORT/`. 
+Para desplegar <i>apps</i> con `meteor deploy`, `MAIL_URL` da por defecto una cuenta 
+(proporcionado por [Mailgun](http://www.mailgun.com/)) que permite a las aplicaciones para enviar hasta 200
+correos electrónicos por día; puede anular este por defecto asignando `process.env.MAIL_URL`
+antes de la primera llamada a `Email.send`.
 
-If `MAIL_URL` is not set (ej, when running your application locally),
-`Email.send` outputs the message to standard output instead.
+Si `MAIL_URL` no se ha establecido (ej, cuando se ejecuta su aplicación a nivel local),
+`Email.send` muestra en su lugar el mensaje en la salida estándar.
 
 {{> api_box email_send }}
 
-You must provide the `from` option and at least one of `to`, `cc`, and `bcc`;
-all other options are optional.
+Debe proporcionar la opción `from` y por lo menos uno de `to`, `cc`, y `bcc`;
+todas las demás opciones son opcionales. 
 
-`Email.send` only works en el servidor. Here is an Ejemplo of how a
-client could use a server method call to send an email. (In an actual
-application, you'd need to be careful to limit the emails that a
-client could send, to prevent your server from being used as a relay
-by spammers.)
+`Email.send` sólo funciona en el servidor. Aquí hay un ejemplo de cómo un
+cliente podría utilizar la llamada a un método de servidor para enviar un <i>email</i>. 
+(En una aplicación real, hay que tener cuidado en limitar los correos electrónicos que 
+un cliente puede enviar, para evitar que su servidor sea utilizado como un <i>relay</i> por <i>spammers</i>.)
 
-    // In your server code: define a method that the client can call
+    // En su código del servidor: definir un método que el cliente puede llamar
     Meteor.methods({
       sendEmail: function (to, from, subject, text) {
-        // Let other method calls from the same client start running,
-        // without waiting for the email sending to complete.
+        // Permite llamar otro método desde el mismo cliente y empezar a ejecutarse,
+        //sin tener que esperar a que el envío de correo electrónico se haya completado. 
         this.unblock();
 
         Email.send({
@@ -2861,7 +2861,7 @@ by spammers.)
       }
     });
 
-    // In your client code: asynchronously send an email
+    // En el código de cliente: <i>asynchronously</i> envía un email
     Meteor.call('sendEmail',
                 'alice@Ejemplo.com',
                 'bob@Ejemplo.com',
