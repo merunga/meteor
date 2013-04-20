@@ -336,15 +336,16 @@ Puedes usarlo tu mismo para implementar nuevo orígenes de datos reactivos.
 <template name="livehtml">
 {{#better_markdown}}
 
-<h2 id="livehtml">Live HTML</h2>
+<h2 id="livehtml">HTML vivo</h2>
 
-HTML templating is central to web applications. With Meteor's live
-page update technology, you can render your HTML _reactively_, meaning
-that it will update automatically to track changes in the data used to
-generate it.
+Las plantillas HTML son centrales para las aplicaciones web. Con la tecnología
+de actualización en vivo de páginas de Meteor, puedes visualizar HTML
+_reactivamente_, esto significa que se actualizará automáticamente según los
+cambios en los datos utilizados para generarlo.
 
-This optional feature works with any HTML templating library, or even
-with HTML you generate manually from JavaScript. Here's an example:
+Esta característica opcional funciona con cualquier librería
+de plantillas HTML, on inclusive a partir de HTML que generes manualmente
+desde JavaScript. Aquí un ejemplo:
 
     var fragment = Meteor.render(
       function () {
@@ -353,30 +354,37 @@ with HTML you generate manually from JavaScript. Here's an example:
       });
     document.body.appendChild(fragment);
 
-    Session.set("name", "Bob"); // page updates automatically!
+    Session.set("name", "Bob"); // la página se actualiza automáticamente!
 
-[`Meteor.render`](#meteor_render) takes a rendering function, that is, a
-function that returns some HTML as a string. It returns an auto-updating
-`DocumentFragment`. When there is a change to data used by the rendering
-function, it is re-run. The DOM nodes in the `DocumentFragment` then
-update themselves in-place, no matter where they were inserted on the
-page. It's completely automatic. [`Meteor.render`](#meteor_render) uses
-a [reactive computation](#reactivity) to discover what data is used by the
-rendering function.
+[`Meteor.render`](#meteor_render) toma como parámetro una una función de visualizacion,
+que es una función que devuelve un poco HTML como cadena de caracteres. En realizad, devuelve
+un `DocumentFragment` que se actualiza automáticamente. Cuando hay un cambio en los datos
+utilizados por la función de visualización, se vuelve a ejecutar. Los nodos DOM en el
+`DocumentFragment` se actualizan a si mismos in-situ, sin importar dónde fueron
+insertados en la página. Es completamente automático. [`Meteor.render`](#meteor_render) usa
+un [cálculo reactivo](#reactivity) para descubrir qué datos son utilizados
+por la función de visualización.
 
-Most of the time, though, you won't call these functions directly
-&mdash; you'll just use your favorite templating package, such as
-Handlebars or Jade. The `render` and `renderList` functions are intended
-for people that are implementing new templating systems.
+La mayoría del tiempo, sin embargo, no tienes la necesidad de invocar estas
+funciones directamente &mdash; usas tu sistema de plantillas favorito, 
+tales como Handlebars o Jade. Las funciones `render` y `renderList` están pensadas
+para personas implementando sus propios sistemas de plantillas.
 
-Meteor normally batches up any needed updates and executes them only
-when your code isn't running. That way, you can be sure that the DOM
-won't change out from underneath you. Sometimes you want the opposite
-behavior. For example, if you've just inserted a record in the
-database, you might want to force the DOM to update so you can find
-the new elements using a library like jQuery. In that case, call
-[`Deps.flush`](#deps_flush) to bring the DOM up to date
-immediately.
+Meteor normalmente agrupa todos las actualizaciones necesarias y las ejecuta
+cuanto tu código no se está corriendo. De esta manera, puedes asegurarte que el DOM
+no cambiará sin que tu te enteres. Pero a veces quieres el comportamiento opuesto. Por ejemplo
+si acabas de insertar un registro en la base de datos, quizás quieras forzar una actualización
+del DOM para que puedas encontrar los nuevos elementos utilizando una librería tal como JQuery.
+En ese caso, llama a [`Deps.flush`](#deps_flush) para actualizar el DOM inmediatamente.
+
+When live-updating DOM elements are taken off the screen, they are automatically
+cleaned up &mdash; their callbacks are torn down, any associated database
+queries are stopped, and they stop updating. For this reason, you never have to
+worry about the [zombie
+templates](http://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/)
+that plague hand-written update logic. To protect your elements from cleanup,
+just make sure that they are on-screen before your code returns to the event loop,
+or before any call you make to [`Deps.flush`](#deps_flush).
 
 When live-updating DOM elements are taken off the screen, they are automatically
 cleaned up &mdash; their callbacks are torn down, any associated database
