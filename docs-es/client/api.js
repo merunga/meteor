@@ -2,14 +2,14 @@ Template.api.isClient = {
   id: "meteor_isclient",
   name: "Meteor.isClient",
   locus: "Anywhere",
-  descr: ["Boolean variable.  True si se ejecuta en enorno cliente."]
+  descr: ["Boolean variable.  True si se ejecuta en entorno cliente."]
 };
 
 Template.api.isServer = {
   id: "meteor_isserver",
   name: "Meteor.isServer",
   locus: "Anywhere",
-  descr: ["Boolean variable.  True si se ejecuta en enorno cliente."]
+  descr: ["Boolean variable.  True si se ejecuta en entorno cliente."]
 };
 
 Template.api.startup = {
@@ -58,8 +58,8 @@ Template.api.settings = {
   id: "meteor_settings",
   name: "Meteor.settings",
   locus: "Server and client",
-  descr: ["`Meteor.settings` contiene las opciones específicas de implementación que fueron" +
-          "proporcionadas utilizando la opcióne `--settings` para `meteor run` o `meteor deploy`. " +
+  descr: ["`Meteor.settings` contiene las opciones específicas de implementación que fueron " +
+          "proporcionadas utilizando la opción `--settings` para `meteor run` o `meteor deploy`. " +
           "Si proporciona la opción `--settings`, `Meteor.settings` será un " +
           "objeto JSON en el archivo que se especifique. De lo contrario, `Meteor.settings` será " +
           "un objeto vacio. Si el objeto contiene una clave con nombre `public`, entonces " +
@@ -201,7 +201,7 @@ Template.api.subscription_added = {
   id: "publish_added",
   name: "<i>this</i>.added(collection, id, fields)",
   locus: "Server",
-  descr: ["Llama dentro de la función de pblicaciónn.  Informa al suscriptor que un documento ha sido añadido al conjunto de registros."],
+  descr: ["Llama dentro de la función de publicaciónn.  Informa al suscriptor que un documento ha sido añadido al conjunto de registros."],
   args: [
     {name: "collection",
      type: "String",
@@ -275,7 +275,7 @@ Template.api.subscription_stop = {
   id: "publish_stop",
   name: "<i>this</i>.stop()",
   locus: "Server",
-  descr: ["Llama dentro de la función de publicación.  Detiene la suscripción de este cliente; el callback `onError`  *not* es invocado en el cliente."]
+  descr: ["Llama dentro de la función de publicación.  Detiene la suscripción de este cliente; el callback `onError`  *no* es invocado en el cliente."]
 };
 
 Template.api.subscription_onStop = {
@@ -295,7 +295,7 @@ Template.api.subscription_userId = {
   id: "publish_userId",
   name: "<i>this</i>.userId",
   locus: "Server",
-  descr: ["Accede dentro de la función de publicación. E id del usuario conectado, o `null` si ningún usuario está conectado."]
+  descr: ["Accede dentro de la función de publicación. El id del usuario conectado, o `null` si ningún usuario está conectado."]
 };
 
 

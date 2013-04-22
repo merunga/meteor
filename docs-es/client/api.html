@@ -7,7 +7,7 @@ Traducción <b>no-oficial</b> al Español
 
 Su código JavaScript se puede ejecutar en dos entornos: el *client* (browser), y
 el *server* (un contenedor [Node.js](http://nodejs.org/) en un server).  Para cada 
-función de esta referencia de la API , indicaremos si la función está disponible sólo
+función de esta referencia del API , indicaremos si la función está disponible sólo
 en el cliente, sólo en en el servidor, o en cualquier lugar *Anywhere*.
 
 <h2 id="core"><span>Meteor Core</span></h2>
@@ -17,14 +17,14 @@ en el cliente, sólo en en el servidor, o en cualquier lugar *Anywhere*.
 {{> api_box startup}}
 
 En un servidor, la función se ejecutará tan pronto como el proceso del servidor 
-ha terminado de iniciarse. En un cliente, la función se ejecutará tan pronto como 
+haya terminado de iniciarse. En un cliente, la función se ejecutará tan pronto como 
 el DOM esté listo.
 
 Los <i>callbacks</i> de `inicio` son llamados en el mismo orden que se hicieron 
 las llamadas a `Meteor.startup`.
 
-En un cliente, los <i>callbacks</i> de `startup` desde paquetes inteligentes será llamado 
-primero, seguido de las `<body>` templates de sus archivos `.html`,
+En un cliente, los <i>callbacks</i> `startup` de paquetes inteligentes serán llamado 
+primero, seguido de los templates en el `<body>` de sus archivos `.html`,
 seguido por el código de su aplicación. 
 
     // On server startup, if the database is empty, create some initial data.
@@ -89,9 +89,9 @@ Esperamos levantar esta restricción en una versión futura.
 En caso contrario, la función de publicación debe llamar a las funciones 
 [`added`](#publish_added) (cuando un nuevo documento se añade al conjunto de 
 registros publicados), [`changed`](#publish_changed) 
-(Cuando algunos campos en un documento en el conjunto de registros se cambian o
-borran), y [`removed`](#publish_removed) 
-(cuando los documentos se eliminan del conjunto de registros publicados) 
+(Cuando algunos campos en un documento en el conjunto de registros se cambien o
+borren), y [`removed`](#publish_removed) 
+(cuando los documentos se eliminen del conjunto de registros publicados) 
 para informar a los suscriptores sobre los documentos.
 Estos métodos son proporcionados por `this` en la función de publicación.
 
@@ -119,7 +119,7 @@ Ejemplo:
 
       // Observe only returns after the initial added <i>callbacks</i> have
       // run.  Now return an initial value and mark the subscription
-      // as ready.
+      // as ready.subscrip
       initializing = false;
       self.added("counts", roomId, {count: count});
       self.ready();
@@ -163,7 +163,7 @@ la función de publicación se vuelve a ejecutar con el nuevo valor.
 {{> api_box subscription_onStop}}
 
 Si se llama [`observe`](#observe) o [`observeChanges`](#observe_changes) en su
-manejador de publicación, esto es el lugar para detener <i>observes</i>.
+manejador de publicación, este es el lugar para detener <i>observes</i>.
 
 {{> api_box subscription_error}}
 {{> api_box subscription_stop}}
@@ -207,15 +207,15 @@ de la memoria caché del cliente.
 {{/dtdd}}
 
 {{#dtdd "ready()"}}
-True si el servidor ha [marcó la suscripción como ready](#publish_ready). 
+True si el servidor ha [marcado la suscripción como ready](#publish_ready). 
 Una fuente de datos reactiva.
 {{/dtdd}}
 </dl>
 
 Si usted llama `Meteor.subscribe` dentro de una [computación reactiva](#reactivity),
 por ejemplo utilizando [`Deps.autorun`](#deps_autorun), 
-la suscripción será automáticamente cancelada cuando el cálculo se invalida 
-o se detiene, no es necesario llamar `stop` en suscripciones efectuadas 
+la suscripción será automáticamente cancelada cuando el cómputo se invalide 
+o se detenga, no es necesario llamar `stop` en suscripciones efectuadas 
 desde el interior de `autorun`. 
 Sin embargo, si en la próxima iteración de la ejecución de su función subscribe el
 mismo conjunto de registros  (mismo nombre y parámetros),
@@ -229,7 +229,7 @@ Por ejemplo:
       Meteor.subscribe("privateMessages");
     });
  
-Esto le suscribe a los mensajes de chat en la sala actual y a tus
+Esto le suscribe a los mensajes de chat en la sala actual y a sus
 mensajes privados. Cuando cambie de habitación llamando 
 `Session.set("current-room", "new-room")`, 
 Meteor se suscribirá a los mensajes de la nueva sala de chat, 
@@ -265,7 +265,7 @@ Ejemplo:
 Llamando `methods` en las funciones definidas en el
 servidor que pueden ser llamados de forma remota por los clientes.
 
-  Deben devolver un [EJSON](#ejson)-able valor o lanzar una
+  Deben devolver un valor [EJSON](#ejson)-able o lanzar una
 excepción. Dentro del método de invocación, `this` se une a un objeto 
 del método de invocación, el cual presenta lo siguiente:
 
@@ -283,11 +283,11 @@ y usted tendrá que esperar los resultados del servidor.
 
 Si usted define un <i>stub</i>, cuando un cliente invoca un método del servidor
 también lo hará su <i>stub</i> en paralelo. En el cliente, el valor de retorno de
-un <i>stub</i> es ignorado. <i>Stubs</i> se ejecutan por sus efectos secundarios:
+un <i>stub</i> es ignorado. Los <i>Stubs</i> se ejecutan por sus efectos secundarios:
 
 están destinados a *simular* el resultado de lo que el método del servidor va a hacer
-pero sin esperar el retardo de ida y vuelta.Si un <i>stub</i> lanza una 
-excepción que será registrada en la consola.
+pero sin esperar el retardo de ida y vuelta. Si un <i>stub</i> lanza una 
+excepción será registrada en la consola.
 
 Se utilizan métodos todo el tiempo, porque los mutadores de bases de datos
 ([`insert`](#insert), [`update`](#update), [`remove`](#remove)) están implementdos
@@ -307,7 +307,7 @@ entonces esto es manejado por usted.
 
 Llame esta función para modificar el actual usuario conectado 
 en la conexión que hizo esta llamada al método.
-Esto simplemente establece el valor de `userId` para futuras llamada al método
+Esto simplemente establece el valor de `userId` para futuras llamadas al método
 recibidas en esta conexión. Pase `null` para salir <i>log out</i> de la conexión.
 
 Si usted está utilizando el [built-in Meteor accounts system](#accounts_api) 
@@ -360,10 +360,8 @@ el valor de retorno (posiblemente indefinido, <i>undefined</i>) estará en `resu
 
 Si usted no pasa un "<i>callback</i>" al servidor, la invocación del método se 
 bloqueará hasta la conclusión del método. Eventualmente se devolverá el valor 
-de retorno del método, o será una excepción si el método arrojó una <i>exception</i> 
-
-or it will throw an exception if the method
-threw an exception. (Posiblemente asignada a 500 Server Error si la
+de retorno del método, o será una excepción si el método arrojó una <i>exception</i>.
+(Posiblemente asignada a 500 Server Error si la 
 excepción ocurrió remotamente y no fuera una excepción `Meteor.Error`.)
 
     // sync call
@@ -387,8 +385,8 @@ tanto en el cliente como en el servidor, y no invoca `async<i>callback</i>`
 hasta que todas las escrituras en el servidor reemplazan las escrituras del stub's
 en la <i>caché</i> local. En algunos casos, puede haber un retraso entre el valor devuelto 
 por el método que está disponible y las escrituras que son visibles: por ejemplo, si otro 
-método aún pendiente escribieró en el mismo documento la memoria caché local puede 
-no estar actualizada hasta que el otro método finaliza también. Si quieres procesar el 
+método aún pendiente escribió en el mismo documento la memoria caché local puede 
+no estar actualizada hasta que el otro método finaliza también. Si quiere procesar el 
 resultado del método tan pronto como llegue del servidor,  incluso si la escritura del 
 método no está disponibles todavía, usted puede especificar un 
 `onResultReceived` <i>callback</i> a [`Meteor.apply`](#meteor_apply).
@@ -450,7 +448,7 @@ para obtener actualizaciones en tiempo real.
 
 {{> api_box connect}}
 
-Para llamar a métodos en otra aplicación Meteor o suscribirse a sus
+Para llamar métodos en otra aplicación Meteor o suscribirse a sus
 conjuntos de sus datos, llame `Meteor.connect` con la dirección URL de la aplicación.
 `Meteor.connect` devuelve un objeto que proporciona:
 
@@ -476,7 +474,7 @@ conjuntos de sus datos, llame `Meteor.connect` con la dirección URL de la aplic
   el contexto de autenticación adecuado en la nueva conexión.
 
 Por defecto, los clientes abren una conexión con el servidor desde el que están cargados.
-When you call `Meteor.subscribe`, `Meteor.status`, `Meteor.call`, y
+Cuando usted llama `Meteor.subscribe`, `Meteor.status`, `Meteor.call`, y
 `Meteor.apply`, usted está utilizando una conexión, de nuevo, con el servidor por defecto.
 
 {{#warning}}
@@ -494,7 +492,7 @@ colección con `new Meteor.Collection`.
 Llamar esta función es análoga a la declaración de un modelo en un tradicional framework ORM
 (Object-Relation Mapper)-céntrica . Se establece una *collection* (un espacio de almacenamiento 
 de registros, o "documentos") que pueden ser utilizados para almacenar un tipo particular 
-de información, como usuarios, <i>posts</i>, puntuaciones, tareas pendientes,
+de información, como usuarios, mensajes , puntuaciones, tareas pendientes,
 o cualquier cosa importante para su aplicación.  
 Cada documento es un objeto EJSON. Incluye un `_id` con la
 propiedad de ser un valor único en la colección,
@@ -530,14 +528,13 @@ Especificamente, cuando usted pasa un `name`, esto es lo que sucede:
 
 * En el servidor, una colección con este nombre se crea en un servidor <i>back-end</i> Mongo. 
 Cuando llame métodos en esta colección en el servidor,
- When you call methods on that collection en el servidor,
 se traducen directamente en las operaciones normales de Mongo (después de comprobar 
 que coinciden con sus [reglas de control de acceso](#allow)).
 
 * En el cliente, una instancia Minimongo es
 creada. Minimongo es esencialmente una implementación no persistente, 
-en memoria, de Mongo en JavaScript puro. 
- Sirve una caché local que almacena sólo el subconjunto de la base de datos
+en memoria, de Mongo en JavaScript puro.  
+Sirve una caché local que almacena sólo el subconjunto de la base de datos
 de la que este cliente está trabajando.
 Las consultas sobre el cliente ([`find`](#find))se sirven directamente de
 esta caché, sin hablar con el servidor.
@@ -549,10 +546,10 @@ al servidor y se ejecutan tambien allí. El paquete `livedata` es el
 responsable de esto.
 
 Si pasa `null` como el `name`, entonces usted va a crear una colección local.
-collection. Que no es sincronizada en ningún lugar; es sólo una memoria local,
+Collection. Que no es sincronizada en ningún lugar; es sólo una memoria local,
 que soporta las operaciones <i>Mongo-style</i> [`find`](#find), [`insert`](#insert),
 [`update`](#update), y [`remove`](#remove). (En ambos el
-cliente y el servidor, Esta memoria local se implementa mediante Minimongo.
+cliente y el servidor, esta memoria local se implementa mediante Minimongo.
 
 De forma predeterminada, Meteor publica automáticamente todos los documentos de su colección 
 para cada cliente conectado.  Para desactivar este comportamiento, quite el
@@ -573,7 +570,7 @@ colección deben ser publicados y para que usuarios.
     Posts = new Meteor.Collection("posts");
     Posts.insert({title: "Hello world", body: "First post"});
 
-    // Los cambios son visibles de inmediato -- sin esperara a un ida y vuelta <i>round trip</i>
+    // Los cambios son visibles de inmediato -- sin esperara una ida y vuelta <i>round trip</i>
     // al servidor
     assert(Posts.find().count() === 1);
 
@@ -587,7 +584,7 @@ colección deben ser publicados y para que usuarios.
 
 Si especifica una opción `transform` a la `Collection` o cualquiera de sus
 métodos de recuperación, los documentos se pasan a través de la función `transform` 
-antes de ser retornados o pasados a los <i><i>callbacks</i></i>. Esto le permite añadir métodos 
+antes de ser devueltos o pasados a los <i><i>callbacks</i></i>. Esto le permite añadir métodos 
 o por otra parte modificar el contenido de su colección desde la representación de su 
 base de datos. También puede especificar `transform` en una determinada llamada a `find`, 
 `findOne`, `allow`, o `deny`.
@@ -613,7 +610,7 @@ base de datos. También puede especificar `transform` en una determinada llamada
 
 Las funciones `transform` no son llamadas reactivamente. Si quiere añadir un atributo 
 que cambie dinámicamente a un objeto, hágalo con una función que calcule el valor en 
-el momento que se llama, no computando el atributo `transform` al momento.
+el momento que se llama, no calculando el atributo `transform` al momento.
 
 {{#warning}}
 <<<<<<< HEAD
@@ -629,18 +626,18 @@ Todo esto se abordará en una próxima versión.
 Para notas completas de la versión Minimongo, consulte
 Ver packages/minimongo/NOTES en el repositorio.
 =======
-In this release, Minimongo has some limitations:
+En esta versión, Minimongo tiene algunas limitaciones:
 
-* `$pull` in modifiers can only accept certain kinds
-of selectors.
-* `$` to denote the matched array position is not
-supported in modifier.
-* `findAndModify`, upsert, aggregate functions, and
-map/reduce aren't supported.
-
-All of these will be addressed in a future release. For full
-Minimongo release notes, Ver packages/minimongo/NOTES
-in the repository.
+* `$pull` en modificadores sólo puede aceptar ciertos tipos
+de selectores..
+* `$` indicar la posición de array coincidente no está
+soportado en el modificador
+* `findAndModify`, upsert, aggregate functions, y
+map/reduce no están soportados.
+Para completar
+Notas sobre la versión Minimongo,Para completar
+notas sobre la versión Minimongo, Ver packages/minimongo/NOTES
+en el repositorio.
 >>>>>>> 57274449dfc943064d4a299dbe3011578f2b1758
 {{/warning}}
 
@@ -656,22 +653,22 @@ valga la pena.
 o devuelve documentos.  Los cursores proporcionan `fetch` para retornar 
 todos los documentos coincidentes, `map` y `forEach` para iterar sobre 
 todos los documentos coincidentes, y `observe` y `observeChanges` 
-para registrar <i>callbacks</i> cuando el conjunto de documentos coincidente cambia.
+para registrar <i>callbacks</i> cuando el conjunto de documentos coincidentes cambia.
 
 {{#warning}}
 La colección de cursores no son instantáneas de la consulta.  Si la base de 
-datos cambia entre llamadas `Collection.find` y extraer los resultados de
+datos cambia entre llamadas `Collection.find` y extrae los resultados
 del cursor, o mientras obtiene resultados desde el cursor,
-estos cambios pueden o no puede aparecer en el conjunto de resultados.
+estos cambios, pueden o no pueden, aparecer en el conjunto de resultados.
 {{/warning}}
 
-Cursor es una fuente de datos reactivo. La primera vez que recupera n
+Cursor es una fuente de datos reactiva. La primera vez que recupera n
 documentos de cursor con `fetch`, `map`, o `forEach` dentro de una 
 computación reactiva (ej, una plantilla o 
 [`autorun`](#deps_autorun)),  Meteor registrará una 
 dependencia de los datos subyacentes.
-Cualquier cambio en la colección que cambia los documentos en un cursor 
-disparará un recálculo. Para desactivar este comportamiento, pase
+Cualquier cambio en la colección que cambie los documentos en un cursor 
+disparará un recomputación. Para desactivar este comportamiento, pase
 `{reactive: false}` como una opción para `find`.
 
 {{> api_box findone}}
@@ -680,7 +677,7 @@ Equivalente a `find(selector, options).fetch()[0]`.
 
 {{> api_box insert}}
 
-Añade un documento a la coleccion. Un documento es sólo un objeto, y
+Añade un documento a la colección. Un documento es sólo un objeto, y
 y sus campos pueden contener cualquier combinación de tipos de datos
  EJSON-compatible (arrays, objects, numbers, strings, `null`, true, and false).
 
@@ -689,7 +686,7 @@ en la base de datos, y retorna el ID. Cuando `insert` se llama desde
 código de cliente no confiable, se le permitirá sólo si pasa cualquier
 regla aplicable [`allow`](#allow) y [`deny`](#deny).
 
-En el servidor, si no proporciona un <i>callback</i>, entonces  `insert` bloques
+En el servidor, si no proporciona un <i>callback</i>, entonces `insert` bloquea
 que la base de datos reconozca la escritura, o se produzca una excepción si
 algo salió mal.  Si  proporciona un <i>callback</i>, `insert` sigue devolviendo 
 el ID de inmediato. Una vez que la inserción se completa (o falla),
@@ -721,7 +718,7 @@ tales como controladores de eventos y un navegador con consola JavaScript.
 
 - El código confiable puede modificar varios documentos a la vez estableciendo
   `multi` a <i>true</i>, y puede utilizar un arbitrario [Mongo
-  selector](#selectors) para encontrar los documentos que desea modificar. 
+  selector](#selectors) para encontrar los documentos que desee modificar. 
   Se pasan por alto las reglas de control de acceso establecidos por
   [`allow`](#allow) y [`deny`](#deny).
 
@@ -731,7 +728,7 @@ tales como controladores de eventos y un navegador con consola JavaScript.
 
 En el servidor, si usted no proporciona un <i>callback</i>,, entonces `update` se bloquea
 hasta que la base de datos reconoce la escritura, o lanza una excepción si algo salió mal.
-Si usted proporciona un <i>callback</i>,, `update` retorna immediatamente.  
+Si usted proporciona un <i>callback</i>, `update` retorna immediatamente.  
 Una vez finalizada la actualización, el <i>callback</i> se llama con un único argumento de error en
 el caso de fallo, o sin argumentos si la actualización se ha realizado correctamente.
 
@@ -772,14 +769,14 @@ La característica Mongo `upsert` no está implementada.
 
 Encuentra todos los documentos que coinciden con `selector` y los elimina de la colección.
 
-El comportamiento de `remove` difiere dependiendo de si se es llamado po
+El comportamiento de `remove` difiere dependiendo de si se es llamado por
 código confiable o no confiable. Código confiable incluye código 
 de servidor y código de método. Código no confiable incluye código <i>client-side</i>
 tales como controladores de eventos y un navegador con consola JavaScript.
 
-- El código confiable puede un arbitrario [Mongo selector](#selectors)
+- El código confiable puede utilizr un arbitrario [Mongo selector](#selectors)
   para encontrar los documentos que desea eliminar, y puede eliminar más de un documento
-  a la vez passando un selector con el que coincidan multiples documentos.
+  a la vez pasando un selector con el que coincidan multiples documentos.
   Se pasan por alto las reglas de control de acceso establecidos por  
   [`allow`](#allow) y [`deny`](#deny).
 
@@ -851,18 +848,18 @@ De lo contrario, debe devolver `false`, o nada en absoluto (`undefined`).
 En ese caso Meteor continuará buscando a través de cualquier otra regla de 
 la colección.
 
-Los <i><i>callbacks</i></i> disponibles son:
+Los <i>callbacks</i> disponibles son:
 
 <dl class="<i>callbacks</i>">
 {{#dtdd "insert(userId, doc)"}}
 El usuario `userId` quiere insertar el documento `doc` en la
-colección. Retorna `true` si esto debe ser permitido.
+colección. Retorna `true` si esto ha de estar permitido.
 {{/dtdd}}
 
 {{#dtdd "update(userId, doc, fieldNames, modifier)"}}
 
 El usuario `userId` quiere actualizar un documento `doc`. (`doc` es la
-versión actual of del documento desde la base de datos, sin la actualización 
+versión actual del documento desde la base de datos, sin la actualización 
 propuesta.) Devuelve `true` para permitir el cambio.
 
 `fieldNames` es un array de los campos (top-level) en `doc` que el cliente 
@@ -942,10 +939,8 @@ y `remove` directamente en la colección.
 Meteor también tiene un especial "insecure mode" para el rápido prototipado 
 de nuevas aplicaciones. En el modo no seguro, si no se ha establecido ninguna
 regla `allow` o `deny` en una colección entonces todos lo usuarios tienen pleno
-acceso de escritura en la colección.
-then all users have full write access to the
-collection. Este es el único efecto del modo no seguro. Si llama `allow` o
-`deny` en todos en una colección, incluso `Posts.allow({})`, entonces el acceso 
+acceso de escritura en la colección. Este es el único efecto del modo no seguro. Si llama `allow` o
+`deny` en todo en una colección, incluso `Posts.allow({})`, entonces el acceso 
 se comprueba justo de manera normal en esa colección.
 __Los nuevos projectos Meteor se inician en modo inseguro
  por defecto.__ Para desactivarlo basta con ejecutar `$ meteor remove insecure`.
@@ -953,7 +948,7 @@ __Los nuevos projectos Meteor se inician en modo inseguro
 {{> api_box deny}}
 
 Esto funciona igual que [`allow`](#allow), excepto que le permite asegurarse de
-que ciertas escriuras son definitivamente denegadas, incluso si hay una regla
+que ciertas escrituras son definitivamente denegadas, incluso si hay una regla
 `allow`  que dice que se debe permitir. Cuando un cliente intenta
 escribir en una colección, el servidor comprueba primero las reglas `deny` 
 de la colección. Si ninguna de ellas retorna <i>true</i> entonces se comprueban
@@ -984,9 +979,9 @@ Ejemplos:
 
 Cuando se llama desde una computación reactiva, `map` registra las dependencias 
 de los documentos coincidentes.
-n
+
 <!-- Lo siguiente no se ha implementado todavía, pero los usuarios no deben asumir
-ejecución secuencial de todos modos porque romperá. -->
+ejecución secuencial de todos modos porque fallará. -->
 En el servidor, si, `<i>callback</i>` cede, otras llamadas `<i>callback</i>` pueden ocurrir mientras 
 la primera llamada está esperando. Si una estricta ejecución secuencial es necesaria, 
 use `foreach` en su lugar.
@@ -999,7 +994,7 @@ de los documentos coincidentes.
 {{> api_box cursor_count}}
 
     // Muestra un recuento de los mensajes que coincidan con determinados criterios. 
-    //Automaticamente  lo mantiene actualizado con los cmbios de la base de datos.
+    //Automaticamente  lo mantiene actualizado con los cambios de la base de datos.
     var frag = Meteor.render(function () {
       var highScoring = Posts.find({score: {$gt: 10}});
       return "<p>There are " + highScoring.count() + " posts with " +
@@ -1020,8 +1015,8 @@ cursor. Para acceder a los datos en un cursor más de una vez, utilice
 
 {{> api_box cursor_observe}}
 
-Establecer un *live query* que invoca <i><i>callbacks</i></i> cuando el resultado de la 
-consulta cambia. Los <i><i>callbacks</i></i> reciben todo el contenido del documento que 
+Establecer un *live query* que invoca <i>callbacks</i> cuando el resultado de la 
+consulta cambia. Los <i>callbacks</i> reciben todo el contenido del documento que 
 fue afectado, así como su contenido anterior, si procede. Si sólo necesita recibir
 los campos que han cambiado, ver [`observeChanges`](#observe_changes).
 
@@ -1070,12 +1065,10 @@ Un documento se cambia de posición en el conjunto de resultados, de
 </dl>
 
 Utilice `added`, `changed`, y `removed` cuando no le preocupe el orden de 
-los documentos en el conjunto de resultados.
-when you don't care about the
-order of the documents in the result set. Estos son más eficientes que 
+los documentos en el conjunto de resultados. Estos son más eficientes que 
 `addedAt`, `changedAt`, y `removedAt`.
 
-Antes de `observe` retornos, `added` (o `addedAt`) será llamado cero
+Antes de retornos `observe`, `added` (o `addedAt`) será llamado cero
 o más veces para entregar los primeros resultados de la consulta.
 
 `observe` retorna un manejador de consulta en vivo, que es un objeto con un 
@@ -1083,24 +1076,23 @@ método `stop`.
 Llamar `stop` sin argumentos detiene la llamada a las funciones <i>callback</i>  
 y desmonta la consulta. **La consulta se ejecutará para siempre hasta que usted 
 llame esto.** Si `observe`  se llama desde un cómputo `Deps.autorun`, se detiene 
-automáticamente cuando el cómputo se vuelve a ejecutar o esestablecido e detenido.
+automáticamente cuando la computación se vuelve a ejecutar o es reejecutado o detenido.
 (Si el cursor se creó con la opción `reactive` establecido en <i>false</i>, 
-sólo proporcionará los resultados iniciales y no llama a ningún adicional <i><i>callbacks</i></i>;
+sólo proporcionará los resultados iniciales y no llama a ningún adicional retornos <i>callbacks</i>;
 no es necesario llamar `stop` en el manejador.)
 
 
 {{> api_box cursor_observe_changes}}
 
-Establece un *live query* que invoca <i><i>callbacks</i></i> cuando el resultado 
-de la consulta cambia.
-the query changes. En contraste con [`observe`](#observe),
+Establece un *live query* que invoca <i>callbacks</i> cuando el resultado 
+de la consulta cambia. En contraste con [`observe`](#observe),
 `observeChanges` que proporciona sólo la diferencia entre el conjunto de 
-resultadosthe antiguos y nuevos, no todo el contenido del documento que ha cambiado.
+resultados antiguos y nuevos, no todo el contenido del documento que ha cambiado.
 
-`<i>callbacks</i>` pueden tener la las siguientes funciones como propiedades:
+Los `<i>callbacks</i>` pueden tener la las siguientes funciones como propiedades:
 
 
-<dl class="<i>callbacks</i>">
+<dl class="callbacks">
 <dt><span class="name">added(id, fields)</span>
   <span class="or">or</span></dt>
 <dt><span class="name">addedBefore(id, fields, before)</span></dt>
@@ -1116,7 +1108,7 @@ documento identificado por `before`, o el último si `before` es `null`.
 {{#dtdd "changed(id, fields)"}}
 El documento identificado por `id` ha cambiado. `fields` contiene los campos 
 modificados con sus nuevos valores. Si un campo se eliminó del documento entonces,
-éste estará presente en `fields` con un valor de `undefined`.
+éste estará presente en `fields` con un valor `undefined`.
 {{/dtdd}}
 
 {{#dtdd "movedBefore(id, before)"}}
@@ -1140,9 +1132,9 @@ método `stop`.
 Llamar `stop` sin argumentos detiene las llamadas de las funciones <i>callback</i> 
 y desmonta la consulta. **La consulta se ejecutará para siempre hasta que se llama esto.**
 Si `observeChanges` es llamado desde un cómputo `Deps.autorun`,  se detiene 
-automáticamente cuando el cómputo se vuelve a ejecutar o es detenido.
+automáticamente cuando la computación se vuelve a ejecutar o es detenido.
 (Si el cursor fué creado con la opción `reactive` establecida en <i>false</i>, 
-sólo proporcionará los resultados iniciales y no llama a ningún adicional <i><i>callbacks</i></i>;
+sólo proporcionará los resultados iniciales y no llama a ningún adicional <i>callbacks</i>;
 no es necesario llamar `stop` en el manejador.)
 
 {{#note}}
@@ -1244,7 +1236,7 @@ modificadores](http://www.mongodb.org/display/DOCS/Updating#Updating-ModifierOpe
 
 Sorts puede ser specificado usando varias opciones de sintaxis:
 
-    // Todo esto hace la misma cosa thing (ordena en orden ascendente por 
+    // Todo esto hace la misma cosa  (ordena en orden ascendente por 
     // la clave  "a", rompiendo lazos en orden descendente de la clave "b")
 
     [["a", "asc"], ["b", "desc"]]
@@ -1283,7 +1275,7 @@ No es posible mezclar estilos de inclusión y exclusión.
 almacenar un conjunto arbitrario de pares clave-valor. Utilícelo para almacenar 
 cosas como el elemento actualmente seleccionado en una lista.
 
-¿Qué tiene de especial `Session` es que es reactivo. Si 
+¿Qué tiene de especial `Session`?  que es reactivo. Si 
 llama [`Session.get`](#session_get)`("currentList")`
 desde el interior de una plantilla, la plantilla automaticamente se revisualizará
 cada vez que se llame [`Session.set`](#session_set)`("currentList", x)`.
@@ -1366,7 +1358,7 @@ Ejemplo:
 
     // El uso de Session.equals aquí significa que cuando el usuario clica
     // en un item y cambia la selección, sólo los <i>items</i> recién seleccionado
-    // y el recién desseleccionado son re-visualizados.
+    // y el recién deseleccionado son re-visualizados.
     //
     // Si Session.get había sido utilizado en lugar de Session.equals, entonces
     // cuando la selección cambia, todos los items serán revisualizados.
@@ -1396,14 +1388,14 @@ paquetes proveedores de <i>login</i>: `accounts-password`, `accounts-facebook`,
 
 {{> api_box user}}
 
-Recupera el registro de usuario para el desde
+Recupera el registro de usuario para el usuario actual desde
 la colección [`Meteor.users`](#meteor_users).
 
-On the client, this will be the subset of the fields in the document that
-are published from the server (other fields won't be available on the
-client). By default the server publishes `username`, `emails`, and
-`profile`. Ver [`Meteor.users`](#meteor_users) for more on
-the fields used in user documents.
+En el cliente, este será el subconjunto de los campos en el documento que
+se publica en el servidor (otros campos no estarán disponibles en el
+cliente). Por defecto, el servidor publica `username`, `emails`, y
+`profile`. Ver [`Meteor.users`](#meteor_users) para más información sobre
+los campos utilizados en los documentos del usuario.
 
 {{> api_box userId}}
 
@@ -1445,20 +1437,20 @@ Meteor trata los siguientes campos especialmente:
 - `username`: un único <i>String</i> que identifica el usuario.
 - `emails`: un <i>Array</i> de <i>Objects</i> con claves `address` y `verified`;
   una dirección <i>email</i> puede pertenecer a más de un usuario.  `verified` es
-  un <i>Boolean</i> que es <i>true</i> si el usuario ha [verified the
-  address](#accounts_verifyemail) con una señal enviada a través de correo electrónico.
-- `createdAt`: un <i>timestamp</i> numérico (milliseconds since January 1 1970)
-   of el momento en que el usuario  ha creado el documento.
+  un <i>Boolean</i> que es <i>true</i> si el usuario ha [verificado la
+  dirección](#accounts_verifyemail) con una señal enviada a través de correo electrónico.
+- `createdAt`: un <i>timestamp</i> numérico (milisegundos desde el 1 de Enero de 1970)
+   del momento cuando el usuario  ha creado el documento.
 - `profile`: un <i>Object</i> que (por defecto) el usuario puede crear
   y actualizar con los datos.
-- `services`: un <i>Object</i> ue contiene los datos utilizados por los servicios de login 
+- `services`: un <i>Object</i> que contiene los datos utilizados por los servicios de login 
   en particular. Por Ejemplo, su campo `reset` contiene
   fichas utilizadas por enlaces [forgot password](#accounts_forgotpassword),
-  y su campo `resume` contiene fichas utilizadas mantenerle 
+  y su campo `resume` contiene fichas utilizadas para mantenerle 
   conectado entre sesiones.
 
 Igual que todas las colecciones [Meteor.Collection](#collections)s, usted puede acceder a todos 
-los documentos en el servidor, pero sólo aquellos específicamente publicada por el servidor
+los documentos en el servidor, pero sólo aquellos específicamente publicados por el servidor
 están accesibles en el cliente.
 
 Por defecto, el usuario actual `username`, `emails` y `profile` 
@@ -1497,7 +1489,7 @@ animación mientras que la solicitud de acceso se está procesando.
 {{> api_box loginWithPassword}}
 
 Esta función está proporcionada por el paquete `accounts-password`. Ver el
-[Passwords](#accounts_passwords) en la sección debajo.
+[Passwords](#accounts_passwords) en la sección siguiente.
 
 
 {{> api_box loginWithExternalService}}
@@ -1513,12 +1505,12 @@ con información proporcionada por el servicio externo.
 Además de identificar al usuario en su aplicación, algunos servicios 
 tienen APIs que le permiten actuar en nombre del usuario. Para 
 solicitar permisos específicos del usuario, pase la opción 
-`requestPermissions` a la funcción <i>login</i>. Esto causará que el usuario
+`requestPermissions` a la función <i>login</i>. Esto causará que el usuario
 sea presentado con una página adicional en el <i>pop-up</i> dialogo para permitir
 el acceso a sus datos. El usuario `accessToken` &mdash; con permisos
 de acceso a los servicios API &mdash; es guardado en el campo `services` del
 documento del usuario. Los valores admitidos por `requestPermissions` son diferentes
-para cada servicio de <i>login</i> y y están documentados sus respectivos sitios para 
+para cada servicio de <i>login</i>  y están documentados sus respectivos sitios para 
 desarrolladores:
 
 - Facebook: <http://developers.facebook.com/docs/authentication/permissions/>
@@ -1616,7 +1608,7 @@ un objeto recién creado) con cualquier modificación que se desee. El documento
 se inserta directamente en la colección [`Meteor.users`](#meteor_users).
 
 La función para crear usuario por defecto simplemene copia `options.profile` en
-el nuevo documento de usuario. Llamando `` onCreateUser reemplaza el enganche por defecto.
+el nuevo documento de usuario. Llamando `onCreateUser` reemplaza el enganche por defecto.
 Esto sólo puede ser llamado una vez.
 
 Ejemplo:
@@ -1637,15 +1629,9 @@ Ejemplo:
 <h2 id="accounts_passwords"><span>Passwords</span></h2>
 
 El paquete  `accounts-password` contiene un sistema completo para autenticación basado en contraseña.
-<<<<<<< HEAD
-authentication. In addition to the basic username and password-based
-sign-in process, it also supports email-based sign-in including
-address verification and password recovery emails.
-=======
 Además del proceso básico Nombre de usuario e inicio de sesión basado en contraseña, también soporta
 inicio de sesión basado en email incluyendo verificación de direcciones y recuperación de contraeña 
 por <i>email</i>.
->>>>>>>  templates linea 2000 y pico-
 
 A diferencia de la mayoría de  web applications, aplicaciones web, el cliente Meteor no envía 
 la contraseña del usuario directamente al servidor. Se utiliza el [Secure Remote Password
@@ -1658,7 +1644,6 @@ Para agregar soporte de password a su aplicación, ejecute `$ meteor add
 accounts-password`. Usted puede construir su propio interfaz de usuario utilizando
 las funciones de abajo, o utilizar el [`accounts-ui` package](#accountsui) para
 incluir una llave en la interfaz de usuario para un registro basado en contraseña.
-
 
 {{> api_box accounts_createUser}}
 
@@ -1680,7 +1665,6 @@ invalidar este comportamiento utilice [`Accounts.onCreateUser`](#accounts_oncrea
 
 Esta función sólo se utiliza para crear usuarios con contraseñas. 
 
-
 {{> api_box accounts_changePassword}}
 
 {{> api_box accounts_forgotPassword}}
@@ -1691,7 +1675,7 @@ a [`Accounts.resetPassword`](#accounts_resetpassword) para completar el proceso 
 de contraseña.
 
 Si está utilizando el [`accounts-ui` package](#accountsui), esto se maneja de forma automática.
-automatically. De lo contrario, es su responsibilidad solicitar al usuario la 
+De lo contrario, es su responsibilidad solicitar al usuario la 
 nueva contraseña y llame `resetPassword`.
 
 {{> api_box accounts_resetPassword}}
@@ -1748,7 +1732,7 @@ Reemplazar los campos del objeto asignandolos:
 - `siteName`: el nombre público de su aplicación. El valor predeterminado es el nombre DNS de
    la aplicación (eg: `awesome.meteor.com`).
 - `resetPassword`: Un `Object` con dos campos:
- - `resetPassword.subject`: Una `Function` que toma un objeto usuario y returna
+ - `resetPassword.subject`: Una `Function` que toma un objeto usuario y retorna
    un `String` para la línea de asunto de un restablecimiento <i>email</i> de contraseña.
  - `resetPassword.text`: Una `Function` que toma un objeto usuario y una <i>url</i>, y
    devuelve el cuerpo de texto para restablecer el <i>password</i> por <i>email</i>.
