@@ -553,46 +553,45 @@ para mayores detalles.
 <template name="packages_concept">
 {{#better_markdown}}
 
-  <h2 id="smartpackages">Smart packages</h2>
+  <h2 id="smartpackages">Paquetes inteligentes</h2>
 
-Meteor has an unusually powerful package system. All of the
-functionality you've read about so far is implemented as standard
-Meteor packages.
+Meteor tiene una sistema de paquetes inusualmente poderoso. Todas las funcionalidades
+de las que has leído hasta ahora, son implementadas como paquetes de Meteor
+estándar.
 
-Meteor packages are intelligent: the packages are themselves
-JavaScript programs. They can inject code into the client or the
-server, or hook new functions into the bundler, so they can extend the
-Meteor environment in arbitrary ways. Some examples of packages are:
+Los paquetes de Meteor son inteligentes: los paquetes son programas de
+JavaScript ellos mismos. Pueden inyectar código dentro del cliente o el servidor,
+o insertar nuevar funcionas en el empaquetador, para así extender el ambiente Meteor
+de diferentes formas. Algunos ejemplos de paquetes son:
 
-* The [coffeescript](#coffeescript) package extends the
-  bundler, automatically compiling any `.coffee` files in
-  your tree.  Once added, you can write your application in CoffeeScript
-  instead of JavaScript.
+* El paquete [coffeescript](#coffeescript) extiende al empaquetador,
+  compilando automáticamente cualquier archivo `.coffee` en tu estructura de
+  archivos.  Una vez agregado, puedes escribir tu aplicación en CoffeeScript
+  en lugar de en JavaScript.
 
-* The [jQuery](#jquery) and [Backbone](#backbone) packages are examples of using
-  Meteor to prepackage client JavaScript libraries. You could get
-  the same result by copying the JavaScript files into your tree, but
-  it's faster to add a package.
+* Los paquetes [jQuery](#jquery) y [Backbone](#backbone) son ejemplos de cómo usar
+  Meteor para pre-empaquetar librerías JavaScript para el cliente. Podrías obtener
+  el mismo resultado copiando los archivos JavaScript a tu proyecto, pero es más
+  rápido agregar un paquete.
 
-* The [underscore](#underscore) package extends both the
-  client and server environments.
+* El paquete [underscore](#underscore) que extiende los entornos tanto del cliente
+  como de servidor.
 
-Many of the core Meteor features,
-including Minimongo, the Session object, and reactive Handlebars
-templates, are implemented as internal packages automatically
-included with every Meteor application.
+La mayoría de las caracerísticas centrales de Meteor,
+incluyendo Minimongo, el objeto Session, y las plantillas reactivas de
+Handlebars, están implementadas como paquetes internos que se incluyen automáticamente
+en cada aplicación Meteor.
 
-You can see a list of available packages
-with [`meteor list`](#meteorlist), add packages to your project
-with [`meteor add`](#meteoradd), and remove them
-with [`meteor remove`](#meteorremove).
+Puedes ver una lista de los paquetes disponibles
+con [`meteor list`](#meteorlist), agregar paquetes a tu proyecto
+con [`meteor add`](#meteoradd), y eliminarlos con [`meteor remove`](#meteorremove).
 
-See the [Package List](#packages) section for a description
-of the existing packages.
+Hecha un vistazo a la [Lista de paquetes](#packages) para un descripción
+sobre los paquetes disponibles.
 
 {{#warning}}
-The package API is rapidly changing and isn't documented, so you can't
-make your own packages just yet. Coming soon.
+La API de paquetes cambia rápidamente y no está documentada, por lo que no es simple
+crear tus propios paquetes. Muy pronto.
 {{/warning}}
 
 {{/better_markdown}}
