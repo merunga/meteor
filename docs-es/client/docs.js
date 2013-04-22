@@ -86,18 +86,18 @@ Meteor.startup(function () {
 
 var toc = [
   {name: "Meteor " + Template.headline.release(), id: "top"}, [
-    "Quick start",
-    "Seven principles",
-    "Resources"
+    {name: "Inicio rápido", id: "quickstart"},
+    {name: "Siete principios", id: "sevenprinciples"},
+    {name: "Recursos", id: "resources"}
   ],
-  "Concepts", [
-    "Structuring your app",
-    "Data and security",
-    "Reactivity",
-    "Live HTML",
-    "Templates",
-    "Smart packages",
-    "Deploying"
+  {name: "Conceptos", id: "concepts"}, [
+    {name: "Estructurando tu aplicación", id: "structuringyourapp"},
+    {name: "Datos y seguridad", id: "dataandsecurity"},
+    {name: "Reactividad", id: "reactivity"},
+    {name: "HTML vivo", id: "livehtml"},
+    {name: "Plantillas", id: "templates"},
+    {name: "Paquetes inteligentes", id: "smartpackages"},
+    {name: "Despliegue", id: "deploying"}
   ],
 
   "API", [
