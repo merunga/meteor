@@ -399,51 +399,52 @@ cambios en sus atributos.
 <template name="templates">
 {{#better_markdown}}
 
-<h2 id="templates">Templates</h2>
+<h2 id="templates">Plantillas</h2>
 
-Meteor makes it easy to use your favorite HTML templating language,
-such as Handlebars or Jade, along with Meteor's live page update
-technology. Just write your template as you normally would, and Meteor
-will take care of making it update in realtime.
+Meteor hace sencillo utilizar tu lenguaje favorito de plantillas, como
+Handlebars o Jade, en conjunto con la tecnología de auto-actualización de Meteor. 
+Sólo escribe tu plantilla como lo harías normalmente, y Meteor se encargará de
+que se actualice en tiempo real.
 
-To use this feature, create a file in your project with the `.html`
-extension. In the file, make a `<template>` tag and give it a
-`name` attribute. Put the template contents inside the tag. Meteor
-will precompile the template, ship it down to the client, and make it
-available as a function on the global `Template` object.
+Para hacer uso de esta característica, crea un archivo en tu proyecto con 
+la extensión `.html`. En el archivo, crea un tag`<template>` y dale un atributo
+`name`. Pon el contenido de la plantilla dentro del tag. Meteor
+pre-compilará la plantilla y la enviará al cliente, dejándola disponible como
+una función en el objeto global `Template`.
 
 {{#note}}
-Today, the only templating system that has been packaged for Meteor is
-Handlebars. Let us know what templating systems you'd like to use with
-Meteor. Meanwhile, see the [Handlebars
-documentation](http://www.handlebarsjs.com/) and [Meteor Handlebars
-extensions](https://github.com/meteor/meteor/wiki/Handlebars).
+Actualmente, el único sistema de plantillas disponible para Meteor
+es Handlebars. Déjanos saber que sistemas de plantillas te gustaría usar como 
+Meteor. Mientras, puedes chequear la [documentación de
+Handlebars](http://www.handlebarsjs.com/) y [las extensiones de Meteor 
+para Handlebars](https://github.com/meteor/meteor/wiki/Handlebars).
 {{/note}}
 
-A template with a `name` of `hello` is rendered by calling the
-function `Template.hello`, passing any data for the template:
+Una plantilal con el `name` `hello` se visualiza al llamar a la función
+`Template.hello`, pasándole cualquier información a la plantilla:
 
     <!-- in myapp.html -->
     <template name="hello">
       <div class="greeting">Hello there, {{dstache}}first}} {{dstache}}last}}!</div>
     </{{! }}template>
 
-    // in the JavaScript console
+    // en la consola de JavaScript
     > Template.hello({first: "Alyssa", last: "Hacker"});
      => "<div class="greeting">Hello there, Alyssa Hacker!</div>"
 
-This returns a string. To use the template along with the [`Live
-HTML`](#livehtml) system, and get DOM elements that update
-automatically in place, use [`Meteor.render`](#meteor_render):
+Esto devuelve un string. Para usar la plantilla en conjunto con el sistema
+de [`HTML vivo`](#livehtml), y obtener elementos DOM se sea actualizan
+auntomáticamente en el lugar, usa [`Meteor.render`](#meteor_render):
 
     Meteor.render(function () {
       return Template.hello({first: "Alyssa", last: "Hacker"});
     })
       => automatically updating DOM elements
 
-The easiest way to get data into templates is by defining helper
-functions in JavaScript. Just add the helper functions directly on the
-`Template.[template name]` object. For example, in this template:
+La manera más simple de insertar datos en una plantilla es definiendo 
+funciones se soporte en JavaScript. Sólo agregar la función de soporte
+directamente en el objeto `Template.[nombre de la plantilla]`. 
+Por ejemplo, en esta plantilla:
 
     <template name="players">
       {{dstache}}#each topScorers}}
@@ -451,27 +452,27 @@ functions in JavaScript. Just add the helper functions directly on the
       {{dstache}}/each}}
     </{{! }}template>
 
-instead of passing in `topScorers` as data when we call the
-template function, we could define a function on `Template.players`:
+en lugar de pasar `topScorers` como datos cuando llamamos a la función,
+podríamos definir una función `Template.players`:
 
     Template.players.topScorers = function () {
       return Users.find({score: {$gt: 100}}, {sort: {score: -1}});
     };
 
-In this case, the data is coming from a database query. When the
-database cursor is passed to `#each`, it will wire up all of the
-machinery to efficiently add and move DOM nodes as new results enter
-the query.
+En este caso, los datos vienen de una consulta a la base de datos. Cuando
+el cursor de datos se pasa al `#each`, se encargará de setear toda la
+maquinaria necesaria para agregar y mover los nodos DOM eficientemente,
+a medida que nuevos resultados ingresen a la consulta.
 
-Helpers can take arguments, and they receive the current template data
-in `this`:
+Las funciones de soporte pueden tomar argumentos, y reciben los datos actuales
+de la plantilla dentro de `this`:
 
-    // in a JavaScript file
+    // es un archivo JavaScript
     Template.players.leagueIs = function (league) {
       return this.league === league;
     };
 
-    <!-- in a HTML file -->
+    <!-- en un archivo HTML -->
     <template name="players">
       {{dstache}}#each topScorers}}
         {{dstache}}#if leagueIs "junior"}}
@@ -484,22 +485,23 @@ in `this`:
     </{{! }}template>
 
 {{#note}}
-Handlebars note: `{{dstache}}#if leagueIs "junior"}}` is
-allowed because of a Meteor extension that allows nesting a helper
-in a block helper. (Both `if` and `leagueIs` are
-technically helpers, and stock Handlebars would not invoke
-`leagueIs` here.)
+Nota sobre Handlebars: `{{dstache}}#if leagueIs "junior"}}` está
+permitido gracias a una extensión de Meteor que permite anidar un
+un bloque de soporte, dentro de otro. (Tanto `if` como
+ `leagueIs` técnicamente son bloques de soporte, y en este caso,
+ Handlebars clásico no invocaría `leagueIs`.)
 {{/note}}
 
-Helpers can also be used to pass in constant data.
+Los bloques de soporte también pueden ser utilizados para insertar
+información constante.
 
-    // Works fine with {{dstache}}#each sections}}
+    // Funciona sin problemas con {{dstache}}#each sections}}
     Template.report.sections = ["Situation", "Complication", "Resolution"];
-
-Finally, you can use an `events` declaration on a template function to set up a
-table of event handlers. The format is documented at [Event
-Maps](#eventmaps). The `this` argument to the event handler will be
-the data context of the element that triggered the event.
+    
+Por último, puedes hacer uso de la declaración `events` en una plantilla
+para definir una tablar de manejadores de eventos. El formato está documentado en
+[Mapas de eventos](#eventmaps). El argumento `this` en el manejador será
+el contexto de datos del elemento que disparó el evento.
 
     <!-- myapp.html -->
     <template name="scores">
@@ -520,24 +522,24 @@ the data context of the element that triggered the event.
         Users.update(this._id, {$inc: {score: 2}});
       }
     });
+    
+Juntándolo todo, aquí hay un ejemplo de cómo puedes inyectar datos arbitrarios
+en tus plantillas, y hacer que se actualicen automáticamente cada vez que hay un
+cambio en la información. Hecha un vistazo a la sección [HTML vivo](#livehtml)
+para mayores detalles.
 
-Putting it all together, here's an example of how you can inject
-arbitrary data into your templates, and have them update automatically
-whenever that data changes. See [Live HTML](#livehtml) for further
-discussion.
-
-    <!-- in myapp.html -->
+    <!-- en myapp.html -->
     <template name="forecast">
       <div>It'll be {{dstache}}prediction}} tonight</div>
     </{{! }}template>
 
-    <!-- in myapp.js -->
-    // JavaScript: reactive helper function
+    <!-- en myapp.js -->
+    // JavaScript: función de soporte reactiva
     Template.forecast.prediction = function () {
       return Session.get("weather");
     };
 
-    <!-- in the console -->
+    <!-- en la consola -->
     > Session.set("weather", "cloudy");
     > document.body.appendChild(Meteor.render(Template.forecast));
     In DOM:  <div>It'll be cloudy tonight</div>
