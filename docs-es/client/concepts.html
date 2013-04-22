@@ -604,63 +604,60 @@ crear tus propios paquetes. Muy pronto.
 <template name="deploying">
 {{#better_markdown}}
 
-<h2 id="deploying">Deploying</h2>
+<h2 id="deploying">Despliegue</h2>
 
-Meteor is a full application server.  We include everything you need
-to deploy your application on the internet: you just provide the JavaScript,
-HTML, and CSS.
+Meteor es un servidor de aplicaciones completo.  Incluimos todo lo que necesitas
+para desplegar tus aplicaciones a la internet: tu sólo tienes que encargarte
+del JavaScript, HTML, y CSS.
 
-<h3 class="nosection">Running on Meteor's infrastructure</h3>
+<h3 class="nosection">Corriendo en la infraestructura de Meteor</h3>
 
-The easiest way to deploy your application is to use `meteor
-deploy`.  We provide it because it's what, personally, we've always
-wanted: an easy way to take an app idea, flesh it out over a weekend,
-and put it out there for the world to use, with nothing getting in the
-way of creativity.
+La manera más simple de desplegar tu aplicación es usando `meteor
+deploy`.  Lo hemos incluido porque es lo que, personalmente, siempre hemos
+deseado: un manera simple de tomar un idea sobre una aplicación, darle forma a lo
+largo de un fin de semana y ponerla a disposición del mundo para que la use,
+sin que nada se interponga en el camino de la creatividad.
 
     $ meteor deploy myapp.meteor.com
 
-Your application is now available at myapp.meteor.com.  If
-this is the first time deploying to this hostname, Meteor creates a
-fresh empty database for your application.  If you want to deploy an
-update, Meteor will preserve the existing data and just refresh the
-code.
+Tu aplicación está ahora diponible en myapp.meteor.com.  Si
+es la primera vez que despliegas a este dominio, entonces Meteor crea una base de datos
+desde cero para tu aplicación.  Si lo que quieres es desplegar una actualizacíón,
+Meteor mantendrá los datos antiguos y sólo actualizará el código.
 
-You can also deploy to your own domain.  Just set up the hostname you
-want to use as a CNAME to `origin.meteor.com`,
-then deploy to that name.
+También puedes desplegar a un dominio propio.  Sólo configura el hostname que quieres
+usar como un CNAME de `origin.meteor.com`, luego despliega ahí.
 
     $ meteor deploy www.myapp.com
 
-We provide this as a free service so you can try Meteor.  It is also
-helpful for quickly putting up internal betas, demos, and so on.
+Proveemos esto como un servicio gratuito para que puedas probar Meteor.  También
+es útil para hacer disponible betas internos, demos y demás.
 
-<h3 class="nosection">Running on your own infrastructure</h3>
+<h3 class="nosection">Corriendo en tu propia infraestructura</h3>
 
-You can also run your application on your own infrastructure, or any
-other hosting provider like Heroku.
+También puedes correr tu aplicación en tu propia infraestructura, o cualquier otro
+proveedor de hosting como Heroku.
 
-To get started, run
+Para emepzar ejecuta
 
     $ meteor bundle myapp.tgz
-
-This command will generate a fully-contained Node.js application in
-the form of a tarball.  To run this application, you need to provide
-Node.js 0.8 and a MongoDB server.  You can then run the application by
-invoking node, specifying the HTTP port for the application to listen
-on, and the MongoDB endpoint.  If you don't already have a MongoDB
-server, we can recommend our friends at [MongoHQ](http://mongohq.com).
+    
+Este comando generará una aplicación de Node.js completa, en la forma de un tarball.
+  Para ejecutar esta aplicación, necesitas proveer Node.js 0.8 y un servidor MongoDB.
+  Puedes ejecutar la aplicación invocando a node, especificando un puerto HTTP
+dónde escuchará la aplicación, y el punto de conexión a MongoDB.  Si no tienes ya un
+servidor MongoDB, podemos recomendarte a nuestros amigos de [MongoHQ](http://mongohq.com).
 
     $ PORT=3000 MONGO_URL=mongodb://localhost:27017/myapp node bundle/main.js
 
-Other packages may require other environment variables (for example, the `email`
-package requires a `MAIL_URL` environment variable).
+Otros paquetes pueden requerir de otras variables de entorno (por ejemplo, el
+paquete `email` requiere un variable de entorno `MAIL_URL`).
 
 {{#warning}}
-For now, bundles will only run on the platform that the bundle was
-created on.  To run on a different platform, you'll need to rebuild
-the native packages included in the bundle.  To do that, make sure you
-have `npm` available, and run the following:
+Por ahora, los bundles sólo correrán en las plataformas donde fueron creados.
+  Para correr en una plataforma diferente, necesitas recrear los paquetes nativos
+incluidos en el bundle.  Para hacer esto, asegúrate de tener `npm` disponible,
+y ejecuta lo siguiente:
 
     $ cd bundle/server/node_modules
     $ rm -r fibers
