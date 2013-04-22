@@ -695,7 +695,7 @@ Template.api.cursor_observe = {
   name: "<em>cursor</em>.observe(callbacks)",
   locus: "Anywhere",
   descr: ["Ver consulta.  Recibe callbacks como el conjunto de resultados con cambios."],
-  args: 
+  args: [
     {name: "callbacks",
      type: "Object",
      descr: "Funciones a llamar para proporcionar el conjunto de resultados con cambios"}
