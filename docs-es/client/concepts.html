@@ -377,37 +377,21 @@ si acabas de insertar un registro en la base de datos, quizás quieras forzar un
 del DOM para que puedas encontrar los nuevos elementos utilizando una librería tal como JQuery.
 En ese caso, llama a [`Deps.flush`](#deps_flush) para actualizar el DOM inmediatamente.
 
-When live-updating DOM elements are taken off the screen, they are automatically
-cleaned up &mdash; their callbacks are torn down, any associated database
-queries are stopped, and they stop updating. For this reason, you never have to
-worry about the [zombie
-templates](http://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/)
-that plague hand-written update logic. To protect your elements from cleanup,
-just make sure that they are on-screen before your code returns to the event loop,
-or before any call you make to [`Deps.flush`](#deps_flush).
+Cuando los elementos DOM reactivos se quitan de la pantalla, son automáticamente
+limpiados &mdash; se apagan sus callbacks, todas las consultas a base de datos se frenan,
+y dejan de actualizarse. Por eso, nunca tendrás que preocuparte por las [plantillas zombie](http://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/)
+que abundan en en la lógica de actualización escrita a mano. Para proteger a tus elementos de ser eliminados, asegúrate de que estén en la pantalla antes de que tu código regrese al ciclo de eventos o antes de cualquier llamada a [`Deps.flush`](#deps_flush).
 
-When live-updating DOM elements are taken off the screen, they are automatically
-cleaned up &mdash; their callbacks are torn down, any associated database
-queries are stopped, and they stop updating. For this reason, you never have to
-worry about the [zombie
-templates](http://lostechies.com/derickbailey/2011/09/15/zombies-run-managing-page-transitions-in-backbone-apps/)
-that plague hand-written update logic. To protect your elements from cleanup,
-just make sure that they are on-screen before your code returns to the event loop,
-or before any call you make to [`Deps.flush`](#deps_flush).
+Otro problema espinoso en las aplicaciones escritas a mano, es
+la preservación de elementos. Suponte que el usuario está escribiendo
+texto en un elemento `<input>`, y que el área de la página donde está ese elemento
+es actualizada. El usuario podría entrar en un viaje muy movido, porque el foco, la posición del cursor, el texto ingresado y todo el estado se perderá cuando el `<input>` es
+regenerado.
 
-Another thorny problem in hand-written applications is element
-preservation. Suppose the user is typing text into an `<input>`
-element, and then the area of the page that includes that element is
-redrawn. The user could be in for a bumpy ride, as the focus, the
-cursor position, the partially entered text, and the accented
-character input state will be lost when the `<input>` is recreated.
-
-This is another problem that Meteor solves for you. You can specify
-elements to preserve when templates are re-rendered with the
-[`preserve`](#template_preserve) directive on the template. Meteor will
-preserve these elements even when their enclosing template is
-rerendered, but will still update their children and copy over any
-attribute changes.
+Este es otro problema que Meteor resuelve por tí. Puede especificar elementos a
+preservar cuando las plantilla son re-dibujadas con la directiva
+[`preserve`](#template_preserve). Meteor preservará estos elementos inclusive cuando la plantilla que los contienen se re-dibuje, pero actualizará sus hijos y los
+cambios en sus atributos.
 
 {{/better_markdown}}
 </template>
