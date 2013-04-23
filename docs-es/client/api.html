@@ -864,7 +864,7 @@ propuesta.) Devuelve `true` para permitir el cambio.
 
 `fieldNames` es un array de los campos (top-level) en `doc` que el cliente 
 quiere modificar, por ejemplo
-`['name',`&nbsp;`'score']`. `modifier` es el modificador raw Mongo que
+`['name',`&nbsp;`'score']`. `modifier` es el modificador <i>raw Mongo</i> que
 el cliente quiere ejecutar, por ejemplo `{$set: {'name.first':
 "Alice"}, $inc: {score: 1}}`.
 
@@ -1078,7 +1078,7 @@ y desmonta la consulta. **La consulta se ejecutará para siempre hasta que usted
 llame esto.** Si `observe`  se llama desde un cómputo `Deps.autorun`, se detiene 
 automáticamente cuando la computación se vuelve a ejecutar o es reejecutado o detenido.
 (Si el cursor se creó con la opción `reactive` establecido en <i>false</i>, 
-sólo proporcionará los resultados iniciales y no llama a ningún adicional retornos <i>callbacks</i>;
+sólo proporcionará los resultados iniciales y no llamará a ningún adicional <i>callbacks</i>;
 no es necesario llamar `stop` en el manejador.)
 
 
@@ -1089,7 +1089,7 @@ de la consulta cambia. En contraste con [`observe`](#observe),
 `observeChanges` que proporciona sólo la diferencia entre el conjunto de 
 resultados antiguos y nuevos, no todo el contenido del documento que ha cambiado.
 
-Los `<i>callbacks</i>` pueden tener la las siguientes funciones como propiedades:
+Los `<i>callbacks</i>` pueden tener las siguientes funciones como propiedades:
 
 
 <dl class="callbacks">
@@ -1470,7 +1470,7 @@ específicos de todos los usuarios:
       return Meteor.users.find({}, {fields: {'nested.things': 1}});
     });
 
-A los suarios, por defecto se les permite especificar su propio campo `profile` con
+A los usuarios, por defecto se les permite especificar su propio campo `profile` con
 [`Accounts.createUser`](#accounts_createuser) y  modificarlo con
 `Meteor.users.update`. Para permitir a los usuarios editar campos adicionales, utilice
 [`Meteor.users.allow`](#allow). Para prohibir a los usuarios que realicen cualquier modificación
@@ -1548,7 +1548,6 @@ función `Meteor.loginWithGithub` :
       if (err)
         Session.set('errorMessage', err.reason || 'Unknown error');
     });
-
 
 
 {{> api_box currentUser}}
@@ -1630,17 +1629,17 @@ Ejemplo:
 
 El paquete  `accounts-password` contiene un sistema completo para autenticación basado en contraseña.
 Además del proceso básico Nombre de usuario e inicio de sesión basado en contraseña, también soporta
-inicio de sesión basado en email incluyendo verificación de direcciones y recuperación de contraeña 
+inicio de sesión basado en email incluyendo verificación de direcciones y recuperación de contraseña 
 por <i>email</i>.
 
-A diferencia de la mayoría de  web applications, aplicaciones web, el cliente Meteor no envía 
+A diferencia de la mayoría de aplicaciones web, el cliente Meteor no envía 
 la contraseña del usuario directamente al servidor. Se utiliza el [Secure Remote Password
 protocol](http://en.wikipedia.org/wiki/Secure_Remote_Password_protocol)
 para garantizar que el servidor nunca ve la contraseña del usuario en texto plano. Esto
 ayuda a proteger contra fugas embarazosas de contraseñas si la base de datos del servidor
 se ve comprometida.
 
-Para agregar soporte de password a su aplicación, ejecute `$ meteor add
+Para agregar soporte de contraseña a su aplicación, ejecute `$ meteor add
 accounts-password`. Usted puede construir su propio interfaz de usuario utilizando
 las funciones de abajo, o utilizar el [`accounts-ui` package](#accountsui) para
 incluir una llave en la interfaz de usuario para un registro basado en contraseña.
@@ -1764,21 +1763,20 @@ devuelve una cadena de HTML cuando es llamada.
 
 La misma plantilla puede ocurrir muchas veces en la página, y
 estos sucesos se denominan instancias de plantilla.  Las Instancias de la plantilla tienen un
-ciclo de vida de creación, colocada el documento, extraida del documento y destruida.
+ciclo de vida de creación, colocada en el documento, extraida del documento y destruida.
 Meteor gestiona estas etapas por usted, incluyendo la determinación de cuando una instancia de 
-plantilla ha sido eliminado o sustituido y debe ser limpiada
+plantilla ha sido eliminada o sustituida y debe ser limpiada
 Usted puede asociar datos a una instancia de plantilla,
-template instance, y se puede acceder a los nodos DOM cuando se encuentra en el documento.
+y se puede acceder a los nodos DOM cuando se encuentra en el documento.
 
 Además, Meteor mantendrá una instancia de plantilla y su estado
-incluso si su código HTML circundante se vuelve a representar en los nuevos nodos DOM.
-even if its surrounding HTML is re-rendered into new DOM nodes.  
+incluso si su código HTML circundante se vuelve a representar en los nuevos nodos DOM.  
 Como siempre  la estructura de invocaciones de plantilla es la misma,
 Meteor no tendrá en cuenta todas las instancias que han sido creadas o destruidas.
 Puede solicitar que los mismos nodos DOM deban conservarse,
 utilizando `preserve` y `constant`.
 
-Hay una serie de <i><i>callbacks</i></i> y directivas que puede especificar en 
+Hay una serie de <i>callbacks</i> y directivas que puede especificar en 
 una plantilla nombrada y que se aplique en todas las instancias 
 de la plantilla.
 Se describen a continuación. 
@@ -1798,17 +1796,17 @@ y de nuevo cada vez que cualquier parte de la plantilla es revisualizada.
 
 
 En el cuerpo del <i>callback</i>, `this` es un objeto [template
-instance](#template_inst) quew es único en esta ocurrencia de
-la plantilla y persiste a través de revisualizaciones. Utilice los <i><i>callbacks</i></i> 
+instance](#template_inst) que es único en esta ocurrencia de
+la plantilla y persiste a través de revisualizaciones. Utilice los <i>callbacks</i> 
 `created` y `destroyed` para realizar inicialización o limpieza en el objeto.
 
 {{> api_box template_created}}
 
 Este <i>callback</i> es llamado cuando una invocación de *myTemplate* representa
-una nueva ocurrencia de la plantilla y no una representación de una exitente 
+una nueva ocurrencia de la plantilla y no una representación de una existente 
 instancia de plantilla.  Dentro del <i>callback</i> , `this` es el nuevo objeto [template
 instance](#template_inst). Las propiedades que usted puede establecer en este objeto
-será visible desde los <i>callbacks</i>  `rendered` y `destroyed` y desde 
+serán visible desde los <i>callbacks</i>  `rendered` y `destroyed` y desde 
 los manipuladores de eventos.
 
 Este <i>callback</i> se dispara una vez y es el primer <i>callback</i> que se dispara. Cada
@@ -1875,8 +1873,7 @@ paquete `preserve-inputs`.  Todos estos elementos preservados de tipo
 `input`, `textarea`, `button`, `select`, y `option` que tienen un único atributo
 `id` o que tienen atributos `name` únicos dentro de un 
 un elemento que lo encierra con un atributo `id`.  Para desactivar 
-este comportamiento por defecto,
-behavior, simplemente borre el paquete `preserve-inputs`.
+este comportamiento por defecto, simplemente borre el paquete `preserve-inputs`.
 {{/note}}
 
 Preservar es útil en varietad de casos en los que reemplazar un elemento DOM
@@ -1888,7 +1885,7 @@ que retener el elemento original.  Estos incluyen:
 * Iframes
 * Nodos con referencias que se encuentran en el código JavaScript
 
-Si desea preservar una región completa del DOM, un element y sus 
+Si desea preservar una región completa del DOM, un elemento y sus 
 hijos, o nodos no representados por Meteor, utilice en su lugar un [constant
 region](#constant).
 
@@ -1899,7 +1896,7 @@ el viejo elemento en su lugar mientras se trabajan cambios en todo el código HT
 
 Una segunda forma de `preserve` toma una función de etiquetado para cada selector
 y permite que los selectores coincidan con varios nodos. La función etiquetado de nodos
-toma un nodo y retorna una caden etiqueta que es única para cada nodo
+toma un nodo y retorna una cadena etiqueta que es única para cada nodo
 o `false` para excluir el nodo de ser preservado.
 
 Por Ejemplo, para preservar todos los elementos <code>`<input>`</code>  
@@ -1911,17 +1908,16 @@ con <i>ids</i> la plantilla 'foo', utilice:
 
 Los selectores son interpretados como <i>rooted</i> de nivel superior de la plantilla.
 Cada ocurrencia de la plantilla funciona de forma independiente, por lo que los selectores
-no tiene que ser únicos en toda la página, sólo dentro de una ocurrencia de la plantilla.
-of the template. Los selectores coincidirán con los nodos, incluso si están en
-sub-plantillas.
+no tienen que ser únicos en toda la página, sólo dentro de una ocurrencia de la plantilla.
+Los selectores coincidirán con los nodos, incluso si están en sub-plantillas.
 
 Preservar un nodo *no* preserva sus atributos o contenidos. Ellos 
 se actualizarán para reflejar el nuevo HTML. El texto en campos <i>input</i> no es 
 preservado a menos que el campo <i>input</i> tenga el foco, en tal caso el cursor y
-la seleción se dejant intactos. <i>Iframes</i> retienen su estado de navegació y
+la seleción se dejan intactos. <i>Iframes</i> retienen su estado de navegación y
 las animaciones continuarán funcionando siempre y cuando sus parámetros no hayan cambiado.
 
-Hay algunos casos en los que los nodos no pueden ser preservados debido a
+Hay algunos casos en que los nodos no pueden ser preservados debido a
 las limitaciones inherentes a la API DOM. Por Ejemplo, un <i>tag name</i> de elemento 
 no puede ser cambiado, y no puede ser movido en relación a sus padres o otros nodos
 preservados. Por esta razón, los nodos que están  re-ordenados o 
@@ -1942,7 +1938,7 @@ propiedades que persisten a través de la revisualización de la página.
 
 Los objetos de una instancia de plantilla se encuentran como el valor de  `this` en la
 plantilla <i>callbacks</i> `created`, `rendered`, y `destroyed` y como 
-aargumento para controladores de eventos.
+argumento para controladores de eventos.
 
 Además de las propiedades y funciones que se describen a continuación, puede
 asignar propiedades adicionales de su elección en el objeto. Los nombres de propiedades
@@ -2001,7 +1997,7 @@ se ejecuta, y automaticamente conecta <i>callbacks</i> de modo que cada vez que 
 datos cambie, `htmlFunc` se re-ejecuta y los nodos DOM se actualizan en su lugar.
 
 Puede insertar el retornado `DocumentFragment` directamente en el DOM
-dondequiera desee que aparezca. Los nodos insertados continuarán
+dondequiera que desee que aparezca. Los nodos insertados continuarán
 actualizandose hasta que se retiren de pantalla. Luego se limpianrán automáticamente.
 Para más detalles sobre la limpieza, consulte [`Deps.flush`](#deps_flush).
 
@@ -2036,9 +2032,9 @@ de una lista de documentos.  Por Ejemplo, si un documento nuevo se crea en
 la base de datos que coincida con la consulta, un nuevo elemento se representará e 
 insertará en el lugar apropiado en el DOM sin re-revisualizar los otros elementos. 
 Del mismo modo, si un documento cambia de posición en un consulta ordenada, 
-los nodos DOM se moverán y no volverán a representar.
+los nodos DOM se moverán y no se volverán a representar.
 
-`docFunc` se llama asi como se necesita para generar código HTML para cada documento. 
+`docFunc` se llama asi cuando se necesita para generar código HTML para cada documento. 
 Si usted proporciona `elseFunc`, entonces siempre que la consulta no devuelva ningún resultado,
 será llamado para visualizar contenido alternativo. puede usar esto para mostrar 
 un mensaje como "Ningún registro coincide con su consulta."
@@ -2069,9 +2065,9 @@ Ejemplo:
 
 {{#api_box_inline eventmaps}}
 
-Varias funciones toma mapas de eventos. Un mapa de eventos es un objeto donde 
+Varias funciones toman mapas de eventos. Un mapa de eventos es un objeto donde 
 las propiedades especifican un conjunto de eventos para manejar, y los valores son los
-manejadores para estos eventos. La propiedad puede ser en una de estas formas:
+manejadores para estos eventos. La propiedad puede ser una de estas formas:
 
 
 <dl>
@@ -2086,7 +2082,7 @@ elemento que cumpla con un determinado selector CSS.
 
 {{#dtdd "<em>event1, event2</em>"}}
 Para manejar más de un tipo de evento con la misma función, utilice
-una Lista separada por comas.
+una lista separada por comas.
 {{/dtdd}}
 </dl>
 
@@ -2126,7 +2122,7 @@ el selector y está menejado actualmente se llama `currentTarget`.
       }
     }
 
-Si un selector coincide con multiples elementos que un evento propague, it
+Si un selector coincide con multiples elementos que un evento propague, 
 se le llamará varias veces, por Ejemplo en el caso de `'click
 div'` o `'click *'`. Si ningún selector es dado, el controlador 
 sólo se llama una vez, en la etiqueta original del elemento.
@@ -2146,7 +2142,7 @@ El elemento que originó el evento.
 {{#dtdd name="currentTarget" type="DOM Element"}}
 El elemento que actualmente maneja el evento.  Este es el elemento que 
 coincidió con el selector en el mapa de eventos. Para eventos que se propagan, puede
-ser `target` o un ancestro de `target`, y su valor cambia asi como 
+ser `target` o un ancestro de `target`, y su valor cambia en cuanto
 el evento se propaga.
 {{/dtdd}}
 
@@ -2163,12 +2159,12 @@ este y otros mapas de eventos.
 
 {{#dtdd "stopImmediatePropagation()"}}
 Impiden que todos los manejadores de eventos adicionales que se ejecuten en este evento,
-incluyendo otros manejadores en este mapa de eventos, los manipuladores alcanzados por
+incluyendo otros manejadores de este mapa de eventos, los manipuladores alcanzados por
 la propagación, y manejadores en otros mapas de eventos.
 {{/dtdd}}
 
 {{#dtdd "preventDefault()"}}
-Impide la acción del navegador tomaría normalmente en respuesta a esta 
+Impide la acción que el navegador tendria normalmente en respuesta a este 
 evento, como seguir un enlace o enviar un formulario. Controladores adicionales 
 todavía son llamados, pero no pueden revertir el efecto. 
 {{/dtdd}}
@@ -2203,7 +2199,7 @@ Double-click.
 {{/dtdd}}
 
 {{#dtdd "<code>focus, blur</code>"}}
-Un campo <i>input</i> de texto o otro control de formulario gana o pierde el foco.
+Un campo <i>input</i> de texto u otro control de formulario gana o pierde el foco.
 Puede hacer cualquier elemento enfocable dándole una propiedad `tabindex`.
 Los navegadores difieren sobre si <i>links, checkboxes, </i>y <i>radio buttons</i> son
 nativamente enfocables. Estos eventos no son propagables.
@@ -2246,17 +2242,16 @@ El contenido dentro del bloque auxiliar `#constant` se conserva exactamente tal 
 incluso si encerrando la plantilla es re-visualizada. Los cambios en otras partes de la
 plantilla están parcheados ​​en torno a ella de la misma manera como
 `preserve`. A diferencia de la preservación de un nodo individual, una region constante 
-retiene no sólo las identidades de sus nodos, sino también sus atributos y contenidos
-y contents. El contenido del bloque sólo se evalua una vez 
-por ocurrencia de la plantilla encerrada.
+retiene no sólo las identidades de sus nodos, sino también sus atributos y contenidos. 
+El contenido del bloque sólo se evalua una vez por ocurrencia de la plantilla encerrada.
 
 Las regiones constantes permiten que contenido <i>non-Meteor</i> sea embebido en una plantilla Meteor
 Muchos widgets de terceros crean y gestionan sus propios nodos DOM 
 mediante programación.Por lo general, se pone un elemento vacio en su 
-plantilla, que el widget o biblioteca luego poblará con hijos DOM
-children. Normalmente, cuando Meteor se vuelve a representar la plantilla encerrada
+plantilla, que el widget o biblioteca luego poblará con hijos DOM. 
+Normalmente, cuando Meteor se vuelve a representar, la plantilla encerrada
 borrará  los nuevos hijos DOM, ya que la plantilla especifica que debe estar vacío.
-Si se envuelve en un blque `#constant`, sin embargo, se deja solo; 
+Si se envuelve en un bloque `#constant`, sin embargo, se deja solo; 
 cualquiera que sea el contenido que se encuentre en los restos del DOM.
 
 {{#note}}
@@ -2270,15 +2265,15 @@ correctamente dentro de las regiones constantes.
 
 {{#api_box_inline isolate}}
 
-Cada plantilla se ejecuta como su propia cmputación reactiva.  Cuando la plantilla tiene 
+Cada plantilla se ejecuta como su propia computación reactiva.  Cuando la plantilla tiene 
 acceso a una fuente de datos reactivo, tales como llamar `Session.get` o
 hacer una consulta de base de datos, esto establece dependencia de datos que hará que
-cause que la totalidad de la plantilla se vuelva a re-representar cuando los datos cambian.
+cause que la totalidad de la plantilla se vuelva a re-representar cuando los datos cambien.
 Esto significa que la cantidad de re-presentación para un cambio particular
 se ve afectada por como ha dividido su código HTML en plantillas.
 
-Típicamente, la extensión exacta de re-presentación no es crucial, pero si quieres
-más control, como por motivos de rendimiento, puede utilizar el auxiliar
+Típicamente, la extensión exacta de re-presentación no es crucial, pero si quiere
+más control, por motivos de rendimiento, puede utilizar el auxiliar
 `{{dstache}}#isolate}}...{{dstache}}/isolate}}`. los datos de dependencias establecidos 
 en el interior de un bloque `#isolate` están localizados en el
 bloque y no en sí mismos causa que la plantilla padre sea
@@ -2361,12 +2356,12 @@ evitar posteriores reejecuciones:
       alert("Oh no!");
     });
 
-La función se invoca inmediatamente, en tal punto se puede alertar y
+La función se invoca inmediatamente, de tal manera que se puede alertar y
 detener de inmediato si `shouldAlert` es ya <i>true</i>.  Si no, la
 función se ejecuta de nuevo cuando `shouldAlert` se convierte en <i>true</i>.
 
 Un cambio en una dependencia de datos no provoca una immediata reejecución, sino
-que "invalidates" la computación, causando que se vuelva a ejecutar la próxima
+que "invalida" la computación, causando que se vuelva a ejecutar la próxima
 vez que se produce una descarga.  Una descarga se producirá automáticamente tan pronto como 
 el sistema está inactivo si no se invalidan los computos. También puede utilizar
 [`Deps.flush`](#deps_flush) para causar una descarga inmediata de
@@ -2375,7 +2370,7 @@ todas las reposiciones pendientes. .
 Si anida llamadas a `Deps.autorun`, entonces cuando la llamada externa se detenga o
 se reejecute, la llamada interna se detendrá automáticamente. Las suscripciones y 
 los observadores también se detiene automáticamente cuando se utiliza como parte de 
-un cálculo que se vuelve a ejecutar, permitiendo que los nuevos que se establezcan.  Ver
+un cálculo que se vuelve a ejecutar, permitiendo que los nuevos se establezcan.  Ver
 [`Meteor.subscribe`](#meteor_subscribe) para obtener más información acerca 
 de las suscripciones y la reactividad.
 
@@ -2386,7 +2381,7 @@ se detiene automáticamente y no se vuelve a ejecutar.
 
 Normalmente, al hacer cambios (como escribir a la base de datos),
 su impacto (como la actualización del DOM) se retrasa hasta que el sistema esté inactivo.
-idle.  Esto mantiene las cosas predecibles &mdash; puede saber que el DOM
+Esto mantiene las cosas predecibles &mdash; puede saber que el DOM
 no va a cambiar por debajo de su código a medida que se ejecuta.
 Es también una de las cosas que hace a Meteor rápido.
 
@@ -2404,20 +2399,20 @@ que no hay más trabajo por hacer. <i>callbacks</i> registradas con
 [`Meteor.afterFlush`](#deps_afterflush) se llaman después de procesar 
 invalidaciones pendientes.
 
-Cualquier auto-actualización de elementos DOM que se observan no estar encontrado el 
-documento durante una limpieza puede ser limpiado por Meteor (Lo que significa que
-Meteor dejará de seguir y actualizar los elementos, por lo que
+Cualquier auto-actualización de elementos DOM que se observa que no estan en el 
+documento durante una descarga pueden ser limpiados por Meteor (Lo que significa que
+Meteor dejará de seguir y actualizar elementos, por lo que
 el colector de basura del navegador puede eliminarlos) Así que, si llama
 manualmente `flush`, necesita asegurarse de que cualquier auto-actualización de elementos
 que haya creado llamando [`Meteor.render`](#meteor_render)
-ya se han insertado en el principal árbol DOM.
+ya se han insertado en el árbol DOM principal.
 
 Es ilegal llamar `flush` desde el interior de un `flush` o de una computación
-ejecutandose.
+en ejecución.
 
 {{> api_box deps_nonreactive }}
 
-Lllamadas `func()` con `Deps.currentComputation` temporalmente se establece a 
+Llamadas `func()` con `Deps.currentComputation` temporalmente se establecen a 
 `null`.  Si `func` accede a fuentes de datos reactivos, estas fuentes de datos
 nunca causarán reejecución de la computación envolvente.
 
@@ -2442,12 +2437,11 @@ detalles.
 
 {{> api_box deps_afterflush }}
 
-Funciones programadas por múltiples llamadas a `afterFlush` llamadas a
+Funciones programadas por múltiples llamadas a `afterFlush` llamadas para
 que funcionen en el orden en que `afterFlush` ha sido llamado. Las funciones están
-garantizados que serán llamadas en el momento que no se hayan invalidado 
+garantizadas que serán llamadas en el momento que no se hayan invalidado 
 los cálculos que deben volver a ejecutar. Esto significa que si una
 función `afterFlush` invalida una computación, esta computación se reejecuta
-function invalidates a computation, that computation will be rerun
 antes que cualquier otra función `afterFlush` sea llamada.
 
 <h2 id="deps_computation"><span>Deps.Computation</span></h2>
@@ -2460,21 +2454,20 @@ Utilice [`stop`](#computation_stop) para evitar adicionales reejecuciones de una
 computación.
 
 Cada vez que se ejecuta una computación, puede acceder a varias fuentes de datos
-reactivos que sirven como entradas para la computación, which are called its
-dependencies. En algún tiempo futuro, una de estas dependencias
+reactivos que sirven como entradas para la computación, de las que son llamadas sus 
+dependencias. En algún tiempo futuro, una de estas dependencias
 desencadenará que la computación se vuelva a ejecutar invalidando la misma.  Cuando esto
 sucede, las dependencias se borran, y la computación es
-programado para volver a ejecutarse en tiempo de limpieza.
+programada para volver a ejecutarse en tiempo de limpieza.
 
-La *current computation*
-([`Deps.currentComputation`](#deps_currentcomputation)) es la
-computación que se está ejecutando actualmente o reejecutando (computed), y el que
-gana una dependencia cuando se accede a una una fuente de datos reactiva.
+La *current computation* ([`Deps.currentComputation`](#deps_currentcomputation)) es la
+computación que se está ejecutando actualmente o reejecutando (computed), y de la que se
+obtiene una dependencia cuando se accede a una fuente de datos reactiva.
 Las fuentes de datos son los responsables para el seguimiento de estas dependencias mediante 
 los objetos [`Deps.Dependency`](#deps_dependency).
 
 Al invalidar una computación se establece su propiedad `invalidated` a true
-y immediatamente llama  a todos los `onInvalidate` de <i>callbacks</i> computación.
+e inmediatamente llama  a todos los <i>callbacks</i> `onInvalidate` de computación.
 Cuando una limpieza sucede, si la computacion ha sido invalidada 
 y no detenida, entonces la computación es reejecutada mediante el establecimiento 
 de la propiedad `invalidated` a `false` y llamando a la funcion original
@@ -2498,7 +2491,7 @@ Ejemplo:
 
 {{> api_box computation_stop}}
 
-La detención de una computación es irreversible y garrantiza que nunca
+La detención de una computación es irreversible y garantiza que nunca
 se vuelva a ejecutar.  Puede detener una computación en cualquier momento, incluyendo
 desde la propia función que gestióna la computación. La detención de una computación que
 ya se ha detenido no tiene ningún efecto. 
@@ -2507,15 +2500,15 @@ La detención de una computación causa que su <i>callbacks</i> `onInvalidate` s
 ejecute inmediatamente si no está ya actualmente ivalidado.
 
 Las computaciones anidadas se detienen automaticamente cuando su computación
-adjunto se vuelve a ejecutar.
+adjunta se vuelve a ejecutar.
 
 {{> api_box computation_invalidate }}
 
 Invalidando una computación lo marca para ser reejecutado por
 [flush time](#deps_flush), en este punto la computación 
-se vuelve válido nuevamente.  Es raro invalidar una computación 
-manualmente, ya que las fuentes de datos reactivos
-invalidan sus llamadas computacionaless cuando cambian. Fuentes de datos
+se vuelve válida nuevamente.  Es raro invalidar una computación 
+manualmente, ya que las fuentes de datos reactivas
+invalidan sus llamadas computacionales cuando cambian. Fuentes de datos
 reactivos, a su vez realizan esta invalidación usando uno o más 
 objetos b[`Deps.Dependency`](#deps_dependency).
 
@@ -2528,11 +2521,11 @@ resultado será un bucle infinito.
 {{> api_box computation_oninvalidate }}
 
 `onInvalidate` registra una sola vez <i>callback</i> que o bien ejecuta
-immediatamente o tan pronto como la computación siguiente se invalida o se detiene. 
-Es utilizado por las fuentes de datos reactivos para limpiar los recursos o
-interrumpir dependencias cuando la computación is reejecutada o detenida.
+immediatamente o tan pronto como la computación próxima se invalida o se detiene. 
+Se utiliza por las fuentes de datos reactivas para limpiar los recursos o
+interrumpir dependencias cuando la computación es reejecutada o detenida.
 
-Para obtener un <i>callback</i> después de que una computación has been recalculada, puede
+Para obtener un <i>callback</i> después de que una computación ha sido recalculada, puede
 llamar [`Deps.afterFlush`](#deps_afterflush) desde `onInvalidate`.
 
 {{> api_box computation_stopped }}
@@ -2540,7 +2533,7 @@ llamar [`Deps.afterFlush`](#deps_afterflush) desde `onInvalidate`.
 {{> api_box computation_invalidated }}
 
 Esta propiedad es inicialmente <i>false</i>.  Se fija en <i>true</i> por `stop()` y
-`invalidate()`.  Se restablece en <i>false</i> cuando la computación ess
+`invalidate()`.  Se restablece en <i>false</i> cuando la computación es
 recalculada en tiempo de limpieza.
 
 {{> api_box computation_firstrun }}
@@ -2552,7 +2545,7 @@ computación tiene una lógica específica de la primera ejecución.
 
 Una <i>Dependencia</i> representa una unidad atómica de datos reactivos de la que una
 computacion pueda depender. Fuentes de datos reactivos tales como <i>Session</i> o
-<i>Minimongo</i> crea internamente  diferentes objetos <i>Dependency</i>  para diferentes
+<i>Minimongo</i> crean internamente diferentes objetos <i>Dependency</i>  para diferentes
 piezas de datos, cada uno de los cuales puede depender de multiples
 computaciones.  Cuando los datos cambian, la computaciones son
 invalidadas.
@@ -2577,19 +2570,18 @@ como en este Ejemplo:
       weatherDep.changed();
     };
 
-Este ejemplo implementa una fuente de datos de con un simple <i>getter</i> y
+Este ejemplo implementa una fuente de datos con un simple <i>getter</i> y
 <i>setter</i>.  Los registros  <i>getter</i>  de las que depende la actual computación
-en la dependencia `weatherDep` uttiliza `depend()`, mientras que <i>setter</i>
+en la dependencia `weatherDep` utiliza `depend()`, mientras que <i>setter</i>
 señala la dependencia  al invalidar todos las cálculos dependientes llamando `changed()`.
 
 La razón de que las <i>Dependencies</i> no almacenan datos ellas mismas es que puede 
-ser útil as
-useful asociar múltiples <i>Dependencies</i> con el mismo pieza de información.
+ser útil  asociar múltiples <i>Dependencies</i> con la mismo pieza de información.
 Por Ejemplo, una dependencia podría representar el resultado de una consulta de
-base de datos, mientras que otro puede representar sólo el número de documentos 
-en el resultado. Una <i>Dependency</i> podría representar clima el clima es soleado 
+base de datos, mientras que otra puede representar sólo el número de documentos 
+en el resultado. Una <i>Dependency</i> podría representar clima, el clima es soleado 
 o no, o la temperatura del clima está por encima de la congelación.
-[`Session.equals`](#session_equals) se lleva a cabo de esta manera para por
+[`Session.equals`](#session_equals) se lleva a cabo de esta manera para 
 eficiencia.  Cuando llama  `Session.equals("weather", "sunny")`, la actual
 computación se hace depender de una  <i>Dependency</i> interna que
 no cambia si el clima va desde, digamos, "lluvioso" a "nublado".
@@ -2611,14 +2603,14 @@ el hecho de que `dep` está siendo accedido desde la actual computación.
 
 {{> api_box dependency_hasdependents }}
 
-Para las fuentes de datos de reactivos que crean muchas <i>Dependencies</i>,
-internal esta función es útil para determinar si una dependencia particular 
+Para las fuentes de datos de reactivos que crean muchas <i>Dependencies</i>
+internas, esta función es útil para determinar si una dependencia particular 
 está todavía rastreando cualquier relación de dependencia o si se puede 
 limpiar para ahorrar memoria.
 
 <h2 id="ejson"><span>EJSON</span></h2>
 
-EJSON es una extensión de <i>JSON</i> para suportar más tipos. Es compatible con todos
+EJSON es una extensión de <i>JSON</i> para soportar más tipos. Es compatible con todos
 los tipos <i>JSON-safe</i> como:
 
  - **Date** (JavaScript `Date`)
@@ -2652,8 +2644,8 @@ y resultados, bases de datos Mongo, y variables de [`Session`](#session) .
 
 {{> api_box ejsonNewBinary}}
 
-Los <i>Buffers</i> de datos binarios son representados por `Uint8Array` instancias en 
-plataformas JavaScript que los suporta. En las implementaciones de JavaScript que no 
+Los <i>Buffers</i> de datos binarios son representados por instancias `Uint8Array` en 
+plataformas JavaScript que los soporta. En las implementaciones de JavaScript que no 
 soportan `Uint8Array`, los búfers de datos binario se representan por <i>arrays</i>
 estandar que contienen números con rangos desde 0 a 255, y la tecla `$Uint8ArrayPolyfill` se
 establece a `true`.
@@ -2670,13 +2662,14 @@ Cuando añada un tipo de <i>EJSON</i>, Meteor será capaz de utilizar ese tipo e
 
 {{#note}}
 
-  <i>MongoDB</i> no puede almacenar más tipos definidos por el usuario de forma nativa en el servidor.  Su tipo funcionará en <i>Minimongo</i>, y usted puede enviarlo al cliente utilizando el 
+  <i>MongoDB</i> no puede almacenar más tipos definidos por el usuario de forma nativa en el servidor.  
+  Su tipo funcionará en <i>Minimongo</i>, y usted puede enviarlo al cliente utilizando el 
   publicador acostumbrado, pero MongoDB sólo puede almacenar los tipos definidos en
   [BSON](http://bsonspec.org/).
 
 {{/note}}
 
-Las instancias de su tipo should implementarán la siguiente interfaz:
+Las instancias de su tipo implementarán la siguiente interfaz:
 
 {{> api_box ejsonTypeClone}}
 
@@ -2709,21 +2702,20 @@ http`.
 
 {{> api_box httpcall}}
 
-Esta función inicia una petición HTTP a un server remoto. Devuelve
+Esta función inicia una petición HTTP a un servidor remoto. Devuelve
 un objeto resultado con el contenido de la respuesta HTTP.  El objeto 
 resultado es detallado a continuación.
 
 En el servidor, esta función se puede ejecutar de forma sincrónica o asincrónica.
-asynchronously.  Si el <i>callback</i> es omitido se ejecuta sincrónicamente,
+Si el <i>callback</i> es omitido se ejecuta sincrónicamente,
 y los resultados son devueltos una vez que la solicitud se completa. Esto es
-Esto es útil si se hace <i>server-to-server</i> HTTP API llama desde dentro del método 
+útil si se hace <i>server-to-server</i> HTTP API llama desde dentro del método 
 Meteor, ya que el método puede tener éxito o fallar sobre la base de los resultados de la
 llamada HTTP sínchrona.  En este caso, considere utilizar
 [`this.unblock()`](#method_unblock) para permitir que otros métodos se ejecuten mientras tanto.  
-En el cliente, esta función debe ser utilizada
-asinchrónicamente pasando un  <i>callback</i>.
+En el cliente, esta función debe ser utilizada asincrónicamente pasando un <i>callback</i>.
 
-Ambos protocolos HTTP y HTTPS son compatibles.  El argumento `url` debe ser
+Ambos protocolos HTTP y HTTPS son compatibles. El argumento `url` debe ser
 una URL absoluta incluyendo protocolo y nombre de <i>host</i> en el servidor, pero puede ser
 relativo al actual <i>host</i> en el cliente.  La opción `query` reemplaza
 la cadena de consulta del `url`.  Los parámetros especificados en `params`
@@ -2735,7 +2727,7 @@ Los `params` se ponen en el URL o en el cuerpo de la solicitud, dependiendo del
 tipo de solicitud.  En el caso de solicitudes sin cuerpos, como GET y
 HEAD, los parámetros siempre irán en la URL.  Para un POST o otro
 tipo de soilcitud, los parámetros se codifican en el <i>body</i> con un
-contenido estandar de tipo `x-www-form-urlencoded` , a menos que la opción `content`
+contenido estandar de tipo `x-www-form-urlencoded`, a menos que la opción `content`
 o `data` sean utilizadas para especificar un <i>body</i>, en tal caso los 
 parámetros serán añadidos al URL en su lugar.
 
@@ -2760,7 +2752,7 @@ Contenidos del objeto de resultado:
 
 <dt><span class="name">data</span>
   <span class="type">Object o <code>null</code></span></dt>
-<dd>Si las cabeceras de <i>response</i> indican contenido JSON, contiene el cuerpo del documento parseado como un objeto JSON .</dd>
+<dd>Si las cabeceras de <i>response</i> indican contenido JSON, contiene el cuerpo del documento parseado como un objeto JSON.</dd>
 
 <dt><span class="name">headers</span>
   <span class="type">Object</span></dt>
@@ -2804,13 +2796,13 @@ Ejemplo asynchronous HTTP call:
 <h2 id="email"><span>Email</span></h2>
 
 El paquete `email` permite el envío de correo electrónico desde una aplicación Meteor.
-Para utilizarlo, agregar el paquete a su proyecto con `$ meteor add email`.
+Para utilizarlo, agregue el paquete a su proyecto con `$ meteor add email`.
 
 El servidor lee de la variable del entorno `MAIL_URL` para determinar cómo enviar
 correo. Actualmente, Meteor admite el envío de correo a través de SMTP; la variable 
 del entorno `MAIL_URL` debe estar en la forma `smtp://USERNAME:PASSWORD@HOST:PORT/`. 
 Para desplegar <i>apps</i> con `meteor deploy`, `MAIL_URL` da por defecto una cuenta 
-(proporcionado por [Mailgun](http://www.mailgun.com/)) que permite a las aplicaciones para enviar hasta 200
+(proporcionado por [Mailgun](http://www.mailgun.com/)) que permite a las aplicaciones enviar hasta 200
 correos electrónicos por día; puede anular este por defecto asignando `process.env.MAIL_URL`
 antes de la primera llamada a `Email.send`.
 
@@ -2854,10 +2846,6 @@ un cliente puede enviar, para evitar que su servidor sea utilizado como un <i>re
 </template>
 
 
-
-
-
-
 <template name="api_box">
 <div class="api {{bare}}">
 <h3 id="{{id}}">
@@ -2888,7 +2876,6 @@ un cliente puede enviar, para evitar que su servidor sea utilizado como un <i>re
 </div>
 
 </template>
-
 
 
 <template name="api_box_args">

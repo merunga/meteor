@@ -110,7 +110,7 @@ Template.api.ejsonToJSONValue = {
   id: "ejson_to_json_value",
   name: "EJSON.toJSONValue(val)",
   locus: "Anywhere",
-  args: [ {name: "val", type: "EJSON-compatible value", descr: "A value to serialize to plain JSON."} ],
+  args: [ {name: "val", type: "EJSON-compatible value", descr: "Un valor para serializar a JSON plano."} ],
   descr: ["Serializa un valor EJSON-compatible value en su representación sin formato JSON."]
 },
 
@@ -129,7 +129,7 @@ Template.api.ejsonClone = {
   name: "EJSON.clone(val)",
   locus: "Anywhere",
   args: [ {name: "val", type: "EJSON-compatible value", descr: "A value to copy."} ],
-  descr: ["Returno una copia en profundidad de `val`."]
+  descr: ["Retorna una copia en profundidad de `val`."]
 },
 
 Template.api.ejsonNewBinary = {
@@ -166,7 +166,7 @@ Template.api.ejsonTypeClone = {
 Template.api.ejsonTypeEquals = {
   id: "ejson_type_equals",
   name: "<i>instance</i>.equals(other)",
-  args: [ {name: "other", type: "object", descr: "Another object to compare this to."}],
+  args: [ {name: "other", type: "object", descr: "Otro objeto para comparar esto."}],
   descr: ["Retorna `true` si `other` tiene un valor igual a  `this`; `false` de otra manera."]
 };
 
@@ -234,7 +234,7 @@ Template.api.subscription_changed = {
     },
     {name: "fields",
      type: "Object",
-     descr: "Los campos del documento que han cambiado, junto a sus nuevos valores.  Si un campo no está presente en `fields`  se deja sin cambiar; si está presente en `fields` y tiene un valor de `undefined` se elimina del documento.  Si `_id` está presente se ignora."
+     descr: "Los campos del documento que han cambiado, junto a sus nuevos valores. Si un campo no está presente en `fields`  se deja sin cambiar; si está presente en `fields` y tiene un valor de `undefined` se elimina del documento. Si `_id` está presente se ignora."
     }
   ]
 };
@@ -275,7 +275,7 @@ Template.api.subscription_stop = {
   id: "publish_stop",
   name: "<i>this</i>.stop()",
   locus: "Server",
-  descr: ["Llama dentro de la función de publicación.  Detiene la suscripción de este cliente; el callback `onError`  *no* es invocado en el cliente."]
+  descr: ["Llama dentro de la función de publicación. Detiene la suscripción de este cliente; el callback `onError` *no* es invocado en el cliente."]
 };
 
 Template.api.subscription_onStop = {
@@ -417,7 +417,7 @@ Template.api.meteor_apply = {
   options: [
     {name: "wait",
      type: "Boolean",
-     descr: "(Sólo cliente) Si es true, no enía este método hasta que todos las llamadas a métodos anteriores han concluido, y no envíe las llamadas a métodos siguientes hasta que se complete esta."},
+     descr: "(Sólo cliente) Si es true, no tenía este método hasta que todos las llamadas a métodos anteriores han concluido, y no envíe las llamadas a métodos siguientes hasta que se complete esta."},
     {name: "onResultReceived",
      type: "Function",
      descr: "(Sólo cliente) Este callback se invoca con el error o el resultado del método (como `asyncCallback`)  tan pronto como el error o el resultado estén disponible. La caché local sin embargo, puede no reflejar la escrituras realizadas por el método."}
@@ -674,7 +674,7 @@ Template.api.cursor_map = {
   id: "map",
   name: "<em>cursor</em>.map(callback)",
   locus: "Anywhere",
-  descr: ["Mapa callback sobre todos los documentos coincidentes.  Retorna un Array."],
+  descr: ["Mapea callback sobre todos los documentos coincidentes.  Retorna un Array."],
   args: [
     {name: "callback",
      type: "Function",
@@ -817,7 +817,7 @@ Template.api.deps_afterflush = {
   id: "deps_afterflush",
   name: "Deps.afterFlush(callback)",
   locus: "Client",
-  descr: ["Programa una función que será llamada durante el siguiente flush ¿limpieza?, o después en el flush actual si alguno está en curso, después de que todos los cómputos invalidados hayan sido reejecutados.  La función se ejecutará una vez y no en y no en oleadas sucesivas a menos que `afterFlush` se llame de nuevo."],
+  descr: ["Programa una función que será llamada durante el siguiente flush, limpieza, o después en el flush actual si alguno está en curso, después de que todos los cómputos invalidados hayan sido reejecutados.  La función se ejecutará una vez y no en oleadas sucesivas a menos que `afterFlush` se llame de nuevo."],
   args: [
     {name: "callback",
      type: "Function",
@@ -869,7 +869,7 @@ Template.api.computation_firstrun = {
   id: "computation_firstrun",
   name: "<em>computation</em>.firstRun",
   locus: "Client",
-  descr: ["True durante la ejecución inicial de la computación en el momento que es llamado `Deps.autorun`, y false en las reejecucione posteriores y en otros momentos."]
+  descr: ["True durante la ejecución inicial de la computación en el momento que es llamado `Deps.autorun`, y false en las reejecuciones posteriores y en otros momentos."]
 };
 
 Template.api.dependency_changed = {
@@ -1058,7 +1058,7 @@ Template.api.loginWithExternalService = {
     {
       name: "requestOfflineToken",
       type: "Boolean",
-      descr: "Si es true, pide al usuario permiso para actuar en su nombre cuando está offline. Esto almacena un adicional token offline en el campo `services` del  el documento del usuario. Actualmente sólo es compatible con Google."
+      descr: "Si es true, pide al usuario permiso para actuar en su nombre cuando está offline. Esto almacena un adicional token offline en el campo `services` del documento del usuario. Actualmente sólo es compatible con Google."
     }
   ]
 };
@@ -1453,7 +1453,7 @@ Template.api.bindEnvironment = {
   args: [
     {name: "func",
      type: "Function",
-     descr: "Function to wrap"},
+     descr: "Función para envolver"},
     {name: "onException",
      type: "Function",
      descr: "Función para llamar en caso de que `func` lance una excepción.  Se espera a la excepción lanzada como su único argumento."},
@@ -1467,7 +1467,7 @@ Template.api.set = {
   id: "session_set",
   name: "Session.set(key, value)",
   locus: "Client",
-  descr: ["Establecer una variable de sesión. Notificar a los oyentes que el valor ha cambiado (ej: redibujar las plantillas,  y vuelva a ejecutar cualquier computación [`Deps.autorun`](#deps_autorun), que se llama [`Session.get`](#session_get) en esta `key`.)"],
+  descr: ["Establecer una variable de sesión. Notificar a los oyentes que el valor ha cambiado (ej: redibujar las plantillas, y volver a ejecutar cualquier computación [`Deps.autorun`](#deps_autorun), que se llama [`Session.get`](#session_get) en esta `key`.)"],
   args: [
     {name: "key",
      type: "String",
@@ -1497,7 +1497,7 @@ Template.api.get = {
   id: "session_get",
   name: "Session.get(key)",
   locus: "Client",
-  descr: ["Obtener el valor de una variable de sesión. Si dentro de un [reactive computation](#reactivity), invalidar la computación de la próxima vez que el valor de la variable se cambia por [`Session.set`](#session_set). Esto devuelve un clon del valor de la sesión, por lo que si se trata de un objeto o un o un array, mutando el valor devuelto no tiene efecto sobre el valor almacenado en la sesión."],
+  descr: ["Obtener el valor de una variable de sesión. Si dentro de un [reactive computation](#reactivity), invalidar la computación de la próxima vez que el valor de la variable se cambia por [`Session.set`](#session_set). Esto devuelve un clon del valor de la sesión, por lo que si se trata de un objeto o un array, mutando el valor devuelto no tiene efecto sobre el valor almacenado en la sesión."],
   args: [
     {name: "key",
      type: "String",
@@ -1720,8 +1720,8 @@ Template.api.email_send = {
   id: "email_send",
   name: "Email.send(options)",
   locus: "Server",
-  descr: ["Enviar un e-mail. Lanza un `Error` en el fracaso de contacto de correo " +
-          "server or if mail server returns an error."],
+  descr: ["Enviar un e-mail. Lanza un `Error` si fracasa el contacto con el servidor " +
+          "de correo o si el servidor de correo devuelve un error."],
   options: [
     {name: "from",
      type: "String",
@@ -1729,19 +1729,19 @@ Template.api.email_send = {
     },
     {name: "to",
      type: "String or Array of strings",
-     descr: rfc('"To:" dierección[es]')
+     descr: rfc('"To:" dirección[es]')
     },
     {name: "cc",
      type: "String or Array of strings",
-     descr: rfc('"Cc:" dierección[es]')
+     descr: rfc('"Cc:" dirección[es]')
     },
     {name: "bcc",
      type: "String or Array of strings",
-     descr: rfc('"Bcc:" dierección[es]')
+     descr: rfc('"Bcc:" dirección[es]')
     },
     {name: "replyTo",
      type: "String or Array of strings",
-     descr: rfc('"Reply-To:" dierección[es]')
+     descr: rfc('"Reply-To:" dirección[es]')
     },
     {name: "subject",
      type: "String",
