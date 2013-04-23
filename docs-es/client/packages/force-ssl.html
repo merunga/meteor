@@ -3,16 +3,12 @@
 ## `force-ssl`
 
 Este paquete hace que Meteor redireccione conexiones no seguras (HTTP) a una
-URL segura (HTTPS). Utilice este paquete para asegurarse de que la comunicación con el
+URL segura (HTTPS). Utilice este paquete para asegurarse que la comunicación con el
 servidor siempre esté cifrada para proteger a los usuarios de ataques de suplantación  
 activos.
 
 Para simplificar el desarrollo, las conexiones no codificadas del `localhost` son
 siempre aceptada a través de HTTP.
-
-Application bundles (`meteor bundle`) do not include an HTTPS server or
-certificate. A proxy server th header for the
-`force-ssl` package to work.
 
 Las aplicaciones empaquetadas (`meteor bundle`) no incluyen un servidor HTTPS o 
 certificado. Un servidor proxy que finaliza SSL en frente de un paquete 
