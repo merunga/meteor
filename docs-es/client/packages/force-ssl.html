@@ -2,22 +2,26 @@
 {{#better_markdown}}
 ## `force-ssl`
 
-This package causes Meteor to redirect insecure connections (HTTP) to a
-secure URL (HTTPS). Use this package to ensure that communication to the
-server is always encrypted to protect users from active spoofing
-attacks.
+Este paquete hace que Meteor redireccione conexiones no seguras (HTTP) a una
+URL segura (HTTPS). Utilice este paquete para asegurarse de que la comunicación con el
+servidor siempre esté cifrada para proteger a los usuarios de ataques de suplantación  
+activos.
 
-To simplify development, unencrypted connections from `localhost` are
-always accepted over HTTP.
+Para simplificar el desarrollo, las conexiones no codificadas del `localhost` son
+siempre aceptada a través de HTTP.
 
 Application bundles (`meteor bundle`) do not include an HTTPS server or
-certificate. A proxy server that terminates SSL in front of a Meteor
-bundle must set the standard `x-forwarded-proto` header for the
+certificate. A proxy server th header for the
 `force-ssl` package to work.
 
-Applications deployed to `meteor.com` subdomains with
-`meteor deploy` are automatically served via HTTPS using Meteor's
-certificate.
+Las aplicaciones empaquetadas (`meteor bundle`) no incluyen un servidor HTTPS o 
+certificado. Un servidor proxy que finaliza SSL en frente de un paquete 
+Meteor debe establecer la cabecera estándar `x-forwarded-proto` para el paquete
+`force-ssl` para trabajar.
+
+Las aplicaciones desplegadas para subdominios `meteor.com` con
+`meteor deploy` se sirven automaticamente a través de HTTPS utilizando
+un certificado de Meteor.
 
 {{/better_markdown}}
 </template>
