@@ -83,7 +83,7 @@ Template.api.ejsonParse = {
   id: "ejson_parse",
   name: "EJSON.parse(str)",
   locus: "Anywhere",
-  args: [ {name: "str", type: "String", descr: "A string to parse into an EJSON value."} ],
+  args: [ {name: "str", type: "String", descr: "Una string a analizar en un valor EJSON."} ],
   descr: ["Analiza ua string dentro de un valor EJSON. Lanza un error si el string no es EJSON válido."]
 },
 
@@ -102,7 +102,7 @@ Template.api.ejsonFromJSONValue = {
   id: "ejson_from_json_value",
   name: "EJSON.fromJSONValue(val)",
   locus: "Anywhere",
-  args: [ {name: "val", type: "JSON-compatible value", descr: "A value to deserialize into EJSON."} ],
+  args: [ {name: "val", type: "JSON-compatible value", descr: "Un valor para deserializar en un EJSON."} ],
   descr: ["Deserializa un valor EJSON de su representación sin formato JSON."]
 },
 
@@ -111,7 +111,7 @@ Template.api.ejsonToJSONValue = {
   name: "EJSON.toJSONValue(val)",
   locus: "Anywhere",
   args: [ {name: "val", type: "EJSON-compatible value", descr: "Un valor para serializar a JSON plano."} ],
-  descr: ["Serializa un valor EJSON-compatible value en su representación sin formato JSON."]
+  descr: ["Serializa un valor EJSON-compatible en su representación sin formato JSON."]
 },
 
 Template.api.ejsonEquals = {
@@ -120,7 +120,7 @@ Template.api.ejsonEquals = {
   locus: "Anywhere",
   args: [ {name: "a", type: "EJSON-compatible object"},
           {name: "b", type: "EJSON-compatible object"} ],
-  descr: ["Returna true si `a` y `b` son iguales entre si.  Returna false en otro caso." +
+  descr: ["Retorna true si `a` y `b` son iguales entre si.  Retorna false en otro caso." +
           "  Utilice el método `equals` en `a` si está presente, de otro modo realice una comparación profunda."]
 },
 
@@ -128,7 +128,7 @@ Template.api.ejsonClone = {
   id: "ejson_clone",
   name: "EJSON.clone(val)",
   locus: "Anywhere",
-  args: [ {name: "val", type: "EJSON-compatible value", descr: "A value to copy."} ],
+  args: [ {name: "val", type: "EJSON-compatible value", descr: "Un valor para copiar."} ],
   descr: ["Retorna una copia en profundidad de `val`."]
 },
 
@@ -160,7 +160,7 @@ Template.api.ejsonAddType = {
 Template.api.ejsonTypeClone = {
   id: "ejson_type_clone",
   name: "<i>instance</i>.clone()",
-  descr: ["Retorna una valor `r` tal que `this.equals(r)` es true, y modificaciones en `r`  no afectan `this` y viceversa."]
+  descr: ["Retorna una valor `r` tal que `this.equals(r)` es true, y las modificaciones en `r`  no afectan `this` y viceversa."]
 };
 
 Template.api.ejsonTypeEquals = {
@@ -190,7 +190,7 @@ Template.api.publish = {
   args: [
     {name: "name",
      type: "String",
-     descr: "Nombre del atributo establecido.  Si `null`, el conjunto no tiene nombre, y el conjunto de registros se envía automaticamente a todos los clientes conectados."},
+     descr: "Nombre del atributo establecido.  Si es `null`, el conjunto no tiene nombre y el conjunto de registros se envía automaticamente a todos los clientes conectados."},
     {name: "func",
      type: "Function",
      descr: "Función llamada en el servidor cada vez que se suscribe un cliente.  Dentro de la función, `this` es el objeto manejador de publicación, descrito a continuación.  Si el cliente ha pasado argumentos a `subscribe`, la función es llamada con los mismos argumentos."}
@@ -201,7 +201,7 @@ Template.api.subscription_added = {
   id: "publish_added",
   name: "<i>this</i>.added(collection, id, fields)",
   locus: "Server",
-  descr: ["Llama dentro de la función de publicaciónn.  Informa al suscriptor que un documento ha sido añadido al conjunto de registros."],
+  descr: ["Llama dentro de la función de publicación.  Informa al suscriptor que un documento ha sido añadido al conjunto de registros."],
   args: [
     {name: "collection",
      type: "String",
@@ -268,7 +268,7 @@ Template.api.subscription_error = {
   id: "publish_error",
   name: "<i>this</i>.error(error)",
   locus: "Server",
-  descr: ["Llama dentro de la función de publicación.  Detiene la suscripción de este cliente, desencadenndo una llamada en el cliente para el callback `onError`  pasado a [`Meteor.subscribe`](#meteor_subscribe), si hay alguno. Si `error` no es un [`Meteor.Error`](#meteor_error), se asignará a `Meteor.Error(500, \"Internal server error\")`."]
+  descr: ["Llama dentro de la función de publicación.  Detiene la suscripción de este cliente, desencadenando una llamada en el cliente para el callback `onError`  pasado a [`Meteor.subscribe`](#meteor_subscribe), si hay alguno. Si `error` no es un [`Meteor.Error`](#meteor_error), se asignará a `Meteor.Error(500, \"Internal server error\")`."]
 };
 
 Template.api.subscription_stop = {
@@ -313,7 +313,7 @@ Template.api.subscribe = {
      descr: "argumentos opcionales pasados ​​a la función de publicación en el servidor."},
     {name: "callbacks",
      type: "Function or Object",
-     descr: "Opcional. Puede incluir los callbacks `onError` y `onReady`.Si se pasa una función en lugar de un objeto, se interpreta como un callback `onReady`."}
+     descr: "Opcional. Puede incluir los callbacks `onError` y `onReady`. Si se pasa una función en lugar de un objeto, se interpreta como un callback `onReady`."}
   ]
 };
 
@@ -352,7 +352,7 @@ Template.api.method_invocation_unblock = {
   id: "method_unblock",
   name: "<i>this</i>.unblock()",
   locus: "Server",
-  descr: ["Llama dentro de una invocación de método . Permite posterior método de este cliente para empezar a ejecutar en una nueva fibra."]
+  descr: ["Llama dentro de una invocación de método. Permite posterior método de este cliente para empezar a ejecutar en una nueva fibra."]
 };
 
 Template.api.method_invocation_isSimulation = {
@@ -417,10 +417,10 @@ Template.api.meteor_apply = {
   options: [
     {name: "wait",
      type: "Boolean",
-     descr: "(Sólo cliente) Si es true, no tenía este método hasta que todos las llamadas a métodos anteriores han concluido, y no envíe las llamadas a métodos siguientes hasta que se complete esta."},
+     descr: "(Sólo cliente) Si es true, no tenía este método hasta que todas las llamadas a métodos anteriores han concluido, y no envía las llamadas a métodos siguientes hasta que se complete esta."},
     {name: "onResultReceived",
      type: "Function",
-     descr: "(Sólo cliente) Este callback se invoca con el error o el resultado del método (como `asyncCallback`)  tan pronto como el error o el resultado estén disponible. La caché local sin embargo, puede no reflejar la escrituras realizadas por el método."}
+     descr: "(Sólo cliente) Este callback se invoca con el error o el resultado del método (como `asyncCallback`)  tan pronto como el error o el resultado estén disponibles. La caché local sin embargo, puede no reflejar la escrituras realizadas por el método."}
   ]
 };
 
@@ -462,16 +462,16 @@ Template.api.meteor_collection = {
   args: [
     {name: "name",
      type: "String",
-     descr: "El nombre de una colección.  Si null, crea una no-administrado (no-sincronizado) colección local."}
+     descr: "El nombre de una colección.  Si es null, crea una colección local no-administrada (no-sincronizada)."}
   ],
   options: [
     {name: "manager",
      type: "Object",
-     descr: "La conexión Meteor que gestionará esta colección, por defecto en `Meteor` si null. A las Colecciones no-administradas (`name` es null) no se les puede especificar un gestor."
+     descr: "La conexión Meteor que gestionará esta colección, por defecto en `Meteor` si es null. A las Colecciones no-administradas (`name` es null) no se les puede especificar un gestor."
     },
     {name: "idGeneration",
      type: "String",
-     descr: "El método de generación de los campos `_id` de nuevo documentos en esta colección.  Posibles valores:\n\n" +
+     descr: "El método de generación de los campos `_id` para nuevos documentos en esta colección.  Posibles valores:\n\n" +
      " - **`'STRING'`**: random strings\n" +
      " - **`'MONGO'`**:  random [`Meteor.Collection.ObjectID`](#collection_object_id) values\n\n" +
      "La técnica de generación de id por defecto es `'STRING'`."
@@ -582,12 +582,12 @@ Template.api.update = {
      descr: "Especifica como modificar los documentos"},
     {name: "callback",
      type: "Function",
-     descr: "Opcional.  Si está presente, se llama con un objeto de error como argumento."}
+     descr: "Opcional.  Si está presente, se llama con un objeto error como argumento."}
   ],
   options: [
     {name: "multi",
      type: "Boolean",
-     descr: "True se modifican todos los documentos coincidentes; false sólo se  modifica uno de los documentos coincidentes (el por defecto)."}
+     descr: "Si es True se modifican todos los documentos coincidentes;si es false sólo se  modifica uno de los documentos coincidentes (el por defecto)."}
   ]
 };
 
@@ -655,7 +655,7 @@ Template.api.cursor_fetch = {
   id: "fetch",
   name: "<em>cursor</em>.fetch()",
   locus: "Anywhere",
-  descr: ["Devuelve todos los documentos que coinciden en como un Array."]
+  descr: ["Devuelve todos los documentos que coinciden, como un Array."]
 };
 
 Template.api.cursor_foreach = {
@@ -706,7 +706,7 @@ Template.api.cursor_observe_changes = {
   id: "observe_changes",
   name: "<em>cursor</em>.observeChanges(callbacks)",
   locus: "Anywhere",
-  descr: ["Ver una consulta.  Recibe callbacks como el conjunto de resultados con cambios. Sólo se pasan las diferencias entre los antiguos y los nuevos documentos a los callbacks."],
+  descr: ["Ver una consulta.  Recibe callbacks como el conjunto de resultados con cambios. Sólo se pasan, a los callbacks, las diferencias entre los antiguos y los nuevos documentos."],
   args: [
     {name: "callbacks",
      type: "Object",
@@ -764,7 +764,7 @@ Template.api.deps_autorun = {
   args: [
     {name: "runFunc",
      type: "Function",
-     descr: "La función a ejecutar. Recibe un argumento: el objeto Computation object que será devuelto."}
+     descr: "La función a ejecutar. Recibe un argumento: el objeto Computation que será devuelto."}
   ]
 };
 
@@ -847,7 +847,7 @@ Template.api.computation_oninvalidate = {
   args: [
     {name: "callback",
      type: "Function",
-     descr: "Función a ser llamada para invalidación. Recibe un argumento, la computación que fue invalidada."}
+     descr: "Función que será llamada para invalidación. Recibe un argumento, la computación que fue invalidada."}
   ]
 };
 
@@ -1079,7 +1079,7 @@ Template.api.accounts_config = {
     {
       name: "forbidClientAccountCreation",
       type: "Boolean",
-      descr: "Llama a [`createUser`](#accounts_createuser) desde el cliente que ha sido rechazado. Además, si usted está utilizando [accounts-ui](#accountsui), el enlace \"Create account\"  no estarán disponibles."
+      descr: "Llama a [`createUser`](#accounts_createuser) desde el cliente que ha sido rechazado. Además, si usted está utilizando [accounts-ui](#accountsui), el enlace \"Create account\"  no estará disponible."
     }
   ]
 };
@@ -1247,7 +1247,7 @@ Template.api.accounts_setPassword = {
   id: "accounts_setpassword",
   name: "Accounts.setPassword(userId, newPassword)",
   locus: "Server",
-  descr: ["Fuerza de cambiar la password de un usuario."],
+  descr: ["Fuerza a cambiar la password de un usuario."],
   args: [
     {
       name: "userId",
@@ -1324,7 +1324,7 @@ Template.api.accounts_sendVerificationEmail = {
   id: "accounts_sendverificationemail",
   name: "Accounts.sendVerificationEmail(userId, [email])",
   locus: "Server",
-  descr: ["Enviar un e-mail con un enlace, el usuario puede usar verificar su dirección de correo electrónico."],
+  descr: ["Enviar un e-mail con un enlace, que el usuario puede usar para verificar su dirección de correo electrónico."],
   args: [
     {
       name: "userId",
@@ -1509,7 +1509,7 @@ Template.api.equals = {
   id: "session_equals",
   name: "Session.equals(key, value)",
   locus: "Client",
-  descr: ["Compruebe si una variable de sesión es igual a un valor. Si dentro de un [reactive computation](#reactivity), invalida la computación la próxima vez la variable cambia a o del valor."],
+  descr: ["Comprueba si una variable de sesión es igual a un valor. Si dentro de un [reactive computation](#reactivity), invalida la computación la próxima vez la variable cambia a o del valor."],
   args: [
     {name: "key",
      type: "String",
@@ -1544,7 +1544,7 @@ Template.api.httpcall = {
 },
     {name: "data",
      type: "Object",
-     descr: "Objeto JSON-able  a stringify y utiliar como el cuerpo de la petición HTTP. Sobrescribe `content`."},
+     descr: "Objeto JSON-able a stringify y utiliar como el cuerpo de la petición HTTP. Sobrescribe `content`."},
     {name: "query",
      type: "String",
      descr: "Cadena de consulta para ir en el URL. Sobrescribe cualquier cadena de consulta en `url`."},
@@ -1563,7 +1563,7 @@ Template.api.httpcall = {
      descr: "Tiempo máximo en milisegundos de espera para la solicitud antes de fallar. Por defecto, No hay tiempo de espera."},
     {name: "followRedirects",
      type: "Boolean",
-     descr: "Si true, sigue transparentemente redirecciones HTTP .  No se puede establecer a false en el cliente."}
+     descr: "Si es true, sigue transparentemente redirecciones HTTP .  No se puede establecer a false en el cliente."}
   ]
 };
 
