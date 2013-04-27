@@ -613,7 +613,6 @@ que cambie dinámicamente a un objeto, hágalo con una función que calcule el v
 el momento que se llama, no calculando el atributo `transform` al momento.
 
 {{#warning}}
-<<<<<<< HEAD
 En esta versión, Minimongo tiene algunas limitaciones:
 
 * `$pull` en modificadores sólo puede aceptar ciertos
@@ -625,20 +624,6 @@ map/reduce no estan suportadas.
 Todo esto se abordará en una próxima versión. 
 Para notas completas de la versión Minimongo, consulte
 Ver packages/minimongo/NOTES en el repositorio.
-=======
-En esta versión, Minimongo tiene algunas limitaciones:
-
-* `$pull` en modificadores sólo puede aceptar ciertos tipos
-de selectores..
-* `$` indicar la posición de array coincidente no está
-soportado en el modificador
-* `findAndModify`, upsert, aggregate functions, y
-map/reduce no están soportados.
-Para completar
-Notas sobre la versión Minimongo,Para completar
-notas sobre la versión Minimongo, Ver packages/minimongo/NOTES
-en el repositorio.
->>>>>>> 57274449dfc943064d4a299dbe3011578f2b1758
 {{/warning}}
 
 {{#warning}}
@@ -2661,12 +2646,10 @@ Cuando añada un tipo de <i>EJSON</i>, Meteor será capaz de utilizar ese tipo e
  - permitiendo su tipo de variables [`Session`](#session).
 
 {{#note}}
-
-  <i>MongoDB</i> no puede almacenar más tipos definidos por el usuario de forma nativa en el servidor.  
-  Su tipo funcionará en <i>Minimongo</i>, y usted puede enviarlo al cliente utilizando el 
+  <i>MongoDB</i> no puede almacenar más tipos definidos por el usuario de forma nativa en el servidor.
+    Su tipo funcionará en <i>Minimongo</i>, y usted puede enviarlo al cliente utilizando el
   publicador acostumbrado, pero MongoDB sólo puede almacenar los tipos definidos en
   [BSON](http://bsonspec.org/).
-
 {{/note}}
 
 Las instancias de su tipo implementarán la siguiente interfaz:
