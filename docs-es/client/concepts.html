@@ -433,8 +433,8 @@ Una plantilal con el `name` `hello` se visualiza al llamar a la función
      => "<div class="greeting">Hello there, Alyssa Hacker!</div>"
 
 Esto devuelve un string. Para usar la plantilla en conjunto con el sistema
-de [`HTML vivo`](#livehtml), y obtener elementos DOM se sea actualizan
-auntomáticamente en el lugar, usa [`Meteor.render`](#meteor_render):
+de [`HTML vivo`](#livehtml), y obtener elementos DOM que se actualizan
+automáticamente, usa [`Meteor.render`](#meteor_render):
 
     Meteor.render(function () {
       return Template.hello({first: "Alyssa", last: "Hacker"});
@@ -442,7 +442,7 @@ auntomáticamente en el lugar, usa [`Meteor.render`](#meteor_render):
       => automatically updating DOM elements
 
 La manera más simple de insertar datos en una plantilla es definiendo 
-funciones se soporte en JavaScript. Sólo agregar la función de soporte
+funciones de soporte en JavaScript. Sólo agregar la función de soporte
 directamente en el objeto `Template.[nombre de la plantilla]`. 
 Por ejemplo, en esta plantilla:
 
@@ -499,7 +499,7 @@ información constante.
     Template.report.sections = ["Situation", "Complication", "Resolution"];
     
 Por último, puedes hacer uso de la declaración `events` en una plantilla
-para definir una tablar de manejadores de eventos. El formato está documentado en
+para definir una tabla de manejadores de eventos. El formato está documentado en
 [Mapas de eventos](#eventmaps). El argumento `this` en el manejador será
 el contexto de datos del elemento que disparó el evento.
 
