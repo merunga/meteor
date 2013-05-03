@@ -117,7 +117,7 @@ Ejemplo:
         // don't care about moved or changed
       });
 
-      // Observe only returns after the initial added <i>callbacks</i> have
+      // Observe only returns after the initial added callbacks have
       // run.  Now return an initial value and mark the subscription
       // as ready.subscrip
       initializing = false;
@@ -183,7 +183,7 @@ correspondiente nombre de la colección.
     // publica los datos del servidor de la colección "players"
     Meteor.subscribe("allplayers");
     ...
-    // colas de cliente registran los <i>players</i> entrantes hasta que ...
+    // colas de cliente registran los players entrantes hasta que ...
     ...
     Players = new Meteor.Collection("players");
 
@@ -489,7 +489,7 @@ colección con `new Meteor.Collection`.
 
 {{> api_box meteor_collection}}
 
-Llamar esta función es análoga a la declaración de un modelo en un tradicional framework ORM
+Llamar esta función es análogo a la declaración de un modelo en un tradicional framework ORM
 (Object-Relation Mapper)-céntrica . Se establece una *collection* (un espacio de almacenamiento 
 de registros, o "documentos") que pueden ser utilizados para almacenar un tipo particular 
 de información, como usuarios, mensajes , puntuaciones, tareas pendientes,
@@ -498,7 +498,7 @@ Cada documento es un objeto EJSON. Incluye un `_id` con la
 propiedad de ser un valor único en la colección,
 que Meteor especificó al crear el documento.
 
-    // código común en el cliente y el servidor <i>livedata-managed</i>
+    // código común en el cliente y el servidor livedata-managed
     // coleción mongo.
     Chatrooms = new Meteor.Collection("chatrooms");
     Messages = new Meteor.Collection("messages");
@@ -560,9 +560,9 @@ el paquete `autopublish`:
 y llame en su lugar [`Meteor.publish`](#meteor_publish) para especificar qué partes de su
 colección deben ser publicados y para que usuarios.
 
-    // Crear una colección llamada <i>Posts</i> y poner un documento en él. El
+    // Crear una colección llamada Posts y poner un documento en él. El
     // documento será immediatamente visible en la copia local de la
-    // colección. Se escribirá en la base de datos <i>server-side</i>
+    // colección. Se escribirá en la base de datos server-side
     // una fracción de segundo más tarde, y una fracción de segundo
     // después de eso, se sincronizará con los otros clientes
     // que se esten suscritos a una consulta que los incluya (Ver
@@ -570,7 +570,7 @@ colección deben ser publicados y para que usuarios.
     Posts = new Meteor.Collection("posts");
     Posts.insert({title: "Hello world", body: "First post"});
 
-    // Los cambios son visibles de inmediato -- sin esperara una ida y vuelta <i>round trip</i>
+    // Los cambios son visibles de inmediato -- sin esperara un viaje de ida y vuelta, "round trip"
     // al servidor
     assert(Posts.find().count() === 1);
 
@@ -584,7 +584,7 @@ colección deben ser publicados y para que usuarios.
 
 Si especifica una opción `transform` a la `Collection` o cualquiera de sus
 métodos de recuperación, los documentos se pasan a través de la función `transform` 
-antes de ser devueltos o pasados a los <i><i>callbacks</i></i>. Esto le permite añadir métodos 
+antes de ser devueltos o pasados a los <i>callbacks</i>. Esto le permite añadir métodos 
 o por otra parte modificar el contenido de su colección desde la representación de su 
 base de datos. También puede especificar `transform` en una determinada llamada a `find`, 
 `findOne`, `allow`, o `deny`.
@@ -604,7 +604,7 @@ base de datos. También puede especificar `transform` en una determinada llamada
       transform: function (doc) { return new Animal(doc); }
     });
 
-    // Crear un Animal y llamar a su método <i>makeNoise</i>
+    // Crear un Animal y llamar a su método makeNoise
     Animals.insert({name: "raptor", sound: "roar"});
     Animals.findOne({name: "raptor"}).makeNoise(); // prints "roar"
 
@@ -696,9 +696,9 @@ Ejemplo:
 Modificar documentos que coinciden con `selector` según `modifier` (Ver
 [modifier documentation](#modifiers)).
 
-El comportamiento de `update` difiere dependiendo de si se es llamado por 
-código confiable o código no confiable. Código confiable incluye código 
-del servidor y código de método. Código no confiable incluye código <i>client-side</i>
+El comportamiento de `update` difiere dependiendo de si es llamado por 
+código confiable o código no confiable. El código confiable incluye código 
+del servidor y código de método. El código no confiable incluye código <i>client-side</i>
 tales como controladores de eventos y un navegador con consola JavaScript.
 
 - El código confiable puede modificar varios documentos a la vez estableciendo
@@ -708,10 +708,10 @@ tales como controladores de eventos y un navegador con consola JavaScript.
   [`allow`](#allow) y [`deny`](#deny).
 
 - El código no confiable sólo puede modificar un documento único a la vez, especificado 
-  por sus `_id`. La modificación se permite sólo después de comprobar cualquier
+  por su `_id`. La modificación se permite sólo después de comprobar cualquier
   regla aplicable [`allow`](#allow) y [`deny`](#deny).
 
-En el servidor, si usted no proporciona un <i>callback</i>,, entonces `update` se bloquea
+En el servidor, si usted no proporciona un <i>callback</i>, entonces `update` se bloquea
 hasta que la base de datos reconoce la escritura, o lanza una excepción si algo salió mal.
 Si usted proporciona un <i>callback</i>, `update` retorna immediatamente.  
 Una vez finalizada la actualización, el <i>callback</i> se llama con un único argumento de error en
@@ -724,7 +724,7 @@ un argumento error si hubiera un error, o sin argumentos si la actualización tu
 
 Ejemplo en cliente:
 
-    // Cuando el botón <i>givePoints</i> en el <i>dashboard</i> de administración es pulsado,
+    // Cuando el botón givePoints en el dashboard de administración es pulsado,
     // aumenta 5 puntos al jugador actual. La nueva puntuación será
     // inmediatamente visible en las pantallas de todo el mundo.
     Template.adminDashboard.events({
@@ -759,11 +759,10 @@ código confiable o no confiable. Código confiable incluye código
 de servidor y código de método. Código no confiable incluye código <i>client-side</i>
 tales como controladores de eventos y un navegador con consola JavaScript.
 
-- El código confiable puede utilizr un arbitrario [Mongo selector](#selectors)
+- El código confiable puede utilizar un arbitrario [Mongo selector](#selectors)
   para encontrar los documentos que desea eliminar, y puede eliminar más de un documento
   a la vez pasando un selector con el que coincidan multiples documentos.
-  Se pasan por alto las reglas de control de acceso establecidos por  
-  [`allow`](#allow) y [`deny`](#deny).
+  Se pasan por alto las reglas de control de acceso establecidos por [`allow`](#allow) y [`deny`](#deny).
 
   Como medida de seguridad, si se omite `selector` (o es `undefined`),
   ningún documento será eliminado. Establezca `selector` a `{}` si realmente desea
@@ -802,7 +801,7 @@ Ejemplo en cliente:
 
 Ejemplo de servidor:
 
-    // Cuando el servidor comienza, limpia el <i>log</i>, y eliminar a todos los <i>players</i>
+    // Cuando el servidor comienza, limpia el log, y eliminar a todos los players
     // con un karma menor que -2.
     Meteor.startup(function () {
       if (Meteor.isServer) {
@@ -1166,7 +1165,7 @@ con campos `_id` que pueden ser cualquier cadena o `ObjectID`s, utilice
 En su forma más simple, un selector es sólo un conjunto de claves que deben coincidir
 en un documento:
 
-    // Coincide con todos los documentos donde eliminado es <i>false</i>
+    // Coincide con todos los documentos donde eliminado es false
     {deleted: false}
 
     // Coincide con todos los documentos donde el nombre y apellido son dados.
@@ -1180,7 +1179,7 @@ Pero también puede contener pruebas más complicadas:
     // Coincide con documentos donde la edad es mayor de 18
     {age: {$gt: 18}}
 
-    // También coincide con documentos donde <i>tags</i> es un <i>array</i> que contiene "popular"
+    // También coincide con documentos donde tags es un array que contiene "popular"
     {tags: "popular"}
 
     // Coincide con documentos donde fruta es una de tres posibilidades
@@ -1197,11 +1196,11 @@ Ver la [documentación
  en lugar de cambiar algunos de sus campos. 
  Algunos ejemplos:
 
-    // Establece la propiedad 'admin' en el documento a <i>true</i>
+    // Establece la propiedad 'admin' en el documento a true
     {$set: {admin: true}}
 
     // Añade 2 a la propiedad 'votes' y añade "Traz"
-    // al final del <i>array</i> 'supporters' 
+    // al final del array 'supporters' 
     {$inc: {votes: 2}, $push: {supporters: "Traz"}}
 
 Sin embargo, si un modificador no contiene ningún $-operators, entonces en su lugar 
@@ -1274,7 +1273,7 @@ Ejemplo:
     });
 
     // Hace que la función pasada a Deps.autorun se reejecute, por lo 
-    // que la suscripción de <i>chat-history</i> se mueva a la sala "home".
+    // que la suscripción de "chat-history" se mueva a la sala "home".
     Session.set("currentRoomId", "home");
 
 {{> api_box setDefault}}
@@ -1342,7 +1341,7 @@ Ejemplo:
     });
 
     // El uso de Session.equals aquí significa que cuando el usuario clica
-    // en un item y cambia la selección, sólo los <i>items</i> recién seleccionado
+    // en un item y cambia la selección, sólo los items recién seleccionado
     // y el recién deseleccionado son re-visualizados.
     //
     // Si Session.get había sido utilizado en lugar de Session.equals, entonces
@@ -2102,8 +2101,8 @@ el selector y está menejado actualmente se llama `currentTarget`.
 
     {
       'click p': function (event) {
-        var paragraph = event.currentTarget; // siempre un  <i>P</i>
-        var clickedElement = event.target; // podría ser el <i>P</i> o un elemento hijo
+        var paragraph = event.currentTarget; // siempre un  "P"
+        var clickedElement = event.target; // podría ser el "P" o un elemento hijo
       }
     }
 
@@ -2818,7 +2817,7 @@ un cliente puede enviar, para evitar que su servidor sea utilizado como un <i>re
       }
     });
 
-    // En el código de cliente: <i>asynchronously</i> envía un email
+    // En el código de cliente: asynchronously envía un email
     Meteor.call('sendEmail',
                 'alice@Ejemplo.com',
                 'bob@Ejemplo.com',

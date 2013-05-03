@@ -478,7 +478,7 @@ Template.api.meteor_collection = {
     },
     {name: "transform",
      type: "Function",
-     descr: "Una opcional función de transformación. Se pasarán documentos a través de esta función antes de ser devueltos desde `fetch` o `findOne`, y antes de pasar a los callbacks de `observe`, `allow`, y `deny`."
+     descr: "Una función opcional de transformación. Se pasarán documentos a través de esta función antes de ser devueltos desde `fetch` o `findOne`, y antes de pasar a los callbacks `observe`, `allow`, y `deny`."
     }
   ]
 };
@@ -555,7 +555,7 @@ Template.api.insert = {
   id: "insert",
   name: "<em>collection</em>.insert(doc, [callback])",
   locus: "Anywhere",
-  descr: ["Inserta un documento en la colección.  Returna un único _id."],
+  descr: ["Inserta un documento en la colección.  Retorna un único _id."],
   args: [
     {name: "doc",
      type: "Object",
@@ -587,7 +587,7 @@ Template.api.update = {
   options: [
     {name: "multi",
      type: "Boolean",
-     descr: "Si es True se modifican todos los documentos coincidentes;si es false sólo se  modifica uno de los documentos coincidentes (el por defecto)."}
+     descr: "Si es True se modifican todos los documentos coincidentes; si es false sólo se  modifica uno de los documentos coincidentes (el por defecto)."}
   ]
 };
 
