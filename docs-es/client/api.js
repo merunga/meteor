@@ -9,7 +9,7 @@ Template.api.isServer = {
   id: "meteor_isserver",
   name: "Meteor.isServer",
   locus: "Anywhere",
-  descr: ["Boolean variable.  True si se ejecuta en entorno cliente."]
+  descr: ["Boolean variable.  True si se ejecuta en entorno servidor."]
 };
 
 Template.api.startup = {
